@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Head
+{
+  <link rel="stylesheet" asp-append-version="true" type="text/css" href="style1.css">
+  <link rel="stylesheet" asp-append-version="true" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" asp-append-version="true" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"/>
+}
+
+@section Header
+{
+    
+<!-- Page header with logo and tagline-->
+<header class="py-5 bg-light border-bottom mb-4">
+    <div class="container">
+        <div class="text-center my-5">
+            <h1 class="fw-bolder">Welcome to Blog Home!</h1>
+            <p class="lead mb-0">A Bootstrap 5 starter layout for your next blog homepage</p>
+        </div>
+    </div>
+</header>
+}
+
+<div class="container mt-5">
+    
+    <div class="row  d-flex justify-content-center">
+        <div class="col-md-8">
+            <div class="headings d-flex justify-content-between align-items-center mb-3">
+                <h5>Son eklenenler</h5>
+
+                <div class="buttons">
+                    <span class="badge bg-white d-flex flex-row align-items-center">
+                        <div class="btn-group">
+                            <a href="" class="btn btn-warning mx-2">Konu Oluştur</a>
+                            <a href="" class="btn btn-primary">Son Mesajlar</a>
+                        </div>
+                    </span>
+                </div>
+            </div>
+
+            <div class="card p-3 mt-2">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="user d-flex flex-row align-items-center">
+                        <img src="https://i.imgur.com/C4egmYM.jpg" width="30" class="user-img rounded-circle mr-2">
+                        <span>
+                            <b class="font-weight-bold">Loving your work and profile! </b>
+                        </span>
+                    </div>
+                    <small>12 yorum</small>
+                </div>
+
+                <div class="action d-flex justify-content-between mt-2 align-items-center">
+                    <div class="reply px-4">
+                        <small class="font-weight-bold text-primary">olan_sams</small>
+                        <span class="dots"></span>
+                        <small>- dk önce -</small>
+                        <span class="dots"></span>
+                        <small>Konu</small>
+                    </div>
+
+                    <div class="icons align-items-center">
+                        <i class="fa fa-check-circle-o check-icon text-primary"></i>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
