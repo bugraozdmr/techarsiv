@@ -16,12 +16,13 @@ public class Subject
     public string? Content { get; set; }
 
 
-    public int UserId { get; set; }
+    public string UserId { get; set; }
     public User User { get; set; } = null!;
     
     public int? categoryId { get; set; }
     public Category? Category { get; set; }
 
+    public List<Comment> Comments { get; set; } = new List<Comment>();
     // comments ve tags eklenecek
-    //ön ek eklenecek -- ama oraya options menu lazım
+    
 }

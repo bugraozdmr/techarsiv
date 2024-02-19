@@ -11,6 +11,8 @@ public class SubjectRepository : RepositoryBase<Subject> , ISubjectRepository
     {
     }
 
+    
+
     public IQueryable<Subject> GetAllSubjects(bool trackChanges)
     {
         return FindAll(trackChanges);

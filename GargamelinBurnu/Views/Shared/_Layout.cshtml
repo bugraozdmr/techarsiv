@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - GargamelinBurnu</title>
     @await RenderSectionAsync("Head",false)
     <link rel="stylesheet" asp-append-version="true" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" asp-append-version="true" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"/>
     <link rel="stylesheet" asp-append-version="true" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" asp-append-version="true" href="~/GargamelinBurnu.styles.css" asp-append-version="true"/>
 
@@ -30,8 +31,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/">Ana Sayfa</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#!">Sosyal</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                            Sosyal
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li><a class="dropdown-item" href="https://www.youtube.com/">En çok yorumlananlar</a></li>
+                            <li><a class="dropdown-item" href="#">En çok beğenilenler</a></li>
+                            <li><a class="dropdown-item" href="#"><b>Kategoriler</b></a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#!">Blog</a>
@@ -67,6 +75,7 @@
         @RenderBody()
     </main>
 </div>
+
 
 <!-- Footer
 <footer class="py-5 bg-dark">

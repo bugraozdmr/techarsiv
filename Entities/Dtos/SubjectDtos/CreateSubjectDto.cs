@@ -19,7 +19,7 @@ public record CreateSubjectDto
     [DataType(DataType.Text)]
     public string Content { get; set; }
 
-    public int UserId { get; init; }
+    public string? UserId { get; set; }
 
     public int categoryId { get; init; }
 }

@@ -135,8 +135,26 @@ public class AccountController : Controller
                 var roleResult = await _userManager
                     .AddToRoleAsync(user, "User");
 
-                if (roleResult.Succeeded)   // boş gitmesin
+                if (roleResult.Succeeded)
+                {
+                    string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    
+                    var encoded_token = HttpUtility.UrlEncode(token);
+                    
+                    var url = Url.Action("ConfirmEmail", "Account",new {id=user.Id,token=encoded_token});
+                
+                    // email
+
+                    await _emailSender.SendEmailAsync(user.Email, "Hesap onayı",
+                        $"Lütfen email hesabınızı onaylamak için maile " +
+                        $"<a href='https://localhost:7056{url}'>tıklayın</a>");
+                
+                
+                    TempData["message"] = "email hesabınızdaki onay mailine tıklayın.";
+                    
                     return RedirectToAction("Login");
+                }
+                    
                 
                 foreach (var error in roleResult.Errors)
                 {
@@ -165,6 +183,37 @@ public class AccountController : Controller
     {
         return View();
     }
+    
+    public async Task<IActionResult> ConfirmEmail(string id, string token)
+    {
+        if (id == null || token == null)
+        {
+            TempData["message"] = "Geçersiz Token";
+            return View();
+        }
+        
+        var user = await _userManager.FindByIdAsync(id);
+
+        if (user is not null)
+        {
+            var decodedToken = HttpUtility.UrlDecode(token);
+            var result = await _userManager.ConfirmEmailAsync(user,decodedToken);
+            
+            if (result.Succeeded)
+            {
+                TempData["message"] = "Hesabınız onaylandı";
+                return View();
+            }
+
+            TempData["message"] = "Bir şeyler ters gitti.";
+            return View();
+        }
+        
+        
+        TempData["message"] = "Kullanıcı bulunamadı";
+        return View();
+    }
+    
     
     [HttpPost]
     [ValidateAntiForgeryToken]

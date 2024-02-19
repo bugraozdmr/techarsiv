@@ -20,10 +20,9 @@ public class SubjectManager : ISubjectService
         _manager = manager;
     }
 
-    public async Task<IEnumerable<Subject>> GetAllSubjects(bool trackChanges)
+    public IQueryable<Subject> GetAllSubjects(bool trackChanges)
     {
-        // buralara filtre atılacak
-        var subjects = await _manager.Subject.GetAllSubjects(trackChanges).ToListAsync();
+        var subjects = _manager.Subject.GetAllSubjects(trackChanges);
         return subjects;
     }
 

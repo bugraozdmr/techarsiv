@@ -4,6 +4,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+
 
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureIdentity();
@@ -32,9 +34,15 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute("default","{controller=Home}/{action=Index}/{id?}");
+
+    endpoints.MapControllerRoute("details", "{controller}");
+
+    endpoints.MapRazorPages();
+
+});
 
 app.ConfigureDefaultAdminUser();
 

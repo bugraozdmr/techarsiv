@@ -15,6 +15,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu
 build_property._RazorSourceGeneratorDebug = 
 
+[/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Views/Account/ConfirmEmail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Db25maXJtRW1haWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Views/Account/ForgotPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Gb3Jnb3RQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -39,6 +43,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Views/Shared/Components/HomePageContent/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvSG9tZVBhZ2VDb250ZW50L0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -49,6 +57,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Views/Subject/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3ViamVjdC9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Views/Subject/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3ViamVjdC9EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Views/Subject/_CommentCard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3ViamVjdC9fQ29tbWVudENhcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Views/_ViewImports.cshtml]

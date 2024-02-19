@@ -36,7 +36,7 @@ public static class ServiceExtensions
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
              
-                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedAccount = true;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 options.Lockout.MaxFailedAccessAttempts = 5;
             })
@@ -52,22 +52,24 @@ public static class ServiceExtensions
             options.LoginPath = "/Account/Login";
             options.AccessDeniedPath = "/Account/AccessDenied";
             options.SlidingExpiration = true;
-            options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+            options.ExpireTimeSpan = TimeSpan.FromHours(1);
         });
     }
     
     public static void ConfigureRepositoryRegistration(this IServiceCollection services)
     {
-        services.AddScoped<ISubjectRepository, SubjectRepository>();
         services.AddScoped<IRepositoryManager, RepositoryManager>();
+        services.AddScoped<ISubjectRepository, SubjectRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ICommentRepository, CommentRepository>();
     }
     
     public static void ConfigureServicesRegistration(this IServiceCollection services)
     {
-        services.AddScoped<ISubjectService, SubjectManager>();
         services.AddScoped<IServiceManager, ServiceManager>();
+        services.AddScoped<ISubjectService, SubjectManager>();
         services.AddScoped<ICategoryService, CategoryManager>();
+        services.AddScoped<ICommentService, CommentManager>();
     }
 
 

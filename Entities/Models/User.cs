@@ -13,4 +13,5 @@ public class User : IdentityUser
     public DateTime CreatedAt { get; set; }
     
     public List<Subject> Subjects { get; set; } = new List<Subject>();
+    public List<Comment> Comments { get; set; } = new List<Comment>();
 }

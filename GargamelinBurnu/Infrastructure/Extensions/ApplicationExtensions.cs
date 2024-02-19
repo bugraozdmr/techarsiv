@@ -32,7 +32,8 @@ public static class ApplicationExtensions
             {
                 FullName = "Grant Wick",
                 Email = "bugra.ozdemir@gmail.com",
-                UserName = adminUser
+                UserName = adminUser,
+                CreatedAt = DateTime.Now
             };
 
             var result = await userManager.CreateAsync(user, adminPassword);
