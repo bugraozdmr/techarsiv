@@ -10,5 +10,7 @@ public class User : IdentityUser
     public string? Place { get; set; }
     public string? Job { get; set; }
     public DateTime? Birthday { get; set; }
+    public DateTime CreatedAt { get; set; }
     
+    public List<Subject> Subjects { get; set; } = new List<Subject>();
 }

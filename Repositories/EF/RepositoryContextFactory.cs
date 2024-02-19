@@ -18,7 +18,7 @@ public class RepositoryContextFactory : IDesignTimeDbContextFactory<RepositoryCo
             .UseMySql(
                 configuration.GetConnectionString("sqlConnection"),
                 new MySqlServerVersion(new Version(10, 4, 28)),
-                prj => prj.MigrationsAssembly("MVC")
+                prj => prj.MigrationsAssembly("GargamelinBurnu")
             );
         return new RepositoryContext(builder.Options);
     }

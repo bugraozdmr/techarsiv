@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Entities.Dtos;
 
-public class RegisterDto
+public record RegisterDto
 {
     [Display(Name = "Full isim")]
     [DataType(DataType.Text)]
