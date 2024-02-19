@@ -13,6 +13,10 @@
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />-->
 </head>
 <body>
+@if (TempData["message"] is not null)
+{
+    <h6>@TempData["message"]</h6>
+}
 <header>
     <!-- Responsive navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -32,19 +36,31 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#!">Blog</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="Register" asp-controller="Account">Kayıt Ol</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" asp-action="Login" asp-controller="Account">Giriş Yap</a>
-                    </li>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Register" asp-controller="Account">Kayıt Ol</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" asp-action="Login" asp-controller="Account">Giriş Yap</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page">@User.Identity.Name</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" asp-action="Logout" asp-controller="Account">Çıkış Yap</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
     </nav>
 </header>
 
-@await RenderSectionAsync("Header",false)
+@await RenderSectionAsync("Header", false)
 
 <div class="container">
     <main role="main" class="pb-3">

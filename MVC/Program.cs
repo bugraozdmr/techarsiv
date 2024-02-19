@@ -8,6 +8,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureCookie();
+builder.Services.ConfigureEmailSender(builder.Configuration);
+
+
 
 var app = builder.Build();
 

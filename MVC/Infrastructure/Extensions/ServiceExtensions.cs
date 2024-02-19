@@ -1,4 +1,6 @@
 using Entities.Models;
+using GargamelinBurnu.Infrastructure.Helpers;
+using GargamelinBurnu.Infrastructure.Helpers.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repositories.EF;
@@ -23,13 +25,16 @@ public static class ServiceExtensions
     {
         services.AddIdentity<User, IdentityRole>(options =>
             {
-                options.SignIn.RequireConfirmedAccount = false;
                 options.User.RequireUniqueEmail = true;
                 options.Password.RequiredLength = 6;
                 options.Password.RequireDigit = true;
                 options.Password.RequireUppercase = false;
-                options.Password.RequireLowercase = true;
+                options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
+             
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
             })
             .AddEntityFrameworkStores<RepositoryContext>()
             .AddDefaultTokenProviders();
@@ -43,7 +48,24 @@ public static class ServiceExtensions
             options.LoginPath = "/Account/Login";
             options.AccessDeniedPath = "/Account/AccessDenied";
             options.SlidingExpiration = true;
-            options.ExpireTimeSpan = TimeSpan.FromDays(30);
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
         });
+    }
+    
+    public static void ConfigureRepositoryRegistration(this IServiceCollection services)
+    {
+        
+    }
+
+    public static void ConfigureEmailSender(this IServiceCollection services
+        , IConfiguration configuration)
+    {
+        services.AddScoped<IEmailSender, SmtpEmailSender>(i => new SmtpEmailSender(
+            configuration["EmailSender:Host"],
+            configuration.GetValue<int>("EmailSender:Port"),
+            configuration.GetValue<bool>("EmailSender:EnableSSL"),
+            configuration["EmailSender:Username"],
+            configuration["EmailSender:Password"]
+        ));
     }
 }

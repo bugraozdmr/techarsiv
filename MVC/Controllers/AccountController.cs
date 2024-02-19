@@ -1,8 +1,11 @@
+using System.Web;
 using Entities.Dtos;
 using Entities.Models;
+using GargamelinBurnu.Infrastructure.Helpers.Contracts;
 using GargamelinBurnu.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace GargamelinBurnu.Controllers;
 
@@ -10,16 +13,25 @@ public class AccountController : Controller
 {
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
+    private readonly IEmailSender _emailSender;
 
 
-    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+    public AccountController(UserManager<User> userManager,
+        SignInManager<User> signInManager,
+        IEmailSender emailSender)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _emailSender = emailSender;
     }
 
     public IActionResult Login()
     {
+        if (User.Identity.IsAuthenticated)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        
         return View();
     }
 
@@ -27,6 +39,11 @@ public class AccountController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login([FromForm] LoginModel model)
     {
+        if (User.Identity.IsAuthenticated)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        
         if (ModelState.IsValid)
         {
             User user = await _userManager.FindByNameAsync(model.Username);
@@ -34,9 +51,9 @@ public class AccountController : Controller
             if (user is not null)
             {
                 await _signInManager.SignOutAsync();
-                
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, true);
 
+                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, true);
+                
                 if (result.Succeeded)
                 {
                     await _userManager.ResetAccessFailedCountAsync(user);
@@ -54,13 +71,23 @@ public class AccountController : Controller
                 }
                 else
                 {
+                    
+                    bool passwordCorrect = await _userManager.CheckPasswordAsync(user, model.Password);
+
+                    if (!passwordCorrect)
+                    {
+                        ModelState.AddModelError("", $"Kullanıcı adı ya da şifre hatalı.");
+                        return View(model);
+                    }
+                    
                     if (!await _userManager.IsEmailConfirmedAsync(user))
                     {
                         ModelState.AddModelError("", "Hesabınızı onaylayınız.");
                         return View(model);
                     }
+
                     
-                    
+                    ModelState.AddModelError("",$"Parolanız hatalı.");    
                 }
             }
             else
@@ -74,6 +101,11 @@ public class AccountController : Controller
 
     public IActionResult Register()
     {
+        if (User.Identity.IsAuthenticated)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        
         return View();
     }
     
@@ -81,6 +113,11 @@ public class AccountController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register([FromForm] RegisterDto model)
     {
+        if (User.Identity.IsAuthenticated)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        
         if (ModelState.IsValid)
         {
             var user = new User()
@@ -121,5 +158,92 @@ public class AccountController : Controller
     {
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index","Home");
+    }
+    
+    public IActionResult ForgotPassword()
+    {
+        return View();
+    }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ForgotPassword([FromForm] string Email)
+    {
+        if (string.IsNullOrEmpty(Email))
+        {
+            return View();
+        }
+
+        var user = await _userManager.FindByEmailAsync(Email);
+
+        if (user is null)
+        {
+            ModelState.AddModelError("","Bu mail sistemde bulunmuyor.");
+            return View();
+        }
+
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        
+        var encoded_token = HttpUtility.UrlEncode(token);
+        
+        var url = Url.Action("ResetPassword", "Account",new {id=user.Id,token=encoded_token});
+                
+        // email
+
+        await _emailSender.SendEmailAsync(user.Email, "Parola Sıfırlama",
+            $"Şifrenizi değiştirmek için " +
+            $"<strong><a href='https://localhost:7056{url}'>tıklayın</a></strong>");
+
+        TempData["message"] = "eposta adresinize gönderilen link ile şifrenizi sıfırlayabilirsiniz.";
+        return View();
+        
+    }
+    
+    
+    public IActionResult ResetPassword(string id,string token)
+    {
+        if (id == null || token == null)
+        {
+            TempData["message"] = "değerler boş";
+            return RedirectToAction("Login");
+        }
+
+        var model = new ResetPasswordModel() { Token = token ,Id = id};
+        
+        return View(model);
+        
+    }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            var user = await _userManager.FindByIdAsync(model.Id);
+
+            if (user is null)
+            {
+                TempData["message"] = "Bir hata oluştu.";
+                return RedirectToAction("Index", "Home");
+            }
+            
+            var decodedToken = HttpUtility.UrlDecode(model.Token);
+            var result = await _userManager.ResetPasswordAsync(user, decodedToken,model.Password);
+
+            if (result.Succeeded)
+            {
+                TempData["message"] = "Şifre değiştirildi.";
+                return RedirectToAction("Login");
+            }
+
+            foreach (var err in result.Errors)
+            {
+                ModelState.AddModelError("",err.Description);
+            }
+        }
+        
+        return View(model);
+        
     }
 }
