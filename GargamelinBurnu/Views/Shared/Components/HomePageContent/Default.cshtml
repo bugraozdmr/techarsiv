@@ -1,58 +1,40 @@
-@model IEnumerable<Subject>
-
-<div class="card p-3 mt-2">
-    <div class="d-flex justify-content-between align-items-center">
-        <div class="user d-flex flex-row align-items-center">
-            <img src="https://i.imgur.com/C4egmYM.jpg" width="30" class="user-img rounded-circle mr-2">
-            <span>
-                <b class="font-weight-bold">Loving your work and profile! </b>
-            </span>
-        </div>
-        <small>12 yorum</small>
-    </div>
-
-    <div class="action d-flex justify-content-between mt-2 align-items-center">
-        <div class="reply px-4">
-            <small class="font-weight-bold text-primary">olan_sams</small>
-            <span class="dots"></span>
-            <small>- dk önce -</small>
-            <span class="dots"></span>
-            <small>Konu</small>
-        </div>
-
-        <div class="icons align-items-center">
-            <i class="fa fa-check-circle-o check-icon text-primary"></i>
-        </div>
-    </div>
-</div>
+@model List<TitleViewModel>
 
 
 
-@foreach (var item in Model)
+
+@if (Model.Count().Equals(0) || Model is null)
 {
-    <div class="card p-3 mt-2">
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="user d-flex flex-row align-items-center">
-                <img src="#" width="30" class="user-img rounded-circle mr-2">
-                <span>
-                    <b class="font-weight-bold text-dark"><a asp-action="Details" asp-controller="Subject" asp-route-url="@item.Url" style="text-decoration: none!important;}">@item.Title</a></b>
-                </span>
-            </div>
-            <small>12 yorum</small>
-        </div>
-
-        <div class="action d-flex justify-content-between mt-2 align-items-center">
-            <div class="reply px-4">
-                <small class="font-weight-bold text-primary">@item.User.UserName</small>
-                <span class="dots"></span>
-                <small>- @((DateTime.Now-item.CreatedAt).Minutes) dk önce -</small>
-                <span class="dots"></span>
-                <small>@item.Category.CategoryName</small>
+    <div class="text-secondary">Gösterilecek konu bulunamadı</div>
+}
+else
+{
+    @foreach (var item in Model)
+    {
+        <div class="card p-3 mt-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="user d-flex flex-row align-items-center">
+                    <img src="#" width="30" class="user-img rounded-circle mr-2">
+                    <span>
+                        <b class="font-weight-bold text-dark"><a asp-action="Details" asp-controller="Subject" asp-route-url="@item.Url" style="text-decoration: none!important;}">@item.Title</a></b>
+                    </span>
+                </div>
+                <small>12 yorum</small>
             </div>
 
-            <div class="icons align-items-center">
-                <i class="fa fa-check-circle-o check-icon text-primary"></i>
+            <div class="action d-flex justify-content-between mt-2 align-items-center">
+                <div class="reply px-4">
+                    <small class="font-weight-bold text-primary">@item.Username</small>
+                    <span class="dots"></span>
+                    <small>- @await Component.InvokeAsync("ShowTime",item.createdAt) -</small>
+                    <span class="dots"></span>
+                    <small>@item.CategoryName</small>
+                </div>
+
+                <div class="icons align-items-center">
+                    <i class="fa fa-check-circle-o check-icon text-primary"></i>
+                </div>
             </div>
         </div>
-    </div>
+    }
 }

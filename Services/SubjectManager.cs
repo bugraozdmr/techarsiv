@@ -54,7 +54,7 @@ public class SubjectManager : ISubjectService
             url = url+$".{SlugModifier.GenerateUniqueHash()}";
         }
         
-        productToGo.CreatedAt = DateTime.UtcNow;
+        productToGo.CreatedAt = DateTime.Now;
         productToGo.IsActive = false;
         productToGo.Url = url;
         

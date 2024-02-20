@@ -4,6 +4,7 @@ namespace GargamelinBurnu.Models;
 
 public class SubjectViewModel
 {
+    public int CommentCount { get; set; }
     public Subject Subject { get; set; }
     public Category Category { get; set; }
     public string UserName { get; set; }

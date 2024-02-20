@@ -1,3 +1,4 @@
+using GargamelinBurnu.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -16,12 +17,23 @@ public class HomePageContentViewComponent : ViewComponent
 
     public IViewComponentResult Invoke()
     {
-        var subjects = _manager
+        List<TitleViewModel> model;
+
+        model = _manager
             .SubjectService
             .GetAllSubjects(false)
+            .OrderByDescending(s => s.CreatedAt)
             .Include(s => s.User)
-            .Include(s => s.Category);
+            .Include(s => s.Category)
+            .Select(s => new TitleViewModel()
+            {
+                Username = s.User.UserName,
+                CategoryName = s.Category.CategoryName,
+                Title = s.Title,
+                createdAt = s.CreatedAt,
+                Url = s.Url
+            }).ToList();
         
-        return View(subjects);
+        return View(model);
     }
 }

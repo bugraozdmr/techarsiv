@@ -16,3 +16,23 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 4px solid #ccc;
+  border-top-color: #333;
+  animation: spin 1s linear infinite;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -20px; /* Yükseklik için yarı çap */
+  margin-left: -20px; /* Genişlik için yarı çap */
+}
+
+@keyframes spin {
+   to {
+     transform: rotate(360deg);
+   }
+ }

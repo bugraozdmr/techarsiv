@@ -96,12 +96,12 @@ public class SubjectController : Controller
             .GetAllSubjects(false)
             .Include(s => s.Category)
             .Include(s => s.User)
-            // user.comments
             .Include(s => s.Comments)   // çok yorar sunucuyu
             .ThenInclude(c => c.User)
             .Select(s => new SubjectViewModel()
             {
                 Subject = s,
+                CommentCount = s.Comments.Count,
                 Category = s.Category,
                 UserName = s.User.UserName,
                 CreatedAt = s.User.CreatedAt,
@@ -111,8 +111,9 @@ public class SubjectController : Controller
                     CommentUserName = c.User.UserName,
                     UserCommentCount = c.User.Comments.Count,
                     CreatedAt = c.User.CreatedAt,
+                    CommentDate = c.CreatedAt,
                     Content = c.Text
-                }).ToList()
+                }).OrderBy(c => c.CommentDate).ToList()
             }).AsEnumerable()
             .FirstOrDefault(s => s.Subject.Url.Equals(topic.Url));
             
@@ -133,8 +134,18 @@ public class SubjectController : Controller
                 success = -1
             });
         }
+
+        CommentCountViewModel model = new CommentCountViewModel();
         
-        // !
+        model = await _userManager.Users
+            .Where(u => u.UserName == User.Identity.Name)
+            .Include(u => u.Comments)
+            .Select(u => new  CommentCountViewModel()
+            {
+                User = u,
+                Count = u.Comments.Count
+            })
+            .FirstOrDefaultAsync();
         
         _manager.CommentService.CreateComment(new CreateCommentDto()
         {
@@ -149,7 +160,7 @@ public class SubjectController : Controller
             text = Text,
             createdAt = user.CreatedAt,
             username = user.UserName,
-            messageCount = user.Comments.Count()
+            messageCount = model.Count
         });
     }
 }

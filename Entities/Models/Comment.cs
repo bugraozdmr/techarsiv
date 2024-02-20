@@ -7,6 +7,7 @@ public class Comment
 
     public int likeCount { get; set; } = 0;
     public int dislikeCount { get; set; } = 0;
+    //public int heartCount { get; set; } = 0;
     
     public DateTime CreatedAt { get; set; }
 
