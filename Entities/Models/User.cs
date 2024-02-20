@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace Entities.Models;
@@ -14,4 +15,8 @@ public class User : IdentityUser
     
     public List<Subject> Subjects { get; set; } = new List<Subject>();
     public List<Comment> Comments { get; set; } = new List<Comment>();
+    
+
+    public List<SubjectLike> LikedSubjects { get; set; } = new List<SubjectLike>();
+
 }

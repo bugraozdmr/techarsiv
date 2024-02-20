@@ -19,7 +19,7 @@ else
                         <b class="font-weight-bold text-dark"><a asp-action="Details" asp-controller="Subject" asp-route-url="@item.Url" style="text-decoration: none!important;}">@item.Title</a></b>
                     </span>
                 </div>
-                <small>12 yorum</small>
+                <small>@item.CommentCount yorum</small>
             </div>
 
             <div class="action d-flex justify-content-between mt-2 align-items-center">

@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Services.Contracts;
-using System.Linq;
+
 using GargamelinBurnu.Models;
+using Microsoft.AspNetCore.Authorization;
+
 
 
 namespace GargamelinBurnu.Controllers;
@@ -24,6 +26,7 @@ public class SubjectController : Controller
         _userManager = userManager;
     }
 
+    [Authorize]
     public async Task<IActionResult> Create()
     {
         ViewBag.Categories = await GetCategoriesSelectList();
@@ -32,6 +35,7 @@ public class SubjectController : Controller
     
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize]
     public async Task<IActionResult> Create([FromForm] CreateSubjectDto model,string Name)
     {
         if (ModelState.IsValid)
@@ -112,12 +116,75 @@ public class SubjectController : Controller
                     UserCommentCount = c.User.Comments.Count,
                     CreatedAt = c.User.CreatedAt,
                     CommentDate = c.CreatedAt,
-                    Content = c.Text
+                    Content = c.Text,
+                    CommentUserId = c.User.Id
                 }).OrderBy(c => c.CommentDate).ToList()
             }).AsEnumerable()
             .FirstOrDefault(s => s.Subject.Url.Equals(topic.Url));
             
-        // take değeri fazla değer almaya çalışırsa patlar
+        // !take değeri fazla değer almaya çalışırsa patlar
+
+        
+        // taking user
+        var user = await _userManager.FindByNameAsync(User.Identity.Name);
+        var userId = user.Id;
+        
+        
+        
+        
+        
+        // like count
+        int likecount = _manager
+            .LikeDService
+            .Likes
+            .Where(l => l.SubjectId.Equals(topic.SubjectId)).Count();
+        // like count
+        int dislikecount = _manager
+            .LikeDService
+            .Dislikes
+            .Where(l => l.SubjectId.Equals(topic.SubjectId)).Count();
+        // like count
+        int heartcount = _manager
+            .LikeDService
+            .Hearts
+            .Where(l => l.SubjectId.Equals(topic.SubjectId)).Count();
+        
+        
+        
+        
+        
+        bool isLiked = _manager
+                .LikeDService
+                .Likes
+                .FirstOrDefault(l => l.SubjectId.Equals(topic.SubjectId)
+                                     && l.UserId.Equals(userId))
+            is not null
+            ? true
+            : false; 
+        
+        model.likeCount = likecount;
+        model.dislikeCount = dislikecount;
+        model.heartCount = heartcount;
+        
+        model.isLiked = isLiked;
+
+
+        foreach (var comment in model.Comments)
+        {
+            comment.likeCount = _manager
+                .LikeDService
+                .Likes
+                .Where(l => l.SubjectId.Equals(comment.CommentUserId)).Count();
+            comment.isLiked = _manager
+                    .LikeDService
+                    .Likes
+                    .FirstOrDefault(l => l.SubjectId.Equals(model.Subject.SubjectId)
+                                         && l.UserId.Equals(comment.CommentUserId))
+                is not null
+                ? true
+                : false; 
+        }
+        
         
         return View(model);
     }
@@ -161,6 +228,271 @@ public class SubjectController : Controller
             createdAt = user.CreatedAt,
             username = user.UserName,
             messageCount = model.Count
+        });
+    }
+    
+    public async Task<IActionResult> LikeSubject(int SubjectId)
+    {
+        var user = await _userManager.FindByNameAsync(User.Identity.Name);
+        var UserId = user.Id;
+
+        if (user is null)
+        {
+            return Json(new
+            {
+                success = -1
+            });
+        }
+
+        var searched = _manager.LikeDService.Likes.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+
+        if (searched is null)
+        {
+            var search1 = _manager.LikeDService.Dislikes.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+            if (search1 is not null)
+            {
+                dislikeSubjectRemove(SubjectId, UserId);
+                _manager.LikeDService.Like(new SubjectLike()
+                {
+                    SubjectId = SubjectId,
+                    UserId = UserId
+                });
+            }
+            else
+            {
+                var search2 = _manager.LikeDService.Hearts.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+
+                if (search2 is not null)
+                {
+                    heartSubjectRemove(SubjectId, UserId);
+                }
+                
+                _manager.LikeDService.Like(new SubjectLike()
+                {
+                    SubjectId = SubjectId,
+                    UserId = UserId
+                });
+            }
+            
+            return Json(new
+            {
+                success = 1,
+                heartcount =  _manager
+                    .LikeDService
+                    .Hearts
+                    .Where(l => l.SubjectId.Equals(SubjectId)).Count(),
+                likecount = _manager
+                    .LikeDService
+                    .Likes
+                    .Where(l => l.SubjectId.Equals(SubjectId)).Count(),
+                dislikecount = _manager
+                    .LikeDService
+                    .Dislikes
+                    .Where(l => l.SubjectId.Equals(SubjectId)).Count()
+            });
+        }
+        else
+        {
+            return likeSubjectRemove(SubjectId, UserId);
+            
+        }
+    }
+
+    public IActionResult likeSubjectRemove(int SubjectId,string UserId)
+    {
+        _manager.LikeDService.LikeRemove(SubjectId, UserId);
+
+        return Json(new
+        {
+            success = 2,
+            heartcount =  _manager
+                .LikeDService
+                .Hearts
+                .Where(l => l.SubjectId.Equals(SubjectId)).Count(),
+            likecount = _manager
+                .LikeDService
+                .Likes
+                .Where(l => l.SubjectId.Equals(SubjectId)).Count(),
+            dislikecount = _manager
+                .LikeDService
+                .Dislikes
+                .Where(l => l.SubjectId.Equals(SubjectId)).Count()
+        });
+    }
+    
+    public async Task<IActionResult> dislikeSubject(int SubjectId)
+    {
+        var user = await _userManager.FindByNameAsync(User.Identity.Name);
+        var UserId = user.Id;
+
+        if (user is null)
+        {
+            return Json(new
+            {
+                success = -1
+            });
+        }
+
+        var searched = _manager.LikeDService.Dislikes.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+
+        if (searched is null)
+        {
+            var search1 = _manager.LikeDService.Likes.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+            if (search1 is not null)
+            {
+                likeSubjectRemove(SubjectId, UserId);
+                _manager.LikeDService.disLike(new SubjectDislike()
+                {
+                    SubjectId = SubjectId,
+                    UserId = UserId
+                });
+            }
+            else
+            {
+                var search2 = _manager.LikeDService.Hearts.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+
+                if (search2 is not null)
+                {
+                    heartSubjectRemove(SubjectId, UserId);
+                }
+                
+                _manager.LikeDService.disLike(new SubjectDislike()
+                {
+                    SubjectId = SubjectId,
+                    UserId = UserId
+                });
+            }
+            
+            return Json(new
+            {
+                success = 1,
+                heartcount =  _manager
+                    .LikeDService
+                    .Hearts
+                    .Where(l => l.SubjectId.Equals(SubjectId)).Count(),
+                likecount = _manager
+                    .LikeDService
+                    .Likes
+                    .Where(l => l.SubjectId.Equals(SubjectId)).Count(),
+                dislikecount = _manager
+                    .LikeDService
+                    .Dislikes
+                    .Where(l => l.SubjectId.Equals(SubjectId)).Count()
+            });
+        }
+        else
+        {
+            return dislikeSubjectRemove(SubjectId, UserId);
+        }
+    }
+    
+    public IActionResult dislikeSubjectRemove(int SubjectId,string UserId)
+    {
+        _manager.LikeDService.disLikeRemove(SubjectId, UserId);
+
+        return Json(new
+        {
+            success = 2,
+            heartcount =  _manager
+                .LikeDService
+                .Hearts
+                .Where(l => l.SubjectId.Equals(SubjectId)).Count(),
+            likecount = _manager
+                .LikeDService
+                .Likes
+                .Where(l => l.SubjectId.Equals(SubjectId)).Count(),
+            dislikecount = _manager
+                .LikeDService
+                .Dislikes
+                .Where(l => l.SubjectId.Equals(SubjectId)).Count()
+        });
+    }
+    
+    public async Task<IActionResult> heartSubject(int SubjectId)
+    {
+        var user = await _userManager.FindByNameAsync(User.Identity.Name);
+        var UserId = user.Id;
+
+        if (user is null)
+        {
+            return Json(new
+            {
+                success = -1
+            });
+        }
+
+        var searched = _manager.LikeDService.Hearts.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+
+        if (searched is null)
+        {
+            var search1 = _manager.LikeDService.Likes.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+            if (search1 is not null)
+            {
+                likeSubjectRemove(SubjectId, UserId);
+                _manager.LikeDService.Heart(new SubjectHeart()
+                {
+                    SubjectId = SubjectId,
+                    UserId = UserId
+                });
+            }
+            else
+            {
+                var search2 = _manager.LikeDService.Dislikes.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+
+                if (search2 is not null)
+                {
+                    dislikeSubjectRemove(SubjectId, UserId);
+                }
+                
+                _manager.LikeDService.Heart(new SubjectHeart()
+                {
+                    SubjectId = SubjectId,
+                    UserId = UserId
+                });
+            }
+            
+            return Json(new
+            {
+                success = 1,
+                heartcount =  _manager
+                    .LikeDService
+                    .Hearts
+                    .Where(l => l.SubjectId.Equals(SubjectId)).Count(),
+                likecount = _manager
+                    .LikeDService
+                    .Likes
+                    .Where(l => l.SubjectId.Equals(SubjectId)).Count(),
+                dislikecount = _manager
+                    .LikeDService
+                    .Dislikes
+                    .Where(l => l.SubjectId.Equals(SubjectId)).Count()
+            });
+        }
+        else
+        {
+            return heartSubjectRemove(SubjectId, UserId);
+        }
+    }
+    
+    public IActionResult heartSubjectRemove(int SubjectId,string UserId)
+    {
+        _manager.LikeDService.HeartRemove(SubjectId, UserId);
+
+        return Json(new
+        {
+            success = 2,
+            heartcount =  _manager
+                .LikeDService
+                .Hearts
+                .Where(l => l.SubjectId.Equals(SubjectId)).Count(),
+            likecount = _manager
+                .LikeDService
+                .Likes
+                .Where(l => l.SubjectId.Equals(SubjectId)).Count(),
+            dislikecount = _manager
+                .LikeDService
+                .Dislikes
+                .Where(l => l.SubjectId.Equals(SubjectId)).Count()
         });
     }
 }

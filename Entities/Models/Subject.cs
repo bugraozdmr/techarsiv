@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models;
 
@@ -9,7 +10,7 @@ public class Subject
     public DateTime CreatedAt { get; set; }
     public bool IsActive { get; set; }
 
-    public string? prefix { get; set; }
+    public string? Prefix { get; set; }
     
     public string? Title { get; set; }
     
@@ -24,5 +25,6 @@ public class Subject
 
     public List<Comment> Comments { get; set; } = new List<Comment>();
     // comments ve tags eklenecek
-    
+
+    public List<SubjectLike> Likes { get; set; } = new List<SubjectLike>();
 }

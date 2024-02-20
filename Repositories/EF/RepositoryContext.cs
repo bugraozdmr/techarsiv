@@ -18,6 +18,19 @@ public class RepositoryContext : IdentityDbContext<User>
         base.OnModelCreating(modelBuilder);
         //modelBuilder.ApplyConfiguration(new IdentityRoleConfig());
         //modelBuilder.ApplyConfiguration(new CategoryConfig());
+
+        // ikiside primary anahtarlar alırlar
+        modelBuilder.Entity<SubjectDislike>()
+            .HasKey(sl => new { sl.SubjectId, sl.UserId });
+
+        modelBuilder.Entity<SubjectLike>()
+            .HasKey(sl => new { sl.SubjectId, sl.UserId });
+        
+        
+        modelBuilder.Entity<SubjectHeart>()
+            .HasKey(sl => new { sl.SubjectId, sl.UserId });
+        
+
         
         // bulur
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
@@ -25,4 +38,8 @@ public class RepositoryContext : IdentityDbContext<User>
     
     public DbSet<Subject> Subjects { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<Comment> Comments { get; set; }
+    public DbSet<SubjectLike> SubjectLikes { get; set; }
+    public DbSet<SubjectDislike> SubjectDislikes { get; set; }
+    public DbSet<SubjectHeart> SubjectHearts { get; set; }
 }

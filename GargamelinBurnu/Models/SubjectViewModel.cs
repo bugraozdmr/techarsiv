@@ -11,4 +11,10 @@ public class SubjectViewModel
     public int UserCommentCount { get; set; }
     public DateTime CreatedAt { get; set; }
     public List<CommentViewModel> Comments { get; set; }
+
+    public int likeCount { get; set; }
+    public bool isLiked { get; set; }
+    
+    public int dislikeCount { get; set; }
+    public int heartCount { get; set; }
 }

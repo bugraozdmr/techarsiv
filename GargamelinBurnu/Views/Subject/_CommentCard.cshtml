@@ -1,5 +1,7 @@
-@using Microsoft.AspNetCore.Html
 @model CommentViewModel
+
+
+
 
 <div class="d-flex flex-column my-2" id="comment-container">
     <div class="bg-white">
@@ -17,9 +19,30 @@
     </div>
     <div class="bg-white">
         <div class="d-flex flex-row fs-14">
-            <div class="p-2 cursor p-2"><i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span></div>
-            <div class="p-2 cursor p-2"><i class="fa fa-comment"></i><span class="ml-1">Reply</span></div>
-            <div class="p-2 cursor p-2"><i class="fa fa-share"></i><span class="ml-1">Share</span></div>
+            <div class="p-2 cursor p-2">
+                <a id="like"
+                   data-toggle="tooltip"
+                   data-popper-placement="top"
+                   title="Beğen">
+                    <i id="like_icon" class="fa fa-thumbs-o-up @(Model.isLiked ? "text-danger" : "")"></i> 
+                    <span id="likecount">@Model.likeCount</span>
+
+                </a>
+            </div>
+            <div class="p-2 cursor p-2">
+                <a data-toggle="tooltip"
+                   data-popper-placement="top"
+                   title="Beğenme">
+                    <i class="fa fa-thumbs-o-down"></i> 0
+                </a>
+            </div>
+            <div class="p-2 cursor p-2">
+                <a data-toggle="tooltip"
+                   data-popper-placement="top"
+                   title="Kalp">
+                    <i class="fa fa-heart"></i> 0
+                </a>
+            </div>
         </div>
         <div class="text-muted">@await Component.InvokeAsync("ShowTime",Model.CommentDate)</div>
     </div>

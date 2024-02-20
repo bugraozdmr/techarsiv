@@ -6,5 +6,6 @@ public class TitleViewModel
     public string CategoryName { get; set; }
     public string Title { get; set; }
     public string Url { get; set; }
+    public int CommentCount { get; set; }
     public DateTime createdAt { get; set; }
 }

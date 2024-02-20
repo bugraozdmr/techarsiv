@@ -23,6 +23,7 @@ public class HomePageContentViewComponent : ViewComponent
             .SubjectService
             .GetAllSubjects(false)
             .OrderByDescending(s => s.CreatedAt)
+            .Include(s => s.Comments)
             .Include(s => s.User)
             .Include(s => s.Category)
             .Select(s => new TitleViewModel()
@@ -31,7 +32,8 @@ public class HomePageContentViewComponent : ViewComponent
                 CategoryName = s.Category.CategoryName,
                 Title = s.Title,
                 createdAt = s.CreatedAt,
-                Url = s.Url
+                Url = s.Url,
+                CommentCount = s.Comments.Count
             }).ToList();
         
         return View(model);

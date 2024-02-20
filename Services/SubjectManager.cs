@@ -44,7 +44,7 @@ public class SubjectManager : ISubjectService
         
         productToGo.Title = productToGo.Title is not null ? productToGo.Title.Trim() : productToGo.Title;
         productToGo.Content = productToGo.Content is not null ? productToGo.Content.Trim() : productToGo.Content;
-        productToGo.prefix = productToGo.prefix is not null ? productToGo.prefix.Trim() : productToGo.prefix;
+        productToGo.Prefix = productToGo.Prefix is not null ? productToGo.Prefix.Trim() : productToGo.Prefix;
         
         var url =
             $"{SlugModifier.RemoveNonAlphanumericAndSpecialChars(SlugModifier.ReplaceTurkishCharacters(productToGo.Title.Replace(' ', '-').ToLower()))}";
@@ -57,6 +57,8 @@ public class SubjectManager : ISubjectService
         productToGo.CreatedAt = DateTime.Now;
         productToGo.IsActive = false;
         productToGo.Url = url;
+
+        
         
         _manager.Subject.CreateSubject(productToGo);
         await _manager.SaveAsync();

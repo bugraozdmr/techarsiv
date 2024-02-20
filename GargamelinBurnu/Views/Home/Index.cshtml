@@ -28,7 +28,10 @@
     <div class="buttons">
         <span class="badge bg-white d-flex flex-row align-items-center">
             <div class="btn-group">
-                <a asp-controller="Subject" asp-action="Create" class="btn btn-warning mx-2">Konu Oluştur</a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Subject" asp-action="Create" class="btn btn-warning mx-2">Konu Oluştur</a>
+                }
                 <a href="" class="btn btn-primary">Son Mesajlar</a>
             </div>
         </span>
