@@ -1,7 +1,6 @@
 using GargamelinBurnu.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Services.Contracts;
 
 namespace GargamelinBurnu.Components;

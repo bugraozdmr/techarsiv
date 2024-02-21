@@ -124,14 +124,43 @@ public class SubjectController : Controller
             .FirstOrDefault(s => s.Subject.Url.Equals(topic.Url));
             
         // !take değeri fazla değer almaya çalışırsa patlar
+        
+        UserSubjectLdhViewModel model2 = new UserSubjectLdhViewModel()
+        {
+            LikedUsers = _manager
+                .LikeDService
+                .Likes
+                .Where(s => s.SubjectId.Equals(model.Subject.SubjectId))
+                .Select(like => _userManager.Users.FirstOrDefault(u => u.Id == like.UserId).UserName)
+                .ToList(),
+            disLikedUsers = _manager
+                .LikeDService
+                .Dislikes
+                
+                .Where(s => s.SubjectId.Equals(model.Subject.SubjectId))
+                .Select(l => _userManager.Users.FirstOrDefault(u => u.Id == l.UserId).UserName)
+                .ToList(),
+            HeartUsers = _manager
+                .LikeDService
+                .Hearts
+                .Where(s => s.SubjectId.Equals(model.Subject.SubjectId))
+                .Select(l => _userManager.Users.FirstOrDefault(u => u.Id == l.UserId).UserName)
+                .ToList()
+        };
 
+        model.UserSubjectLdh = model2;
+        
         
         // taking user
-        var user = await _userManager.FindByNameAsync(User?.Identity?.Name ?? "");
+        var user = _userManager
+            .Users
+            .Where(s => s.UserName.Equals(User.Identity.Name))
+            .Select(s => new { UserName = s.UserName, UserId = s.Id })
+            .FirstOrDefault();
 
         if (user is not null)
         {
-            var userId = user.Id;
+            var userId = user.UserId;
         
             
             // like count
@@ -233,8 +262,11 @@ public class SubjectController : Controller
     [Authorize]
     public async Task<IActionResult> addComment(int SubjectId,string Text)
     {
-        var user = await _userManager.FindByNameAsync(User.Identity.Name);
-        var UserId = user.Id;
+        var user = _userManager
+            .Users
+            .Where(s => s.UserName.Equals(User.Identity.Name))
+            .Select(s => new {  UserId = s.Id })
+            .FirstOrDefault();
         
         if (user is null)
         {
@@ -251,7 +283,8 @@ public class SubjectController : Controller
             .Include(u => u.Comments)
             .Select(u => new  CommentCountViewModel()
             {
-                User = u,
+                Username = u.UserName,
+                CreatedAt = u.CreatedAt,
                 Count = u.Comments.Count
             })
             .FirstOrDefaultAsync();
@@ -260,15 +293,15 @@ public class SubjectController : Controller
         {
             SubjectId = SubjectId,
             Text = Text,
-            UserId = UserId
+            UserId = user.UserId
         });
         
         return Json(new
         {
             success = 1,
             text = Text,
-            createdAt = user.CreatedAt,
-            username = user.UserName,
+            createdAt = model.CreatedAt,
+            username = model.Username,
             messageCount = model.Count
         });
     }
@@ -276,8 +309,11 @@ public class SubjectController : Controller
     [Authorize]
     public async Task<IActionResult> LikeSubject(int SubjectId)
     {
-        var user = await _userManager.FindByNameAsync(User.Identity.Name);
-        var UserId = user.Id;
+        var user = _userManager
+            .Users
+            .Where(s => s.UserName.Equals(User.Identity.Name))
+            .Select(s => new { UserId = s.Id })
+            .FirstOrDefault();
 
         if (user is null)
         {
@@ -287,33 +323,33 @@ public class SubjectController : Controller
             });
         }
 
-        var searched = _manager.LikeDService.Likes.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+        var searched = _manager.LikeDService.Likes.FirstOrDefault(s => s.UserId.Equals(user.UserId) && s.SubjectId.Equals(SubjectId));
 
         if (searched is null)
         {
-            var search1 = _manager.LikeDService.Dislikes.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+            var search1 = _manager.LikeDService.Dislikes.FirstOrDefault(s => s.UserId.Equals(user.UserId) && s.SubjectId.Equals(SubjectId));
             if (search1 is not null)
             {
-                dislikeSubjectRemove(SubjectId, UserId);
+                dislikeSubjectRemove(SubjectId, user.UserId);
                 _manager.LikeDService.Like(new SubjectLike()
                 {
                     SubjectId = SubjectId,
-                    UserId = UserId
+                    UserId = user.UserId
                 });
             }
             else
             {
-                var search2 = _manager.LikeDService.Hearts.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+                var search2 = _manager.LikeDService.Hearts.FirstOrDefault(s => s.UserId.Equals(user.UserId) && s.SubjectId.Equals(SubjectId));
 
                 if (search2 is not null)
                 {
-                    heartSubjectRemove(SubjectId, UserId);
+                    heartSubjectRemove(SubjectId, user.UserId);
                 }
                 
                 _manager.LikeDService.Like(new SubjectLike()
                 {
                     SubjectId = SubjectId,
-                    UserId = UserId
+                    UserId = user.UserId
                 });
             }
             
@@ -336,7 +372,7 @@ public class SubjectController : Controller
         }
         else
         {
-            return likeSubjectRemove(SubjectId, UserId);
+            return likeSubjectRemove(SubjectId, user.UserId);
             
         }
     }
@@ -367,8 +403,11 @@ public class SubjectController : Controller
     [Authorize]
     public async Task<IActionResult> dislikeSubject(int SubjectId)
     {
-        var user = await _userManager.FindByNameAsync(User.Identity.Name);
-        var UserId = user.Id;
+        var user = _userManager
+            .Users
+            .Where(s => s.UserName.Equals(User.Identity.Name))
+            .Select(s => new { UserId = s.Id })
+            .FirstOrDefault();
 
         if (user is null)
         {
@@ -378,33 +417,33 @@ public class SubjectController : Controller
             });
         }
 
-        var searched = _manager.LikeDService.Dislikes.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+        var searched = _manager.LikeDService.Dislikes.FirstOrDefault(s => s.UserId.Equals(user.UserId) && s.SubjectId.Equals(SubjectId));
 
         if (searched is null)
         {
-            var search1 = _manager.LikeDService.Likes.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+            var search1 = _manager.LikeDService.Likes.FirstOrDefault(s => s.UserId.Equals(user.UserId) && s.SubjectId.Equals(SubjectId));
             if (search1 is not null)
             {
-                likeSubjectRemove(SubjectId, UserId);
+                likeSubjectRemove(SubjectId, user.UserId);
                 _manager.LikeDService.disLike(new SubjectDislike()
                 {
                     SubjectId = SubjectId,
-                    UserId = UserId
+                    UserId = user.UserId
                 });
             }
             else
             {
-                var search2 = _manager.LikeDService.Hearts.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+                var search2 = _manager.LikeDService.Hearts.FirstOrDefault(s => s.UserId.Equals(user.UserId) && s.SubjectId.Equals(SubjectId));
 
                 if (search2 is not null)
                 {
-                    heartSubjectRemove(SubjectId, UserId);
+                    heartSubjectRemove(SubjectId, user.UserId);
                 }
                 
                 _manager.LikeDService.disLike(new SubjectDislike()
                 {
                     SubjectId = SubjectId,
-                    UserId = UserId
+                    UserId = user.UserId
                 });
             }
             
@@ -427,7 +466,7 @@ public class SubjectController : Controller
         }
         else
         {
-            return dislikeSubjectRemove(SubjectId, UserId);
+            return dislikeSubjectRemove(SubjectId, user.UserId);
         }
     }
     
@@ -458,9 +497,12 @@ public class SubjectController : Controller
     [Authorize]
     public async Task<IActionResult> heartSubject(int SubjectId)
     {
-        var user = await _userManager.FindByNameAsync(User.Identity.Name);
-        var UserId = user.Id;
-
+        var user = _userManager
+            .Users
+            .Where(s => s.UserName.Equals(User.Identity.Name))
+            .Select(s => new { UserId = s.Id })
+            .FirstOrDefault();
+        
         if (user is null)
         {
             return Json(new
@@ -469,33 +511,33 @@ public class SubjectController : Controller
             });
         }
 
-        var searched = _manager.LikeDService.Hearts.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+        var searched = _manager.LikeDService.Hearts.FirstOrDefault(s => s.UserId.Equals(user.UserId) && s.SubjectId.Equals(SubjectId));
 
         if (searched is null)
         {
-            var search1 = _manager.LikeDService.Likes.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+            var search1 = _manager.LikeDService.Likes.FirstOrDefault(s => s.UserId.Equals(user.UserId) && s.SubjectId.Equals(SubjectId));
             if (search1 is not null)
             {
-                likeSubjectRemove(SubjectId, UserId);
+                likeSubjectRemove(SubjectId, user.UserId);
                 _manager.LikeDService.Heart(new SubjectHeart()
                 {
                     SubjectId = SubjectId,
-                    UserId = UserId
+                    UserId = user.UserId
                 });
             }
             else
             {
-                var search2 = _manager.LikeDService.Dislikes.FirstOrDefault(s => s.UserId.Equals(UserId) && s.SubjectId.Equals(SubjectId));
+                var search2 = _manager.LikeDService.Dislikes.FirstOrDefault(s => s.UserId.Equals(user.UserId) && s.SubjectId.Equals(SubjectId));
 
                 if (search2 is not null)
                 {
-                    dislikeSubjectRemove(SubjectId, UserId);
+                    dislikeSubjectRemove(SubjectId, user.UserId);
                 }
                 
                 _manager.LikeDService.Heart(new SubjectHeart()
                 {
                     SubjectId = SubjectId,
-                    UserId = UserId
+                    UserId = user.UserId
                 });
             }
             
@@ -518,7 +560,7 @@ public class SubjectController : Controller
         }
         else
         {
-            return heartSubjectRemove(SubjectId, UserId);
+            return heartSubjectRemove(SubjectId, user.UserId);
         }
     }
     
