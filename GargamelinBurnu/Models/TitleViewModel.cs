@@ -7,5 +7,7 @@ public class TitleViewModel
     public string Title { get; set; }
     public string Url { get; set; }
     public int CommentCount { get; set; }
+    public int HeartCount { get; set; }
+    public int SubjectId { get; set; }
     public DateTime createdAt { get; set; }
 }

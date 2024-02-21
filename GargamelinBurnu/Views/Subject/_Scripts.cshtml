@@ -1,0 +1,10 @@
+<script type="text/javascript">
+    $(document).ready(function() {$("#btnYorumKayit").click(function(e) {var textValue = $('#Text').val();var no = $('#SubjectId').val();reqFunc(textValue, no);});$("a[id^='subject_']").click(function(event) {var no = $('#SubjectId').val();var str = $(this).attr('id');ldhFunc(no,str)});return false;});//Sub
+</script>
+
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {$("a[id^='comment_']").click(function(event) {var clickedId = $(this).attr('id');ComLDFunc(clickedId);});});
+    </script>

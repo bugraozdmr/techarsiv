@@ -17,6 +17,14 @@
             · <i class="fa fa-clock-o" aria-hidden="true"></i> @await Component.InvokeAsync("ShowTime",Model.CreatedAt)
             · <i class="fa fa-reply" aria-hidden="true"></i> <span id="commentCount"> @Model.CommentCount </span></p>
     </div>
+    
+    <div class="buttons">
+        <span class="badge bg-white d-flex flex-row align-items-center">
+            <div class="btn-group">
+                <a href="" class="btn btn-success">Paylaş</a>
+            </div>
+        </span>
+    </div>
 </div>
 
 
@@ -42,7 +50,7 @@
                 <div class="bg-white">
                     <div class="d-flex flex-row fs-14">
                         <div class="p-2 cursor p-2">
-                            <a id="like"
+                            <a id="subject_like"
                                data-toggle="tooltip"
                                data-popper-placement="top"
                                title="Beğen">
@@ -53,7 +61,7 @@
                         </div>
                         <div class="p-2 cursor p-2">
                             <a
-                                id="dislike"
+                                id="subject_dislike"
                                 data-toggle="tooltip"
                                data-popper-placement="top"
                                title="Beğenme">
@@ -65,7 +73,7 @@
                         </div>
                         <div class="p-2 cursor p-2">
                             <a 
-                                id="heart"
+                                id="subject_heart"
                                 data-toggle="tooltip"
                                data-popper-placement="top"
                                title="Kalp">
@@ -133,350 +141,9 @@
 
 
 @section Scripts {
-    <!-- bu request site.js'e taşınmazsa canımızı yakar -->
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $("#btnYorumKayit").click(function(e) { 
-                var textValue = $('#Text').val();
-
-                if (textValue.trim() === ''){
-                    $("#DivError").append('Yorum boş gidemez !'+
-                                                              '<br>');
-                }
-                else{
-                    $("#spinner").show();
-                    $.ajax({
-                   
-                        type: 'POST',
-                        url: '@Url.Action("AddComment")',
-                        dataType: 'json',
-                        data: {
-                            SubjectId: $('#SubjectId').val(),
-                            Text: $('#Text').val()
-                        },
-                        success: function(yorum) {
-                            $("#spinner").hide();
-        
-                            var date = new Date(yorum.createdAt);
-                            var shortDate = date.toLocaleDateString('tr-TR');
-                            
-                            
-        
-                            $("#comments").append(`
-                                <div class="d-flex flex-column my-2" id="comment-container">
-                                    <div class="bg-white">
-                                        <div class="flex-row d-flex">
-                                            <img src="dp.jpg" width="40" class="rounded-circle">
-                                            <div class="d-flex flex-column justify-content-start ml-2">
-                                                <span class="d-block font-weight-bold name">${yorum.username}</span>
-                                                <span class="date text-black-50">Katılma Tarihi : ${shortDate}</span>
-                                                <span class="date text-black-50">Mesaj Sayısı : ${yorum.messageCount}</span>
-                                            </div>
-                                        </div>
-                                        <div class="mt-3">
-                                            <p class="comment-text">${yorum.text}</p>
-                                        </div>
-                                    </div>
-                                    <div class="bg-white">
-                                        <div class="d-flex flex-row fs-14">
-                                            <div class="p-2 cursor p-2">
-                                                <i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span>
-                                            </div>
-                                            <div class="p-2 cursor p-2">
-                                                <i class="fa fa-comment"></i><span class="ml-1">Reply</span>
-                                            </div>
-                                            <div class="p-2 cursor p-2">
-                                                <i class="fa fa-share"></i><span class="ml-1">Share</span>
-                                            </div>
-                                        </div>
-                                        <div class="text-muted">Hemen şimdi</div>
-                                    </div>
-                                </div>
-                            `);
-                           
-        
-                            
-                            $("#Text").val('');
-        
-                            var adet = parseInt($("#commentCount").text());
-                            $("#commentCount").text(adet + 1);
-                        },
-                        error: function(xhr, status, error) {
-                          $("#spinner").hide();
-        
-                          $("#DivError").append('Bir hata oluştu'+
-                                                '<br>');
-                          
-                                  setTimeout(function() {
-                                      $("#DivError").empty();
-                                  }, 30000); // 30 saniye
-                        }
-        
-                        
-                    });
-                    return false;
-                }
-            });
     
-            
-            //////////
-            
-            
-            $("#like").click(function (e){
-                $("spinner").show();
-                $.ajax({
-                    type : 'Post',
-                    url : '@Url.Action("LikeSubject")',
-                    dataType : 'json',
-                    data:{
-                        SubjectId: $('#SubjectId').val()
-                    },
-                    success : function (ret){
-                        
-                        $("#spinner").hide();
-                        if (ret.success == -1){
-                            $("#err").append('Bir hata oluştu');
-                            $("#like_icon").removeClass("text-danger");
-                        }
-                            
-                        else if (ret.success == 1){
-                            $("#like_icon").addClass("text-danger");
-                            $("#dislike_icon").removeClass("text-danger");
-                            $("#heart_icon").removeClass("text-danger");
-                            
-                            $("#heartcount").text(ret.heartcount);
-                            $("#likecount").text(ret.likecount);
-                            $("#dislikecount").text(ret.dislikecount);
-                        }
-                        else if (ret.success == 2){
-                            $("#like_icon").removeClass("text-danger");
-                            $("#dislike_icon").removeClass("text-danger");
-                            $("#heart_icon").removeClass("text-danger");
-                            
-                            $("#heartcount").text(ret.heartcount);
-                            $("#likecount").text(ret.likecount);
-                            $("#dislikecount").text(ret.dislikecount);
-                        }
-
-                        return false;
-                    },
-                    error:function (xhr, status, error){
-                        $("#spinner").hide();
-                        $("#err").append('Bir hata oluştu'
-                                                    +'<br>');
-                        setTimeout(function() {
-                              $("#err").empty();
-                          }, 30000);
-                    }
-                });
-                return false;
-            })
-            
-            /////
-            
-            $("#dislike").click(function (e){
-                $("spinner").show();
-                $.ajax({
-                    type : 'Post',
-                    url : '@Url.Action("dislikeSubject")',
-                    dataType : 'json',
-                    data:{
-                        SubjectId: $('#SubjectId').val()
-                    },
-                    success : function (ret){
-                        
-                        $("#spinner").hide();
-                        if (ret.success == -1){
-                            $("#err").append('Bir hata oluştu');
-                            $("#dislike_icon").removeClass("text-danger");
-                        }
-                            
-                        else if (ret.success == 1){
-                            $("#dislike_icon").addClass("text-danger");
-                            $("#like_icon").removeClass("text-danger");
-                            $("#heart_icon").removeClass("text-danger");
-                            
-                            $("#heartcount").text(ret.heartcount);
-                            $("#likecount").text(ret.likecount);
-                            $("#dislikecount").text(ret.dislikecount);
-                        }
-                        else if (ret.success == 2){
-                            $("#dislike_icon").removeClass("text-danger");
-                            $("#like_icon").removeClass("text-danger");
-                            $("#heartcount").removeClass("text-danger");
-
-                            $("#heartcount").text(ret.heartcount);
-                            $("#likecount").text(ret.likecount);
-                            $("#dislikecount").text(ret.dislikecount);
-                        }
-
-                        return false;
-                    },
-                    error:function (xhr, status, error){
-                        $("#spinner").hide();
-                        $("#err").append('Bir hata oluştu'
-                                                    +'<br>');
-                        setTimeout(function() {
-                              $("#err").empty();
-                          }, 30000);
-                    }
-                });
-                return false;
-            })
-            
-            
-            /////
-            
-            $("#heart").click(function (e){
-                $("spinner").show();
-                $.ajax({
-                    type : 'Post',
-                    url : '@Url.Action("heartSubject")',
-                    dataType : 'json',
-                    data:{
-                        SubjectId: $('#SubjectId').val()
-                    },
-                    success : function (ret){
-                        
-                        $("#spinner").hide();
-                        if (ret.success == -1){
-                            $("#err").append('Bir hata oluştu');
-                            $("#heart_icon").removeClass("text-danger");
-                        }
-                            
-                        else if (ret.success == 1){
-                            $("#heart_icon").addClass("text-danger");
-                            $("#like_icon").removeClass("text-danger");
-                            $("#dislike_icon").removeClass("text-danger");
-
-                            $("#heartcount").text(ret.heartcount);
-                            $("#likecount").text(ret.likecount);
-                            $("#dislikecount").text(ret.dislikecount);
-                        }
-                        else if (ret.success == 2){
-                            $("#heart_icon").removeClass("text-danger");
-                            $("#like_icon").removeClass("text-danger");
-                            $("#dislike_icon").removeClass("text-danger");
-                                                       
-                            $("#heartcount").text(ret.heartcount);
-                            $("#likecount").text(ret.likecount);
-                            $("#dislikecount").text(ret.dislikecount);
-                        }
-
-                        return false;
-                    },
-                    error:function (xhr, status, error){
-                        $("#spinner").hide();
-                        $("#err").append('Bir hata oluştu'
-                                                    +'<br>');
-                        setTimeout(function() {
-                              $("#err").empty();
-                          }, 30000);
-                    }
-                });
-                return false;
-            }
-            
-            
-          );
-        });
-    </script>
-
-
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            
-            $("a[id^='comment_']").click(function(event) {
-                var clickedId = $(this).attr('id');
-                var commentId = clickedId.split("-")[0].split("_")[1];
-
-                if (clickedId.includes("_like")) {
-                    $("#spinner").show();
-                    $.ajax({
-                        type: 'Post',
-                        url: '@Url.Action("LikeComment", "Comment")',
-                        dataType: 'json',
-                        data: {
-                            CommentId: commentId
-                        },
-                        success: function(ret) {
-                            $("#spinner").hide();
-                            
-                            
-                            if (ret.success == -1) {
-                                $(`#err_${commentId}-400`).append('Bir hata oluştu');
-                                $(`#like_icon_${commentId}-445`).removeClass("text-danger");
-                            } else if (ret.success == 1) {
-                                $(`#like_icon_${commentId}-445`).addClass("text-danger");
-                                $(`#dislike_icon_${commentId}-854`).removeClass("text-danger");
-
-                                $(`#like_count_${commentId}-878`).text(ret.likecount);
-                                $(`#dislike_count_${commentId}-143`).text(ret.dislikecount);
-                            } else if (ret.success == 2) {
-                                $(`#like_icon_${commentId}-445`).removeClass("text-danger");
-                                $(`#dislike_icon_${commentId}-854`).removeClass("text-danger");
-
-                                $(`#like_count_${commentId}-878`).text(ret.likecount);
-                                $(`#dislike_count_${commentId}-143`).text(ret.dislikecount);
-                            }
-
-                            return false;
-                        },
-                        error: function(xhr, status, error) {
-                            $("#spinner").hide();
-                            $(`#err_${commentId}-400`).append('Bir hata oluştu' + '<br>');
-                            setTimeout(function() {
-                                $(`#err_${commentId}-400`).empty();
-                            }, 30000);
-                        }
-                    });
-                }
-                else if(clickedId.includes("dislike")){
-                    $("#spinner").show();
-                    $.ajax({
-                        type: 'Post',
-                        url: '@Url.Action("dislikeComment", "Comment")',
-                        dataType: 'json',
-                        data: {
-                            CommentId: commentId
-                        },
-                        success: function(ret) {
-                            $("#spinner").hide();
-                           
-                            if (ret.success == -1) {
-                                $(`#err_${commentId}-400`).append('Bir hata oluştu');
-                                $(`#dislike_icon_${commentId}-854`).removeClass("text-danger");
-                            } else if (ret.success == 1) {
-                                $(`#dislike_icon_${commentId}-854`).addClass("text-danger");
-                                $(`#like_icon_${commentId}-445`).removeClass("text-danger");
-
-                                $(`#like_count_${commentId}-878`).text(ret.likecount);
-                                $(`#dislike_count_${commentId}-143`).text(ret.dislikecount);
-                            } else if (ret.success == 2) {
-                                $(`#like_icon_${commentId}-445`).removeClass("text-danger");
-                                $(`#dislike_icon_${commentId}-854`).removeClass("text-danger");
-
-                                $(`#like_count_${commentId}-878`).text(ret.likecount);
-                                $(`#dislike_count_${commentId}-143`).text(ret.dislikecount);
-                            }
-
-                            return false;
-                        },
-                        error: function(xhr, status, error) {
-                            $("#spinner").hide();
-                            $(`#err_${commentId}-400`).append('Bir hata oluştu' + '<br>');
-                            setTimeout(function() {
-                                $(`#err_${commentId}-400`).empty();
-                            }, 30000);
-                        }
-                    });
-                }
-            });
-        });
-    </script>
-
-
+    <partial name="_Scripts"/>
+    
 
 
     <script type="text/javascript">

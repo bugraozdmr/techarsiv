@@ -9,10 +9,13 @@ namespace GargamelinBurnu.Components;
 public class HomePageContentViewComponent : ViewComponent
 {
     private readonly IServiceManager _manager;
+    private readonly ILikeDService _likeDService;
 
-    public HomePageContentViewComponent(IServiceManager manager)
+    public HomePageContentViewComponent(IServiceManager manager,
+        ILikeDService likeDService)
     {
         _manager = manager;
+        _likeDService = likeDService;
     }
 
     public IViewComponentResult Invoke()
@@ -32,9 +35,17 @@ public class HomePageContentViewComponent : ViewComponent
                 CategoryName = s.Category.CategoryName,
                 Title = s.Title,
                 createdAt = s.CreatedAt,
+                SubjectId = s.SubjectId,
                 Url = s.Url,
                 CommentCount = s.Comments.Count
             }).ToList();
+
+        foreach (var title in model)
+        {
+            title.HeartCount = _likeDService
+                .Hearts
+                .Count(s => s.SubjectId.Equals(title.SubjectId));
+        }
         
         return View(model);
     }
