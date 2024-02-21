@@ -71,6 +71,7 @@ public static class ServiceExtensions
         services.AddScoped<ICategoryService, CategoryManager>();
         services.AddScoped<ICommentService, CommentManager>();
         services.AddScoped<ILikeDService, LikeDService>();
+        services.AddScoped<ICommentLikeDService, CommentLikeDService>();
     }
 
 

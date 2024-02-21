@@ -113,6 +113,7 @@ public class SubjectController : Controller
                 Comments = s.Comments.Select(c => new CommentViewModel()
                 {
                     CommentUserName = c.User.UserName,
+                    CommentId = c.CommentId,
                     UserCommentCount = c.User.Comments.Count,
                     CreatedAt = c.User.CreatedAt,
                     CommentDate = c.CreatedAt,
@@ -126,69 +127,110 @@ public class SubjectController : Controller
 
         
         // taking user
-        var user = await _userManager.FindByNameAsync(User.Identity.Name);
-        var userId = user.Id;
-        
-        
-        
-        
-        
-        // like count
-        int likecount = _manager
-            .LikeDService
-            .Likes
-            .Where(l => l.SubjectId.Equals(topic.SubjectId)).Count();
-        // like count
-        int dislikecount = _manager
-            .LikeDService
-            .Dislikes
-            .Where(l => l.SubjectId.Equals(topic.SubjectId)).Count();
-        // like count
-        int heartcount = _manager
-            .LikeDService
-            .Hearts
-            .Where(l => l.SubjectId.Equals(topic.SubjectId)).Count();
-        
-        
-        
-        
-        
-        bool isLiked = _manager
-                .LikeDService
-                .Likes
-                .FirstOrDefault(l => l.SubjectId.Equals(topic.SubjectId)
-                                     && l.UserId.Equals(userId))
-            is not null
-            ? true
-            : false; 
-        
-        model.likeCount = likecount;
-        model.dislikeCount = dislikecount;
-        model.heartCount = heartcount;
-        
-        model.isLiked = isLiked;
+        var user = await _userManager.FindByNameAsync(User?.Identity?.Name ?? "");
 
-
-        foreach (var comment in model.Comments)
+        if (user is not null)
         {
-            comment.likeCount = _manager
+            var userId = user.Id;
+        
+            
+            // like count
+            int likecount = _manager
                 .LikeDService
                 .Likes
-                .Where(l => l.SubjectId.Equals(comment.CommentUserId)).Count();
-            comment.isLiked = _manager
+                .Where(l => l.SubjectId.Equals(topic.SubjectId)).Count();
+            // like count
+            int dislikecount = _manager
+                .LikeDService
+                .Dislikes
+                .Where(l => l.SubjectId.Equals(topic.SubjectId)).Count();
+            // like count
+            int heartcount = _manager
+                .LikeDService
+                .Hearts
+                .Where(l => l.SubjectId.Equals(topic.SubjectId)).Count();
+        
+        
+        
+            // subject extras start
+        
+            bool isLiked = _manager
                     .LikeDService
                     .Likes
-                    .FirstOrDefault(l => l.SubjectId.Equals(model.Subject.SubjectId)
-                                         && l.UserId.Equals(comment.CommentUserId))
+                    .FirstOrDefault(l => l.SubjectId.Equals(topic.SubjectId)
+                                         && l.UserId.Equals(userId))
                 is not null
                 ? true
-                : false; 
-        }
+                : false;
+            
+            bool isdisLiked = _manager
+                    .LikeDService
+                    .Dislikes
+                    .FirstOrDefault(l => l.SubjectId.Equals(topic.SubjectId)
+                                         && l.UserId.Equals(userId))
+                is not null
+                ? true
+                : false;
+            
+            bool isheart = _manager
+                    .LikeDService
+                    .Hearts
+                    .FirstOrDefault(l => l.SubjectId.Equals(topic.SubjectId)
+                                         && l.UserId.Equals(userId))
+                is not null
+                ? true
+                : false;
         
+            model.likeCount = likecount;
+            model.dislikeCount = dislikecount;
+            model.heartCount = heartcount;
+        
+            model.isLiked = isLiked;
+            model.isdisLiked = isdisLiked;
+            model.isheart = isheart;
+
+            // subject extras end
+            
+            
+            // comment extras start
+            
+            foreach (var comment in model.Comments)
+            {
+                comment.likeCount = _manager
+                    .CommentLikeDService
+                    .CLikes
+                    .Where(l => l.CommentId.Equals(comment.CommentId)).Count();
+                comment.isLiked = _manager
+                        .CommentLikeDService
+                        .CLikes
+                        .FirstOrDefault(l => l.CommentId.Equals(comment.CommentId)
+                                             && l.UserId.Equals(comment.CommentUserId))
+                    is not null
+                    ? true
+                    : false;
+                
+                comment.dislikeCount = _manager
+                    .CommentLikeDService
+                    .CDislikes
+                    .Where(l => l.CommentId.Equals(comment.CommentId)).Count();
+                comment.isdisLiked = _manager
+                        .CommentLikeDService
+                        .CDislikes
+                        .FirstOrDefault(l => l.CommentId.Equals(comment.CommentId)
+                                             && l.UserId.Equals(comment.CommentUserId))
+                    is not null
+                    ? true
+                    : false;
+            }
+
+            
+            // comment extras end
+        }
         
         return View(model);
     }
 
+    [Authorize]
     public async Task<IActionResult> addComment(int SubjectId,string Text)
     {
         var user = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -231,6 +273,7 @@ public class SubjectController : Controller
         });
     }
     
+    [Authorize]
     public async Task<IActionResult> LikeSubject(int SubjectId)
     {
         var user = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -298,6 +341,7 @@ public class SubjectController : Controller
         }
     }
 
+    [Authorize]
     public IActionResult likeSubjectRemove(int SubjectId,string UserId)
     {
         _manager.LikeDService.LikeRemove(SubjectId, UserId);
@@ -320,6 +364,7 @@ public class SubjectController : Controller
         });
     }
     
+    [Authorize]
     public async Task<IActionResult> dislikeSubject(int SubjectId)
     {
         var user = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -386,6 +431,7 @@ public class SubjectController : Controller
         }
     }
     
+    [Authorize]
     public IActionResult dislikeSubjectRemove(int SubjectId,string UserId)
     {
         _manager.LikeDService.disLikeRemove(SubjectId, UserId);
@@ -408,6 +454,8 @@ public class SubjectController : Controller
         });
     }
     
+    
+    [Authorize]
     public async Task<IActionResult> heartSubject(int SubjectId)
     {
         var user = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -474,6 +522,8 @@ public class SubjectController : Controller
         }
     }
     
+    
+    [Authorize]
     public IActionResult heartSubjectRemove(int SubjectId,string UserId)
     {
         _manager.LikeDService.HeartRemove(SubjectId, UserId);

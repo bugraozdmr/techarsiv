@@ -16,5 +16,7 @@ public class SubjectViewModel
     public bool isLiked { get; set; }
     
     public int dislikeCount { get; set; }
+    public bool isdisLiked { get; set; }
     public int heartCount { get; set; }
+    public bool isheart { get; set; }
 }

@@ -30,6 +30,12 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.Entity<SubjectHeart>()
             .HasKey(sl => new { sl.SubjectId, sl.UserId });
         
+        modelBuilder.Entity<Commentlike>()
+            .HasKey(sl => new { sl.CommentId, sl.UserId });
+        
+        modelBuilder.Entity<CommentDislike>()
+            .HasKey(sl => new { sl.CommentId, sl.UserId });
+        
 
         
         // bulur
@@ -42,4 +48,8 @@ public class RepositoryContext : IdentityDbContext<User>
     public DbSet<SubjectLike> SubjectLikes { get; set; }
     public DbSet<SubjectDislike> SubjectDislikes { get; set; }
     public DbSet<SubjectHeart> SubjectHearts { get; set; }
+    
+    public DbSet<Commentlike> Commentlikes { get; set; }
+    public DbSet<CommentDislike> CommentDislikes { get; set; }
+    
 }

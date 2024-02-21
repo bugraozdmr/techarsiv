@@ -57,7 +57,7 @@
                                 data-toggle="tooltip"
                                data-popper-placement="top"
                                title="Beğenme">
-                                <i id="dislike_icon" class="fa fa-thumbs-o-down @(Model.isLiked ? "text-danger" : "")"></i>
+                                <i id="dislike_icon" class="fa fa-thumbs-o-down @(Model.isdisLiked ? "text-danger" : "")"></i>
 
                                 <span id="dislikecount">@Model.dislikeCount</span>
                                 
@@ -69,7 +69,7 @@
                                 data-toggle="tooltip"
                                data-popper-placement="top"
                                title="Kalp">
-                                <i id="heart_icon" class="fa fa-heart @(Model.isLiked ? "text-danger" : "")"></i> 
+                                <i id="heart_icon" class="fa fa-heart @(Model.isheart ? "text-danger" : "")"></i> 
 
                                 <span id="heartcount">@Model.heartCount</span>
                             </a>
@@ -136,7 +136,6 @@
     <!-- bu request site.js'e taşınmazsa canımızı yakar -->
     <script type="text/javascript">
         $(document).ready(function() {
-        
             $("#btnYorumKayit").click(function(e) { 
                 var textValue = $('#Text').val();
 
@@ -156,7 +155,7 @@
                             Text: $('#Text').val()
                         },
                         success: function(yorum) {
-                                           $("#spinner").hide();
+                            $("#spinner").hide();
         
                             var date = new Date(yorum.createdAt);
                             var shortDate = date.toLocaleDateString('tr-TR');
@@ -233,7 +232,7 @@
                         SubjectId: $('#SubjectId').val()
                     },
                     success : function (ret){
-                        console.log(ret);
+                        
                         $("#spinner").hide();
                         if (ret.success == -1){
                             $("#err").append('Bir hata oluştu');
@@ -285,7 +284,7 @@
                         SubjectId: $('#SubjectId').val()
                     },
                     success : function (ret){
-                        console.log(ret);
+                        
                         $("#spinner").hide();
                         if (ret.success == -1){
                             $("#err").append('Bir hata oluştu');
@@ -338,7 +337,7 @@
                         SubjectId: $('#SubjectId').val()
                     },
                     success : function (ret){
-                        console.log(ret);
+                        
                         $("#spinner").hide();
                         if (ret.success == -1){
                             $("#err").append('Bir hata oluştu');
@@ -382,6 +381,103 @@
           );
         });
     </script>
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            
+            $("a[id^='comment_']").click(function(event) {
+                var clickedId = $(this).attr('id');
+                var commentId = clickedId.split("-")[0].split("_")[1];
+
+                if (clickedId.includes("_like")) {
+                    $("#spinner").show();
+                    $.ajax({
+                        type: 'Post',
+                        url: '@Url.Action("LikeComment", "Comment")',
+                        dataType: 'json',
+                        data: {
+                            CommentId: commentId
+                        },
+                        success: function(ret) {
+                            $("#spinner").hide();
+                            
+                            
+                            if (ret.success == -1) {
+                                $(`#err_${commentId}-400`).append('Bir hata oluştu');
+                                $(`#like_icon_${commentId}-445`).removeClass("text-danger");
+                            } else if (ret.success == 1) {
+                                $(`#like_icon_${commentId}-445`).addClass("text-danger");
+                                $(`#dislike_icon_${commentId}-854`).removeClass("text-danger");
+
+                                $(`#like_count_${commentId}-878`).text(ret.likecount);
+                                $(`#dislike_count_${commentId}-143`).text(ret.dislikecount);
+                            } else if (ret.success == 2) {
+                                $(`#like_icon_${commentId}-445`).removeClass("text-danger");
+                                $(`#dislike_icon_${commentId}-854`).removeClass("text-danger");
+
+                                $(`#like_count_${commentId}-878`).text(ret.likecount);
+                                $(`#dislike_count_${commentId}-143`).text(ret.dislikecount);
+                            }
+
+                            return false;
+                        },
+                        error: function(xhr, status, error) {
+                            $("#spinner").hide();
+                            $(`#err_${commentId}-400`).append('Bir hata oluştu' + '<br>');
+                            setTimeout(function() {
+                                $(`#err_${commentId}-400`).empty();
+                            }, 30000);
+                        }
+                    });
+                }
+                else if(clickedId.includes("dislike")){
+                    $("#spinner").show();
+                    $.ajax({
+                        type: 'Post',
+                        url: '@Url.Action("dislikeComment", "Comment")',
+                        dataType: 'json',
+                        data: {
+                            CommentId: commentId
+                        },
+                        success: function(ret) {
+                            $("#spinner").hide();
+                           
+                            if (ret.success == -1) {
+                                $(`#err_${commentId}-400`).append('Bir hata oluştu');
+                                $(`#dislike_icon_${commentId}-854`).removeClass("text-danger");
+                            } else if (ret.success == 1) {
+                                $(`#dislike_icon_${commentId}-854`).addClass("text-danger");
+                                $(`#like_icon_${commentId}-445`).removeClass("text-danger");
+
+                                $(`#like_count_${commentId}-878`).text(ret.likecount);
+                                $(`#dislike_count_${commentId}-143`).text(ret.dislikecount);
+                            } else if (ret.success == 2) {
+                                $(`#like_icon_${commentId}-445`).removeClass("text-danger");
+                                $(`#dislike_icon_${commentId}-854`).removeClass("text-danger");
+
+                                $(`#like_count_${commentId}-878`).text(ret.likecount);
+                                $(`#dislike_count_${commentId}-143`).text(ret.dislikecount);
+                            }
+
+                            return false;
+                        },
+                        error: function(xhr, status, error) {
+                            $("#spinner").hide();
+                            $(`#err_${commentId}-400`).append('Bir hata oluştu' + '<br>');
+                            setTimeout(function() {
+                                $(`#err_${commentId}-400`).empty();
+                            }, 30000);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+
+
 
     <script type="text/javascript">
         $(document).ready(() => {

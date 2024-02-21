@@ -20,28 +20,28 @@
     <div class="bg-white">
         <div class="d-flex flex-row fs-14">
             <div class="p-2 cursor p-2">
-                <a id="like"
-                   data-toggle="tooltip"
-                   data-popper-placement="top"
-                   title="Beğen">
-                    <i id="like_icon" class="fa fa-thumbs-o-up @(Model.isLiked ? "text-danger" : "")"></i> 
-                    <span id="likecount">@Model.likeCount</span>
+                <a 
+                    data-toggle="tooltip"
+                    data-popper-placement="top"
+                    title="Beğen"
+                    id="comment_@Model.CommentId-325_like"><!-- carefull _like-->
+                    <i id="like_icon_@Model.CommentId-445" class="fa fa-thumbs-o-up @(Model.isLiked ? "text-danger" : "")"></i> 
+                    <span id="like_count_@Model.CommentId-878">@Model.likeCount</span>
 
                 </a>
+                <br/>
+                <span class="text-danger" id="err_@Model.CommentId-400"></span>
             </div>
             <div class="p-2 cursor p-2">
                 <a data-toggle="tooltip"
                    data-popper-placement="top"
-                   title="Beğenme">
-                    <i class="fa fa-thumbs-o-down"></i> 0
+                   title="Beğenme"
+                   id="comment_@Model.CommentId-967_dislike">
+                    <i id="dislike_icon_@Model.CommentId-854" class="fa fa-thumbs-o-down @(Model.isdisLiked ? "text-danger" : "")"></i> 
+                    <span id="dislike_count_@Model.CommentId-143">@Model.dislikeCount</span>
                 </a>
-            </div>
-            <div class="p-2 cursor p-2">
-                <a data-toggle="tooltip"
-                   data-popper-placement="top"
-                   title="Kalp">
-                    <i class="fa fa-heart"></i> 0
-                </a>
+                <br/>
+                <span class="text-danger" id="err_@Model.CommentId-400"></span>
             </div>
         </div>
         <div class="text-muted">@await Component.InvokeAsync("ShowTime",Model.CommentDate)</div>

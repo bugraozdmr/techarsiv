@@ -6,4 +6,5 @@ public interface IServiceManager
     ICategoryService CategoryService { get; }
     ICommentService CommentService { get; }
     ILikeDService LikeDService { get; }
+    ICommentLikeDService CommentLikeDService { get; }
 }
