@@ -19,8 +19,8 @@ public class CategoryManager : ICategoryService
         
     }
 
-    public async Task<IEnumerable<Category>> GetAllCategories(bool trackChanges)
+    public IQueryable<Category> GetAllCategories(bool trackChanges)
     {
-        return await _manager.Categories.GetAllCategories(trackChanges).ToListAsync();
+        return _manager.Categories.GetAllCategories(trackChanges);
     }
 }

@@ -27,9 +27,9 @@ public class SubjectController : Controller
     }
 
     [Authorize]
-    public async Task<IActionResult> Create()
+    public IActionResult Create()
     {
-        ViewBag.Categories = await GetCategoriesSelectList();
+        ViewBag.Categories = GetCategoriesSelectList();
         return View();
     }
     
@@ -57,7 +57,7 @@ public class SubjectController : Controller
             
         }
         
-        ViewBag.Categories = await GetCategoriesSelectList();
+        ViewBag.Categories = GetCategoriesSelectList();
         
         return View(model);
     }
@@ -65,16 +65,10 @@ public class SubjectController : Controller
    
     
 
-    private async Task<List<SelectListItem>> GetCategoriesSelectList()
+    private SelectList GetCategoriesSelectList()
     {
-        var categories = await _manager.CategoryService.GetAllCategories(false);
-        var selectListItems = categories.Select(c => new SelectListItem
-        {
-            Value = c.CategoryId.ToString(),
-            Text = c.CategoryName
-        }).ToList();
-    
-        return selectListItems;
+        return new SelectList(_manager.CategoryService.GetAllCategories(false)
+            , "CategoryId", "CategoryName", "1");
     }
 
     [HttpGet("/{url}")]
@@ -209,9 +203,6 @@ public class SubjectController : Controller
             model.isheart = isheart;
 
             // subject extras end
-            
-            
-            
         }
         
         return View(model);

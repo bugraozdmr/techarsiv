@@ -6,5 +6,5 @@ public interface ICategoryService
 {
     // create Subject lazım
     void CreateCategory(Category category);
-    Task<IEnumerable<Category>> GetAllCategories(bool trackChanges);
+    IQueryable<Category> GetAllCategories(bool trackChanges);
 }

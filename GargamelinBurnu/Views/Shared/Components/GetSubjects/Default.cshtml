@@ -1,0 +1,36 @@
+@model List<CategoryDescViewModel>
+
+<div class="row card mt-3 d-flex justify-content-center">
+    <div class="card-header">Konular</div>
+    <div class="card-body">
+        @foreach (var item in Model)
+        {
+            <div class="row mt-2">
+                <div class="col-3 mt-2">@item.CategoryName</div>
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-6">
+                            <div>Konular</div>
+                        </div>
+                        <div class="col-6">
+                            <div>Mesajlar</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div>&nbsp;&nbsp;&nbsp;&nbsp;@item.catSubCount</div>
+                        </div>
+                        <div class="col-6">
+                            <div>&nbsp;&nbsp;&nbsp;&nbsp;@item.catComCount</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-5">
+                    <div>@(item.LastSubjectName.Length > 30 ? item.LastSubjectName.Substring(0, 30) + "..." : item.LastSubjectName)</div>
+                    <div>@await Component.InvokeAsync("ShowTime",@item.LastCreatedAt) - @item.LastSubjectUser</div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
