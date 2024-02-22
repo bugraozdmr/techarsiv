@@ -110,16 +110,6 @@ public class SubjectController : Controller
                 UserName = s.User.UserName,
                 CreatedAt = s.User.CreatedAt,
                 UserCommentCount = s.User.Comments.Count,
-                Comments = s.Comments.Select(c => new CommentViewModel()
-                {
-                    CommentUserName = c.User.UserName,
-                    CommentId = c.CommentId,
-                    UserCommentCount = c.User.Comments.Count,
-                    CreatedAt = c.User.CreatedAt,
-                    CommentDate = c.CreatedAt,
-                    Content = c.Text,
-                    CommentUserId = c.User.Id
-                }).OrderBy(c => c.CommentDate).ToList()
             }).AsEnumerable()
             .FirstOrDefault(s => s.Subject.Url.Equals(topic.Url));
             
@@ -221,39 +211,7 @@ public class SubjectController : Controller
             // subject extras end
             
             
-            // comment extras start
             
-            foreach (var comment in model.Comments)
-            {
-                comment.likeCount = _manager
-                    .CommentLikeDService
-                    .CLikes
-                    .Where(l => l.CommentId.Equals(comment.CommentId)).Count();
-                comment.isLiked = _manager
-                        .CommentLikeDService
-                        .CLikes
-                        .FirstOrDefault(l => l.CommentId.Equals(comment.CommentId)
-                                             && l.UserId.Equals(comment.CommentUserId))
-                    is not null
-                    ? true
-                    : false;
-                
-                comment.dislikeCount = _manager
-                    .CommentLikeDService
-                    .CDislikes
-                    .Where(l => l.CommentId.Equals(comment.CommentId)).Count();
-                comment.isdisLiked = _manager
-                        .CommentLikeDService
-                        .CDislikes
-                        .FirstOrDefault(l => l.CommentId.Equals(comment.CommentId)
-                                             && l.UserId.Equals(comment.CommentUserId))
-                    is not null
-                    ? true
-                    : false;
-            }
-
-            
-            // comment extras end
         }
         
         return View(model);

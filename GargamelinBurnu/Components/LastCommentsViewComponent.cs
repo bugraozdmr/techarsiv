@@ -1,0 +1,38 @@
+using GargamelinBurnu.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Services.Contracts;
+
+namespace GargamelinBurnu.Components;
+
+public class LastCommentsViewComponent : ViewComponent
+{
+    private readonly IServiceManager _manager;
+
+    public LastCommentsViewComponent(IServiceManager manager)
+    {
+        _manager = manager;
+    }
+
+    public IViewComponentResult Invoke()
+    {
+        List<CommentCardViewModel> model = _manager
+            .CommentService
+            .getAllComments(false)
+            .Take(15)
+            .Include(c => c.User)
+            .Include(c => c.Subject)
+            .ThenInclude(s => s.Category)
+            .OrderByDescending(c => c.CreatedAt)
+            .Select(s => new CommentCardViewModel()
+            {
+                SubjectTitle = s.Subject.Title,
+                CreatedAt = s.CreatedAt,
+                Url = s.Subject.Url,
+                CategoryName = s.Subject.Category.CategoryName,
+                username = s.User.UserName
+            }).ToList();
+        
+        return View(model);
+    }
+}

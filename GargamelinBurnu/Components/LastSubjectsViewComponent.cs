@@ -5,34 +5,33 @@ using Services.Contracts;
 
 namespace GargamelinBurnu.Components;
 
-public class MostHeartViewComponent : ViewComponent
+public class LastSubjectsViewComponent : ViewComponent
 {
     private readonly IServiceManager _manager;
-    
 
-    public MostHeartViewComponent(IServiceManager manager)
+    public LastSubjectsViewComponent(IServiceManager manager)
     {
         _manager = manager;
     }
 
     public IViewComponentResult Invoke()
     {
-        List<MostHeartViewModel> model; 
-        model = _manager
+        List<SubjectCardViewModel> model = _manager
             .SubjectService
             .GetAllSubjects(false)
-            .Take(6)
+            .Take(15)
             .Include(s => s.User)
             .Include(s => s.Comments)
-            .OrderByDescending(s => s.HeartCount)
-            .Select(s => new MostHeartViewModel
+            .Include(s => s.Category)
+            .OrderByDescending(s => s.CreatedAt)
+            .Select(s => new SubjectCardViewModel
             {
-                owner = s.User.UserName,
+                Username = s.User.UserName,
                 Title = s.Title,
                 Url = s.Url,
                 CreatedAt = s.CreatedAt,
                 MessageCount = s.Comments.Count,
-                HeartCount = s.HeartCount
+                CategoryName = s.Category.CategoryName
             }).ToList();
         
         return View(model);

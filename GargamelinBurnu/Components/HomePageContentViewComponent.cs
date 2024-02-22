@@ -25,6 +25,7 @@ public class HomePageContentViewComponent : ViewComponent
             .SubjectService
             .GetAllSubjects(false)
             .OrderByDescending(s => s.CreatedAt)
+            .Take(15)
             .Include(s => s.Comments)
             .Include(s => s.User)
             .Include(s => s.Category)
