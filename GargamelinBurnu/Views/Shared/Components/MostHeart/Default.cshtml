@@ -1,0 +1,13 @@
+@model List<MostHeartViewModel>
+
+<div class="card-body">
+    @foreach (var item in Model)
+    {
+        <h5 class="card-title"><a asp-action="Details" asp-controller="Subject"
+                                  asp-route-url="@item.Url"
+                                  style="text-decoration: none">@item.Title</a></h5>
+        <p class="card-text">@item.owner - @await Component.InvokeAsync("ShowTime",@item.CreatedAt)
+            - Mesaj: @item.MessageCount - Kalp Sayısı: @item.HeartCount</p>
+    
+    }            
+</div>

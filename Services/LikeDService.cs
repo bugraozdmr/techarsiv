@@ -1,5 +1,4 @@
 using Entities.Models;
-using Microsoft.EntityFrameworkCore;
 using Repositories.EF;
 using Services.Contracts;
 
@@ -43,7 +42,19 @@ public class LikeDService : ILikeDService
         else
         {
             _context.SubjectLikes.Add(model);
+            // tek bir context çalışsın 2 kere save gereksiz
             _context.SaveChanges();
+            var subject = _context.Subjects
+                .Where(s => s.SubjectId == model.SubjectId)
+                .FirstOrDefault();
+
+            if (subject != null)
+            {
+                subject.LikeCount = _context.SubjectLikes
+                    .Count(s => s.SubjectId.Equals(subject.SubjectId));
+                _context.SaveChanges();
+            }
+            
         }
     }
 
@@ -54,7 +65,20 @@ public class LikeDService : ILikeDService
         if (subjectLike != null)
         {
             _context.SubjectLikes.Remove(subjectLike);
-            _context.SaveChanges(); // Değişiklikleri kaydet
+            
+            var subject = _context.Subjects
+                .Where(s => s.SubjectId == subjectId)
+                .FirstOrDefault();
+            _context.SaveChanges();
+            if (subject != null)
+            {
+                subject.LikeCount = _context.SubjectLikes
+                    .Count(s => s.SubjectId.Equals(subject.SubjectId));
+                _context.SaveChanges();
+            }
+            
+            
+
         }
 
     }
@@ -71,6 +95,18 @@ public class LikeDService : ILikeDService
         {
             _context.SubjectDislikes.Add(model);
             _context.SaveChanges();
+            var subject = _context.Subjects
+                .Where(s => s.SubjectId == model.SubjectId)
+                .FirstOrDefault();
+
+            if (subject != null)
+            {
+                subject.DislikeCount = _context.SubjectDislikes
+                    .Count(s => s.SubjectId.Equals(subject.SubjectId));
+                _context.SaveChanges();
+            }
+            
+            
         }
     }
 
@@ -81,7 +117,20 @@ public class LikeDService : ILikeDService
         if (subjectDisLike != null)
         {
             _context.SubjectDislikes.Remove(subjectDisLike);
+            
+            var subject = _context.Subjects
+                .Where(s => s.SubjectId == subjectId)
+                .FirstOrDefault();
             _context.SaveChanges();
+            if (subject != null)
+            {
+                subject.DislikeCount = _context.SubjectDislikes
+                    .Count(s => s.SubjectId.Equals(subject.SubjectId));
+                _context.SaveChanges();
+            }
+            
+            
+
         }
     }
 
@@ -94,7 +143,19 @@ public class LikeDService : ILikeDService
         else
         {
             _context.SubjectHearts.Add(model);
+            
+            var subject = _context.Subjects
+                .Where(s => s.SubjectId == model.SubjectId)
+                .FirstOrDefault();
+
             _context.SaveChanges();
+            if (subject != null)
+            {
+                subject.HeartCount = _context.SubjectHearts
+                    .Count(s => s.SubjectId.Equals(subject.SubjectId));
+                _context.SaveChanges();
+            }
+            
         }
     }
 
@@ -105,7 +166,21 @@ public class LikeDService : ILikeDService
         if (subjectHeart != null)
         {
             _context.SubjectHearts.Remove(subjectHeart);
+            
+            var subject = _context.Subjects
+                .Where(s => s.SubjectId == subjectId)
+                .FirstOrDefault();
+
             _context.SaveChanges();
+            if (subject != null)
+            {
+                subject.HeartCount = _context.SubjectHearts
+                    .Count(s => s.SubjectId.Equals(subject.SubjectId));
+                _context.SaveChanges();
+            }
+            
+            
+
         }
     }
 }

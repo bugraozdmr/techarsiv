@@ -8,13 +8,13 @@ namespace GargamelinBurnu.Components;
 public class CheckSubjectUserViewComponent : ViewComponent
 {
     private readonly UserManager<User> _userManager;
-    private readonly ISubjectService _subjectService;
+    private readonly IServiceManager _manager;
 
     public CheckSubjectUserViewComponent(UserManager<User> userManager, 
-        ISubjectService subjectService)
+        IServiceManager manager)
     {
         _userManager = userManager;
-        _subjectService = subjectService;
+        _manager = manager;
     }
 
     public string Invoke(int subjectId)
@@ -25,18 +25,21 @@ public class CheckSubjectUserViewComponent : ViewComponent
             .Select(s => new { UserId = s.Id })
             .FirstOrDefault();
 
-        var subject = _subjectService
-            .GetAllSubjects(false)
-            .Where(s => s.SubjectId.Equals(subjectId) && s.UserId.Equals(user.UserId))
-            .Select(s => new
-            {
-                SubjectId = s.SubjectId
-            })
-            .FirstOrDefault();
-
-        if (subject is not null)
+        if (user is not null)
         {
-            return "true";
+            var subject = _manager.SubjectService
+                .GetAllSubjects(false)
+                .Where(s => s.SubjectId.Equals(subjectId) && s.UserId.Equals(user.UserId))
+                .Select(s => new
+                {
+                    SubjectId = s.SubjectId
+                })
+                .FirstOrDefault();
+
+            if (subject is not null)
+            {
+                return "true";
+            }
         }
         
         return "false";

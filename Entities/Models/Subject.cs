@@ -27,4 +27,8 @@ public class Subject
     // comments ve tags eklenecek
 
     public List<SubjectLike> Likes { get; set; } = new List<SubjectLike>();
+
+    public int LikeCount { get; set; } = 0;
+    public int HeartCount { get; set; } = 0;
+    public int DislikeCount { get; set; } = 0;
 }
