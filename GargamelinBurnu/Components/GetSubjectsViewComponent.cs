@@ -24,8 +24,8 @@ public class GetSubjectsViewComponent : ViewComponent
             .Select(s => new CategoryDescViewModel()
             {
                 CategoryName = s.CategoryName,
-                CategoryDesc = s.Description,
-                CategoryId = s.CategoryId
+                CategoryId = s.CategoryId,
+                Icon = s.Icon
             }).ToList();
 
         foreach (var category in model)

@@ -13,8 +13,8 @@ public class CategoryConfig :  IEntityTypeConfiguration<Category>
         
         
         builder.HasData(
-            new Category() { CategoryId = 1, CategoryName = "Teknoloji" ,Description = "Teknoloji ile ilgili olan konular."},
-            new Category() { CategoryId = 2, CategoryName = "Günlük yaşam" ,Description = "Günlük hayatta popüler olmuş ya da direkt günlük hayatla ilişkili konular."}
+            new Category() { CategoryId = 1, CategoryName = "Teknoloji" ,Description = "Teknoloji ile ilgili olan konular.",Icon = "fa fa-desktop"},
+            new Category() { CategoryId = 2, CategoryName = "Günlük yaşam" ,Description = "Günlük hayatta popüler olmuş ya da direkt günlük hayatla ilişkili konular.",Icon = "fa fa-newspaper-o"}
         );
     }
 }

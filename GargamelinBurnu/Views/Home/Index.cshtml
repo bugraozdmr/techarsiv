@@ -67,18 +67,24 @@
             <div class="card-header">En çok kalplenen konular</div>
             @await Component.InvokeAsync("MostHeart")
         </div>
-        <!-- Most liked widget-->
-        <div class="card mb-4">
-            <div class="card-header">En çok beğenilen konular</div>
-            En çok beğenilen konular
-        </div>
-        
-        <!-- Online count widget-->
+        <!-- Online count widget -->
         <div class="card mb-4">
             <div class="card-header">Aktif Kullanıcı Sayısı</div>
-            <div class="card-body"><span id="usersOnline"></span></div>
+            <div class="card-body"><span id="usersOnline">0</span></div>
         </div>
-        
+        <!-- Social Medias widget-->
+        <div class="card mb-4">
+            <div class="card-header">Sosyal medya hesapları</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 justify-content-between text-center">
+                        <a href="#"><i class="fa fa-youtube mx-1" style="font-size:48px;color:red"></i></a>
+                        <a href="#"><i class="fa fa-github mx-1" style="font-size:48px;color:black"></i></a>
+                        <a href="#"><i class="fa fa-instagram mx-1" style="font-size:48px;color:orange"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

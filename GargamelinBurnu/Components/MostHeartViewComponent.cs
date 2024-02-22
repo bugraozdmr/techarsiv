@@ -21,10 +21,10 @@ public class MostHeartViewComponent : ViewComponent
         model = _manager
             .SubjectService
             .GetAllSubjects(false)
-            .Take(6)
             .Include(s => s.User)
             .Include(s => s.Comments)
             .OrderByDescending(s => s.HeartCount)
+            .Take(6)
             .Select(s => new MostHeartViewModel
             {
                 owner = s.User.UserName,

@@ -19,11 +19,11 @@ public class LastSubjectsViewComponent : ViewComponent
         List<SubjectCardViewModel> model = _manager
             .SubjectService
             .GetAllSubjects(false)
-            .Take(15)
             .Include(s => s.User)
             .Include(s => s.Comments)
             .Include(s => s.Category)
             .OrderByDescending(s => s.CreatedAt)
+            .Take(15)
             .Select(s => new SubjectCardViewModel
             {
                 Username = s.User.UserName,

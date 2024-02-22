@@ -106,33 +106,10 @@ public class SubjectController : Controller
                 UserCommentCount = s.User.Comments.Count,
             }).AsEnumerable()
             .FirstOrDefault(s => s.Subject.Url.Equals(topic.Url));
-            
-        // !take değeri fazla değer almaya çalışırsa patlar
         
-        UserSubjectLdhViewModel model2 = new UserSubjectLdhViewModel()
-        {
-            LikedUsers = _manager
-                .LikeDService
-                .Likes
-                .Where(s => s.SubjectId.Equals(model.Subject.SubjectId))
-                .Select(like => _userManager.Users.FirstOrDefault(u => u.Id == like.UserId).UserName)
-                .ToList(),
-            disLikedUsers = _manager
-                .LikeDService
-                .Dislikes
-                
-                .Where(s => s.SubjectId.Equals(model.Subject.SubjectId))
-                .Select(l => _userManager.Users.FirstOrDefault(u => u.Id == l.UserId).UserName)
-                .ToList(),
-            HeartUsers = _manager
-                .LikeDService
-                .Hearts
-                .Where(s => s.SubjectId.Equals(model.Subject.SubjectId))
-                .Select(l => _userManager.Users.FirstOrDefault(u => u.Id == l.UserId).UserName)
-                .ToList()
-        };
-
-        model.UserSubjectLdh = model2;
+        
+        
+        
         
         
         // taking user
@@ -271,7 +248,10 @@ public class SubjectController : Controller
                 success = -1
             });
         }
-
+        
+        
+        
+        // continue
         var searched = _manager.LikeDService.Likes.FirstOrDefault(s => s.UserId.Equals(user.UserId) && s.SubjectId.Equals(SubjectId));
 
         if (searched is null)
@@ -317,12 +297,12 @@ public class SubjectController : Controller
                     .LikeDService
                     .Dislikes
                     .Where(l => l.SubjectId.Equals(SubjectId)).Count()
+
             });
         }
         else
         {
             return likeSubjectRemove(SubjectId, user.UserId);
-            
         }
     }
 
@@ -330,7 +310,8 @@ public class SubjectController : Controller
     public IActionResult likeSubjectRemove(int SubjectId,string UserId)
     {
         _manager.LikeDService.LikeRemove(SubjectId, UserId);
-
+        
+        
         return Json(new
         {
             success = 2,
@@ -346,6 +327,7 @@ public class SubjectController : Controller
                 .LikeDService
                 .Dislikes
                 .Where(l => l.SubjectId.Equals(SubjectId)).Count()
+
         });
     }
     
@@ -396,6 +378,10 @@ public class SubjectController : Controller
                 });
             }
             
+            
+            
+            
+            
             return Json(new
             {
                 success = 1,
@@ -411,6 +397,7 @@ public class SubjectController : Controller
                     .LikeDService
                     .Dislikes
                     .Where(l => l.SubjectId.Equals(SubjectId)).Count()
+
             });
         }
         else
@@ -424,6 +411,8 @@ public class SubjectController : Controller
     {
         _manager.LikeDService.disLikeRemove(SubjectId, UserId);
 
+        
+            
         return Json(new
         {
             success = 2,
@@ -439,6 +428,7 @@ public class SubjectController : Controller
                 .LikeDService
                 .Dislikes
                 .Where(l => l.SubjectId.Equals(SubjectId)).Count()
+
         });
     }
     
@@ -490,6 +480,8 @@ public class SubjectController : Controller
                 });
             }
             
+            
+            
             return Json(new
             {
                 success = 1,
@@ -505,6 +497,7 @@ public class SubjectController : Controller
                     .LikeDService
                     .Dislikes
                     .Where(l => l.SubjectId.Equals(SubjectId)).Count()
+
             });
         }
         else
@@ -519,6 +512,8 @@ public class SubjectController : Controller
     {
         _manager.LikeDService.HeartRemove(SubjectId, UserId);
 
+        
+        
         return Json(new
         {
             success = 2,
@@ -534,6 +529,7 @@ public class SubjectController : Controller
                 .LikeDService
                 .Dislikes
                 .Where(l => l.SubjectId.Equals(SubjectId)).Count()
+
         });
     }
 }

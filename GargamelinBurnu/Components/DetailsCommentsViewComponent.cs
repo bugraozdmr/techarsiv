@@ -14,13 +14,15 @@ public class DetailsCommentsViewComponent : ViewComponent
         _manager = manager;
     }
 
-    public IViewComponentResult Invoke()
+    public IViewComponentResult Invoke(int subjectId)
     {
+        // Take'in yeri sonlarda olmalı yoksa önce alır sonra sorgular sorun çıkar
         List<CommentViewModel> model = _manager
             .CommentService
             .getAllComments(false)
+            .OrderBy(c => c.CreatedAt)
+            .Where(c => c.SubjectId.Equals(subjectId))
             .Take(10)
-            .OrderByDescending(c => c.CreatedAt)
             .Select(c => new CommentViewModel()
             {
                 CommentUserName = c.User.UserName,
@@ -33,37 +35,37 @@ public class DetailsCommentsViewComponent : ViewComponent
             }).ToList();
 
         // comment extras start
-            
-        foreach (var comment in model)
+        if (model is not null)
         {
-            comment.likeCount = _manager
-                .CommentLikeDService
-                .CLikes
-                .Where(l => l.CommentId.Equals(comment.CommentId)).Count();
-            comment.isLiked = _manager
+            foreach (var comment in model)
+            {
+                comment.likeCount = _manager
                     .CommentLikeDService
                     .CLikes
-                    .FirstOrDefault(l => l.CommentId.Equals(comment.CommentId)
-                                         && l.UserId.Equals(comment.CommentUserId))
-                is not null
-                ? true
-                : false;
-                
-            comment.dislikeCount = _manager
-                .CommentLikeDService
-                .CDislikes
-                .Where(l => l.CommentId.Equals(comment.CommentId)).Count();
-            comment.isdisLiked = _manager
+                    .Where(l => l.CommentId.Equals(comment.CommentId)).Count();
+                comment.isLiked = _manager
+                        .CommentLikeDService
+                        .CLikes
+                        .FirstOrDefault(l => l.CommentId.Equals(comment.CommentId)
+                                             && l.UserId.Equals(comment.CommentUserId))
+                    is not null
+                    ? true
+                    : false;
+            
+                comment.dislikeCount = _manager
                     .CommentLikeDService
                     .CDislikes
-                    .FirstOrDefault(l => l.CommentId.Equals(comment.CommentId)
-                                         && l.UserId.Equals(comment.CommentUserId))
-                is not null
-                ? true
-                : false;
+                    .Where(l => l.CommentId.Equals(comment.CommentId)).Count();
+                comment.isdisLiked = _manager
+                        .CommentLikeDService
+                        .CDislikes
+                        .FirstOrDefault(l => l.CommentId.Equals(comment.CommentId)
+                                             && l.UserId.Equals(comment.CommentUserId))
+                    is not null
+                    ? true
+                    : false;
+            }
         }
-
-            
         // comment extras end
         
         return View(model);

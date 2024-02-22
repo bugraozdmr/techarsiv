@@ -13,9 +13,4 @@ public class Comment
 
     public string UserId { get; set; }
     public User User { get; set; } = null!;
-    
-    
-    /*public List<User> likedUser { get; set; } = new List<User>();
-    
-    public List<User> dislikedUser { get; set; } = new List<User>();*/
 }

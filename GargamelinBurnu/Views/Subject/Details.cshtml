@@ -94,97 +94,18 @@
                             <!--<div class="p-2 cursor p-2">
                                 <i class="fa fa-comment"></i><span class="ml-1">Reply</span>
                             </div>-->
-                            <!--<div class="p-2 cursor p-2">
-                                <i class="fa fa-share"></i><span class="ml-1">Share</span>
-                            </div>-->
                         </div>
                     }
 
                     <div class="text-muted">@await Component.InvokeAsync("ShowTime", Model.Subject.CreatedAt)</div>
-                    
-                    @{
-                        int limitcount = 5;
-                        int totalcount = @Model.UserSubjectLdh.disLikedUsers.Count() 
-                                         + @Model.UserSubjectLdh.LikedUsers.Count()
-                                         + @Model.UserSubjectLdh.HeartUsers.Count();
-                    }
-                    
-                    <div class=" border p-3 mt-2 rounded-2">
-                        @Html.Raw((Model.likeCount != 0 ? "<i class=\"fa fa-thumbs-o-up text-primary\"></i>" : ""))
-                        @Html.Raw((Model.dislikeCount != 0 ? "<i class=\"fa fa-thumbs-o-down text-danger\"></i>" : ""))
-                        @Html.Raw((Model.heartCount != 0 ? "<i class=\"fa fa-heart text-warning\"></i>" : ""))
-                        @if (Model.UserSubjectLdh.LikedUsers.Count() != 0)
-                        {
-                            var countlike = Model.UserSubjectLdh.LikedUsers.Count();
-                            limitcount -= countlike; 
-                            if (countlike <= 5)
-                            {
-                                @string.Join(", ", Model.UserSubjectLdh.LikedUsers)
-                            }
-                            else
-                            {
-                                limitcount = 0;
-                                for (int i = 0; i < 5; i++)
-                                {
-                                    <text>@Model.UserSubjectLdh.LikedUsers[i]</text>
-                                    if (i < 4) { <text>, </text> }
-                                }  
-                            }
-                        }
-                        
-                        @if (Model.UserSubjectLdh.disLikedUsers.Count() != 0 && limitcount != 0)
-                        {
-                            if(limitcount != 5) {<text>, </text>}
-                            var countdislike = Model.UserSubjectLdh.disLikedUsers.Count();
-                            limitcount -= countdislike; 
-                            if (countdislike <= limitcount)
-                            {
-                                @string.Join(", ", Model.UserSubjectLdh.disLikedUsers)
-                            }
-                            else
-                            {
-                                for (int i = 0; i < limitcount; i++)
-                                {
-                                    <text>@Model.UserSubjectLdh.disLikedUsers[i]</text>
-                                    if (i < limitcount - 1) { <text>, </text> }
-
-                                }
-                            }
-                        }
-                        
-                        @if (Model.UserSubjectLdh.HeartUsers.Count() != 0 && limitcount != 0)
-                        {
-                            if(limitcount != 5) {<text>, </text>}
-                            var countheart = Model.UserSubjectLdh.HeartUsers.Count();
-                            limitcount -= countheart; 
-                            if (countheart <= limitcount)
-                            {
-                                @string.Join(", ", Model.UserSubjectLdh.HeartUsers)
-                            }
-                            else
-                            {
-                                for (int i = 0; i < limitcount; i++)
-                                {
-                                    <text>@Model.UserSubjectLdh.HeartUsers[i]</text>
-                                    if (i < limitcount - 1) { <text>, </text> }
-                                }
-                            }
-                        }
-                        
-                        @if (totalcount > 5)
-                        {
-                            <text> ve @(totalcount-limitcount) kişi daha ifade bıraktı</text>
-                        }
-                    </div>
-
+                    <!-- zaman kaybı 4 saat sildim -->
                 </div>
             </div>
 
             <hr class="mt-6"/>
             
-            
             <div id="comments">
-                @await Component.InvokeAsync("DetailsComments")
+                @await Component.InvokeAsync("DetailsComments",@Model.Subject.SubjectId)
             </div>
             
             <hr class="my-3"/>

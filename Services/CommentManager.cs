@@ -2,6 +2,7 @@ using AutoMapper;
 using Entities.Dtos.Comment;
 using Entities.Models;
 using Repositories.Contracts;
+using Repositories.EF;
 using Services.Contracts;
 
 namespace Services;
@@ -10,12 +11,14 @@ public class CommentManager : ICommentService
 {
     private readonly IRepositoryManager _manager;
     private readonly IMapper _mapper;
+    private readonly RepositoryContext _context;
     
     public CommentManager(IRepositoryManager manager
-        , IMapper mapper)
+        , IMapper mapper, RepositoryContext context)
     {
         _manager = manager;
         _mapper = mapper;
+        _context = context;
     }
 
     public IQueryable<Comment> getAllComments(bool trackChanges)
@@ -33,5 +36,6 @@ public class CommentManager : ICommentService
         
         // hata var ama biz geçiyoruz...
         await _manager.SaveAsync();
+        //_context.SaveChanges();
     }
 }

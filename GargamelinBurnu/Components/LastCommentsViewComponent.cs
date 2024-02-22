@@ -19,11 +19,11 @@ public class LastCommentsViewComponent : ViewComponent
         List<CommentCardViewModel> model = _manager
             .CommentService
             .getAllComments(false)
-            .Take(15)
             .Include(c => c.User)
             .Include(c => c.Subject)
             .ThenInclude(s => s.Category)
             .OrderByDescending(c => c.CreatedAt)
+            .Take(15)
             .Select(s => new CommentCardViewModel()
             {
                 SubjectTitle = s.Subject.Title,

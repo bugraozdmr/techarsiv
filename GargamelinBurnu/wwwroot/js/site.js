@@ -1,5 +1,6 @@
 ﻿var reqFunc = function(textValue,no)
 {
+    console.log(textValue,no)
     $("#spinner").show();
     
     if (no == undefined) {
@@ -13,7 +14,6 @@
     }
 
     var no = parseInt(no);
-
     
 
     if (typeof textValue !== "string") {
@@ -67,17 +67,6 @@
                         </div>
                     </div>
                     <div class="bg-white">
-                        <div class="d-flex flex-row fs-14">
-                            <div class="p-2 cursor p-2">
-                                <i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span>
-                            </div>
-                            <div class="p-2 cursor p-2">
-                                <i class="fa fa-comment"></i><span class="ml-1">Reply</span>
-                            </div>
-                            <div class="p-2 cursor p-2">
-                                <i class="fa fa-share"></i><span class="ml-1">Share</span>
-                            </div>
-                        </div>
                         <div class="text-muted">Hemen şimdi</div>
                     </div>
                 </div>
@@ -148,26 +137,26 @@ var ldhFunc = function (no,str){
                     SubjectId: no
                 },
                 success : function (ret){
-
                     $("#spinner").hide();
+                    
                     if (ret.success == -1){
                         $("#err").append('Bir hata oluştu');
-                        $("#like_icon").removeClass("text-danger");
+                        $("#like_icon").removeClass("text-primary");
                     }
+                    
 
-                    else if (ret.success == 1){
-                        $("#like_icon").addClass("text-danger");
+                    if (ret.success == 1){
                         $("#dislike_icon").removeClass("text-danger");
-                        $("#heart_icon").removeClass("text-danger");
+                        $("#heart_icon").removeClass("text-warning");
 
                         $("#heartcount").text(ret.heartcount);
                         $("#likecount").text(ret.likecount);
                         $("#dislikecount").text(ret.dislikecount);
                     }
                     else if (ret.success == 2){
-                        $("#like_icon").removeClass("text-danger");
+                        $("#like_icon").removeClass("text-primary");
                         $("#dislike_icon").removeClass("text-danger");
-                        $("#heart_icon").removeClass("text-danger");
+                        $("#heart_icon").removeClass("text-warning");
 
                         $("#heartcount").text(ret.heartcount);
                         $("#likecount").text(ret.likecount);
@@ -197,15 +186,21 @@ var ldhFunc = function (no,str){
                 success : function (ret){
 
                     $("#spinner").hide();
+                    
+
                     if (ret.success == -1){
                         $("#err").append('Bir hata oluştu');
                         $("#dislike_icon").removeClass("text-danger");
                     }
-
-                    else if (ret.success == 1){
+                    
+                   
+                    
+                    
+                    if (ret.success == 1){
+                        
                         $("#dislike_icon").addClass("text-danger");
-                        $("#like_icon").removeClass("text-danger");
-                        $("#heart_icon").removeClass("text-danger");
+                        $("#like_icon").removeClass("text-primary");
+                        $("#heart_icon").removeClass("text-warning");
 
                         $("#heartcount").text(ret.heartcount);
                         $("#likecount").text(ret.likecount);
@@ -213,8 +208,8 @@ var ldhFunc = function (no,str){
                     }
                     else if (ret.success == 2){
                         $("#dislike_icon").removeClass("text-danger");
-                        $("#like_icon").removeClass("text-danger");
-                        $("#heartcount").removeClass("text-danger");
+                        $("#like_icon").removeClass("text-primary");
+                        $("#heartcount").removeClass("text-warning");
 
                         $("#heartcount").text(ret.heartcount);
                         $("#likecount").text(ret.likecount);
@@ -246,12 +241,13 @@ var ldhFunc = function (no,str){
                     $("#spinner").hide();
                     if (ret.success == -1){
                         $("#err").append('Bir hata oluştu');
-                        $("#heart_icon").removeClass("text-danger");
+                        $("#heart_icon").removeClass("text-warning");
                     }
+                    
 
-                    else if (ret.success == 1){
-                        $("#heart_icon").addClass("text-danger");
-                        $("#like_icon").removeClass("text-danger");
+                    if (ret.success == 1){
+                        $("#heart_icon").addClass("text-warning");
+                        $("#like_icon").removeClass("text-primary");
                         $("#dislike_icon").removeClass("text-danger");
 
                         $("#heartcount").text(ret.heartcount);
@@ -259,8 +255,8 @@ var ldhFunc = function (no,str){
                         $("#dislikecount").text(ret.dislikecount);
                     }
                     else if (ret.success == 2){
-                        $("#heart_icon").removeClass("text-danger");
-                        $("#like_icon").removeClass("text-danger");
+                        $("#heart_icon").removeClass("text-warning");
+                        $("#like_icon").removeClass("text-primary");
                         $("#dislike_icon").removeClass("text-danger");
 
                         $("#heartcount").text(ret.heartcount);
@@ -321,15 +317,15 @@ var ComLDFunc = function(clickedId){
                 
                 if (ret.success == -1) {
                     $(`#err_${commentId}-400`).append('Bir hata oluştu');
-                    $(`#like_icon_${commentId}-445`).removeClass("text-danger");
+                    $(`#like_icon_${commentId}-445`).removeClass("text-primary");
                 } else if (ret.success == 1) {
-                    $(`#like_icon_${commentId}-445`).addClass("text-danger");
+                    $(`#like_icon_${commentId}-445`).addClass("text-primary");
                     $(`#dislike_icon_${commentId}-854`).removeClass("text-danger");
 
                     $(`#like_count_${commentId}-878`).text(ret.likecount);
                     $(`#dislike_count_${commentId}-143`).text(ret.dislikecount);
                 } else if (ret.success == 2) {
-                    $(`#like_icon_${commentId}-445`).removeClass("text-danger");
+                    $(`#like_icon_${commentId}-445`).removeClass("text-primary");
                     $(`#dislike_icon_${commentId}-854`).removeClass("text-danger");
 
                     $(`#like_count_${commentId}-878`).text(ret.likecount);
@@ -364,12 +360,12 @@ var ComLDFunc = function(clickedId){
                     $(`#dislike_icon_${commentId}-854`).removeClass("text-danger");
                 } else if (ret.success == 1) {
                     $(`#dislike_icon_${commentId}-854`).addClass("text-danger");
-                    $(`#like_icon_${commentId}-445`).removeClass("text-danger");
+                    $(`#like_icon_${commentId}-445`).removeClass("text-primary");
 
                     $(`#like_count_${commentId}-878`).text(ret.likecount);
                     $(`#dislike_count_${commentId}-143`).text(ret.dislikecount);
                 } else if (ret.success == 2) {
-                    $(`#like_icon_${commentId}-445`).removeClass("text-danger");
+                    $(`#like_icon_${commentId}-445`).removeClass("text-primary");
                     $(`#dislike_icon_${commentId}-854`).removeClass("text-danger");
 
                     $(`#like_count_${commentId}-878`).text(ret.likecount);
