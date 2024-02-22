@@ -1,3 +1,4 @@
+using GargamelinBurnu.Hubs;
 using GargamelinBurnu.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Services.ConfigureCookie();
 builder.Services.ConfigureEmailSender(builder.Configuration);
 builder.Services.ConfigureRepositoryRegistration();
 builder.Services.ConfigureServicesRegistration();
+builder.Services.AddSignalR();
 // automapper
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -45,5 +47,6 @@ app.UseEndpoints(endpoints =>
 });
 
 app.ConfigureDefaultAdminUser();
+app.MapHub<UsersOnlineHub>("/UsersOnlineHub");
 
 app.Run();

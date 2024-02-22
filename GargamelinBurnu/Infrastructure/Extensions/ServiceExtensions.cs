@@ -1,6 +1,7 @@
 using Entities.Models;
 using GargamelinBurnu.Infrastructure.Helpers;
 using GargamelinBurnu.Infrastructure.Helpers.Contracts;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
@@ -72,6 +73,7 @@ public static class ServiceExtensions
         services.AddScoped<ICommentService, CommentManager>();
         services.AddScoped<ILikeDService, LikeDService>();
         services.AddScoped<ICommentLikeDService, CommentLikeDService>();
+        
     }
 
 
@@ -86,4 +88,7 @@ public static class ServiceExtensions
             configuration["EmailSender:Password"]
         ));
     }
+
+
+    
 }
