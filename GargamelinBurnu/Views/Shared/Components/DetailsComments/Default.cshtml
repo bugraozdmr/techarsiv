@@ -14,36 +14,56 @@
             </div>
         </div>
         <div class="mt-3">
-            <p class="comment-text">@item.Content</p>
+            <p>@item.Content</p>
         </div>
     </div>
     <div class="bg-white">
-        <div class="d-flex flex-row fs-14">
-            <div class="p-2 cursor p-2">
-                <a 
-                    data-toggle="tooltip"
-                    data-popper-placement="top"
-                    title="Beğen"
-                    id="comment_@item.CommentId-325_like"><!-- carefull _like-->
-                    <i id="like_icon_@item.CommentId-445" class="fa fa-thumbs-o-up @(item.isLiked ? "text-danger" : "")"></i> 
+        @if (item.CommentUserName.Equals(User.Identity.Name))
+        {
+            <div class="d-flex flex-row fs-14">
+                <div class="p-2  p-2">
+                    <i class="fa fa-thumbs-o-up"></i>
                     <span id="like_count_@item.CommentId-878">@item.likeCount</span>
-
-                </a>
-                <br/>
-                <span class="text-danger" id="err_@item.CommentId-400"></span>
-            </div>
-            <div class="p-2 cursor p-2">
-                <a data-toggle="tooltip"
-                   data-popper-placement="top"
-                   title="Beğenme"
-                   id="comment_@item.CommentId-967_dislike">
-                    <i id="dislike_icon_@item.CommentId-854" class="fa fa-thumbs-o-down @(item.isdisLiked ? "text-danger" : "")"></i> 
+                    <br/>
+                    <span class="text-danger" id="err_@item.CommentId-400"></span>
+                </div>
+                <div class="p-2  p-2">
+                    <i class="fa fa-thumbs-o-down"></i> 
                     <span id="dislike_count_@item.CommentId-143">@item.dislikeCount</span>
-                </a>
-                <br/>
-                <span class="text-danger" id="err_@item.CommentId-400"></span>
+                    <br/>
+                    <span class="text-danger" id="err_@item.CommentId-400"></span>
+                </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <div class="d-flex flex-row fs-14">
+                <div class="p-2 cursor p-2">
+                    <a 
+                        data-toggle="tooltip"
+                        data-popper-placement="top"
+                        title="Beğen"
+                        id="comment_@item.CommentId-325_like"><!-- carefull _like-->
+                        <i id="like_icon_@item.CommentId-445" class="fa fa-thumbs-o-up @(item.isLiked ? "text-primary" : "")"></i> 
+                        <span id="like_count_@item.CommentId-878">@item.likeCount</span>
+
+                    </a>
+                    <br/>
+                    <span class="text-danger" id="err_@item.CommentId-400"></span>
+                </div>
+                <div class="p-2 cursor p-2">
+                    <a data-toggle="tooltip"
+                       data-popper-placement="top"
+                       title="Beğenme"
+                       id="comment_@item.CommentId-967_dislike">
+                        <i id="dislike_icon_@item.CommentId-854" class="fa fa-thumbs-o-down @(item.isdisLiked ? "text-danger" : "")"></i> 
+                        <span id="dislike_count_@item.CommentId-143">@item.dislikeCount</span>
+                    </a>
+                    <br/>
+                    <span class="text-danger" id="err_@item.CommentId-400"></span>
+                </div>
+            </div>
+        }
         <div class="text-muted">@await Component.InvokeAsync("ShowTime",item.CommentDate)</div>
     </div>
 </div>

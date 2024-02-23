@@ -7,7 +7,7 @@ public class CommentViewModel
     public Comment Comment { get; set; }
     public int CommentId { get; set; }
     public string CommentUserName { get; set; }
-    public string CommentUserId { get; set; }
+    public string Username { get; set; }
     
     public string Content { get; set; }
     public int UserCommentCount { get; set; }
@@ -20,8 +20,5 @@ public class CommentViewModel
     
     public int dislikeCount { get; set; }
     public bool isdisLiked { get; set; }
-    
-    public int heartCount { get; set; }
-    public bool isHeart { get; set; }
 
 }

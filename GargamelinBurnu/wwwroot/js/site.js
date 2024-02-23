@@ -237,7 +237,6 @@ var ldhFunc = function (no,str){
                     SubjectId: no
                 },
                 success : function (ret){
-
                     $("#spinner").hide();
                     if (ret.success == -1){
                         $("#err").append('Bir hata oluştu');

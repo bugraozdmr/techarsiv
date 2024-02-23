@@ -1,4 +1,6 @@
+using Entities.Models;
 using GargamelinBurnu.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Services.Contracts;
@@ -8,10 +10,13 @@ namespace GargamelinBurnu.Components;
 public class DetailsCommentsViewComponent : ViewComponent
 {
     private readonly IServiceManager _manager;
+    private readonly UserManager<User> _userManager;
 
-    public DetailsCommentsViewComponent(IServiceManager manager)
+    public DetailsCommentsViewComponent(IServiceManager manager,
+        UserManager<User> userManager)
     {
         _manager = manager;
+        _userManager = userManager;
     }
 
     public IViewComponentResult Invoke(int subjectId)
@@ -30,24 +35,30 @@ public class DetailsCommentsViewComponent : ViewComponent
                 UserCommentCount = c.User.Comments.Count,
                 CreatedAt = c.User.CreatedAt,
                 CommentDate = c.CreatedAt,
-                Content = c.Text,
-                CommentUserId = c.User.Id
+                Content = c.Text
             }).ToList();
+        
+        // userid
+        string userid = _userManager
+            .Users
+            .Where(u => u.UserName.Equals(User.Identity.Name))
+            .Select(u => u.Id)
+            .FirstOrDefault();
 
         // comment extras start
-        if (model is not null)
+        if (model is not null && userid is not null)
         {
             foreach (var comment in model)
             {
                 comment.likeCount = _manager
                     .CommentLikeDService
                     .CLikes
-                    .Where(l => l.CommentId.Equals(comment.CommentId)).Count();
+                    .Count(l => l.CommentId.Equals(comment.CommentId));
                 comment.isLiked = _manager
                         .CommentLikeDService
                         .CLikes
                         .FirstOrDefault(l => l.CommentId.Equals(comment.CommentId)
-                                             && l.UserId.Equals(comment.CommentUserId))
+                                             && l.UserId.Equals(userid))
                     is not null
                     ? true
                     : false;
@@ -55,12 +66,12 @@ public class DetailsCommentsViewComponent : ViewComponent
                 comment.dislikeCount = _manager
                     .CommentLikeDService
                     .CDislikes
-                    .Where(l => l.CommentId.Equals(comment.CommentId)).Count();
+                    .Count(l => l.CommentId.Equals(comment.CommentId));
                 comment.isdisLiked = _manager
                         .CommentLikeDService
                         .CDislikes
                         .FirstOrDefault(l => l.CommentId.Equals(comment.CommentId)
-                                             && l.UserId.Equals(comment.CommentUserId))
+                                             && l.UserId.Equals(userid))
                     is not null
                     ? true
                     : false;
