@@ -40,6 +40,12 @@ public class SubjectController : Controller
     {
         if (ModelState.IsValid)
         {
+            if (model.prefix.Length > 20)
+            {
+                ModelState.AddModelError("","Ön ek 20 karakterden uzun olamaz");
+                return View(model);
+            }
+            
             var user = await _userManager.FindByNameAsync(Name);
 
             if (user is not null)
@@ -79,112 +85,123 @@ public class SubjectController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        var topic = await _manager.SubjectService.getOneSubject(url, false);
-        
-        if (topic is null)
-        {
-            return NotFound();
-        }
-
+        // model started
         var model = new SubjectViewModel();
         
         
-        model = _manager
-            .SubjectService
-            .GetAllSubjects(false)
-            .Include(s => s.Category)
-            .Include(s => s.User)
-            .Include(s => s.Comments)   // çok yorar sunucuyu
-            .ThenInclude(c => c.User)
-            .Select(s => new SubjectViewModel()
-            {
-                Subject = s,
-                CommentCount = s.Comments.Count,
-                Category = s.Category,
-                UserName = s.User.UserName,
-                CreatedAt = s.User.CreatedAt,
-                UserCommentCount = s.User.Comments.Count,
-            }).AsEnumerable()
-            .FirstOrDefault(s => s.Subject.Url.Equals(topic.Url));
-        
-        
-        
-        
-        
-        
-        // taking user
-        var user = _userManager
-            .Users
-            .Where(s => s.UserName.Equals(User.Identity.Name))
-            .Select(s => new { UserName = s.UserName, UserId = s.Id })
-            .FirstOrDefault();
-
-        if (user is not null)
+        if (url == "son_mesajlar")
         {
-            var userId = user.UserId;
+            return RedirectToAction("LastComments", "Home");
+        }
+        else
+        {
+            var topic = await _manager.SubjectService.getOneSubject(url, false);
         
+            if (topic is null)
+            {
+                return NotFound();
+            }
             
-            // like count
-            int likecount = _manager
-                .LikeDService
-                .Likes
-                .Where(l => l.SubjectId.Equals(topic.SubjectId)).Count();
-            // like count
-            int dislikecount = _manager
-                .LikeDService
-                .Dislikes
-                .Where(l => l.SubjectId.Equals(topic.SubjectId)).Count();
-            // like count
-            int heartcount = _manager
-                .LikeDService
-                .Hearts
-                .Where(l => l.SubjectId.Equals(topic.SubjectId)).Count();
-        
-        
-        
-            // subject extras start
-        
-            bool isLiked = _manager
+            
+            
+            model = _manager
+                .SubjectService
+                .GetAllSubjects(false)
+                .Include(s => s.Category)
+                .Include(s => s.User)
+                .Include(s => s.Comments)   // çok yorar sunucuyu
+                .ThenInclude(c => c.User)
+                .Select(s => new SubjectViewModel()
+                {
+                    Subject = s,
+                    CommentCount = s.Comments.Count,
+                    Category = s.Category,
+                    UserName = s.User.UserName,
+                    CreatedAt = s.User.CreatedAt,
+                    UserCommentCount = s.User.Comments.Count,
+                }).AsEnumerable()
+                .FirstOrDefault(s => s.Subject.Url.Equals(topic.Url));
+            
+            
+            
+            
+            
+            
+            // taking user
+            var user = _userManager
+                .Users
+                .Where(s => s.UserName.Equals(User.Identity.Name))
+                .Select(s => new { UserName = s.UserName, UserId = s.Id })
+                .FirstOrDefault();
+
+            if (user is not null)
+            {
+                var userId = user.UserId;
+            
+                
+                // like count
+                int likecount = _manager
                     .LikeDService
                     .Likes
-                    .FirstOrDefault(l => l.SubjectId.Equals(topic.SubjectId)
-                                         && l.UserId.Equals(userId))
-                is not null
-                ? true
-                : false;
-            
-            bool isdisLiked = _manager
+                    .Where(l => l.SubjectId.Equals(topic.SubjectId)).Count();
+                // like count
+                int dislikecount = _manager
                     .LikeDService
                     .Dislikes
-                    .FirstOrDefault(l => l.SubjectId.Equals(topic.SubjectId)
-                                         && l.UserId.Equals(userId))
-                is not null
-                ? true
-                : false;
-            
-            bool isheart = _manager
+                    .Where(l => l.SubjectId.Equals(topic.SubjectId)).Count();
+                // like count
+                int heartcount = _manager
                     .LikeDService
                     .Hearts
-                    .FirstOrDefault(l => l.SubjectId.Equals(topic.SubjectId)
-                                         && l.UserId.Equals(userId))
-                is not null
-                ? true
-                : false;
-        
-            model.likeCount = likecount;
-            model.dislikeCount = dislikecount;
-            model.heartCount = heartcount;
-        
-            model.isLiked = isLiked;
-            model.isdisLiked = isdisLiked;
-            model.isheart = isheart;
+                    .Where(l => l.SubjectId.Equals(topic.SubjectId)).Count();
+            
+            
+            
+                // subject extras start
+            
+                bool isLiked = _manager
+                        .LikeDService
+                        .Likes
+                        .FirstOrDefault(l => l.SubjectId.Equals(topic.SubjectId)
+                                             && l.UserId.Equals(userId))
+                    is not null
+                    ? true
+                    : false;
+                
+                bool isdisLiked = _manager
+                        .LikeDService
+                        .Dislikes
+                        .FirstOrDefault(l => l.SubjectId.Equals(topic.SubjectId)
+                                             && l.UserId.Equals(userId))
+                    is not null
+                    ? true
+                    : false;
+                
+                bool isheart = _manager
+                        .LikeDService
+                        .Hearts
+                        .FirstOrDefault(l => l.SubjectId.Equals(topic.SubjectId)
+                                             && l.UserId.Equals(userId))
+                    is not null
+                    ? true
+                    : false;
+            
+                model.likeCount = likecount;
+                model.dislikeCount = dislikecount;
+                model.heartCount = heartcount;
+            
+                model.isLiked = isLiked;
+                model.isdisLiked = isdisLiked;
+                model.isheart = isheart;
 
-            // subject extras end
+                // subject extras end
+            }
         }
+        
         
         return View(model);
     }
-
+    
     [Authorize]
     public async Task<IActionResult> addComment(int SubjectId,string Text)
     {

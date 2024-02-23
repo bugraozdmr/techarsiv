@@ -1,5 +1,6 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model string
+@{
+    ViewData["Title"] = "Ana Sayfa";
 }
 
 @section Head
@@ -23,7 +24,7 @@
 }
 
 <div class="headings d-flex justify-content-between align-items-center mb-3">
-    <h5>Son eklenenler</h5>
+    <h5>@Model</h5>
            
     <div class="buttons">
         <span class="badge bg-white d-flex flex-row align-items-center">
@@ -32,7 +33,7 @@
                 {
                     <a asp-controller="Subject" asp-action="Create" class="btn btn-warning mx-2">Konu Oluştur</a>
                 }
-                <a href="" class="btn btn-primary">Son Mesajlar</a>
+                <a asp-action="LastComments" class="btn btn-primary">Son Mesajlar</a>
             </div>
         </span>
     </div>
@@ -41,7 +42,14 @@
 <div class="row">
     <div class="col-lg-8">
         <div class="row  d-flex justify-content-center">
-            @await Component.InvokeAsync("HomePageContent")
+            @if (Model.Equals("Son yorumlar"))
+            {
+                @await Component.InvokeAsync("LastCommentsContent")
+            }
+            else
+            {
+                @await Component.InvokeAsync("HomePageContent")
+            }
         </div>
         <!-- subjects -->
         @await Component.InvokeAsync("GetSubjects")
@@ -97,5 +105,11 @@
 
     <script type="text/javascript">
         Online();
+    </script>
+    
+    <script type="text/javascript">
+        $(document).ready(() => {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
     </script>
 }

@@ -20,7 +20,7 @@ public class HomePageContentViewComponent : ViewComponent
     public IViewComponentResult Invoke()
     {
         List<TitleViewModel> model;
-
+    
         model = _manager
             .SubjectService
             .GetAllSubjects(false)
@@ -37,7 +37,8 @@ public class HomePageContentViewComponent : ViewComponent
                 createdAt = s.CreatedAt,
                 SubjectId = s.SubjectId,
                 Url = s.Url,
-                CommentCount = s.Comments.Count
+                CommentCount = s.Comments.Count,
+                Content = s.Content
             }).ToList();
 
         foreach (var title in model)

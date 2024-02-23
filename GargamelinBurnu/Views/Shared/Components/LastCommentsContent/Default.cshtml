@@ -5,7 +5,7 @@
 
 @if (Model.Count().Equals(0) || Model is null)
 {
-    <div class="text-secondary">Gösterilecek konu bulunamadı</div>
+    <div class="text-secondary">Gösterilecek yorum bulunamadı</div>
 }
 else
 {
@@ -19,14 +19,14 @@ else
                         <b class="font-weight-bold text-dark"><a 
                                                                   data-toggle="tooltip"
                                                                   data-popper-placement="top"
-                                                                  title="@(item.Content.Length > 100 ? item.Content.Substring(0, 100) + "..." : item.Content)"
-                                                                
+                                                                  title="@(item.Content.Length > 30 ? item.Content.Substring(0, 30) + "..." : item.Content)"
                                                                   asp-action="Details"
-                                                                  asp-controller="Subject" 
-                                                                  asp-route-url="@item.Url" style="text-decoration: none!important;}">@item.Title</a></b>
+                                                                  asp-controller="Subject"
+                                                                  asp-route-url="@item.Url"
+                                                                  style="text-decoration: none!important;}">@item.Title</a></b>
                     </span>
                 </div>
-                <small>@item.CommentCount yorum</small>
+                <!--<small>@item.CommentCount yorum</small>-->
             </div>
 
             <div class="action d-flex justify-content-between mt-2 align-items-center">
@@ -37,13 +37,9 @@ else
                     <span class="dots"></span>
                     <small>@item.CategoryName</small>
                 </div>
-
-                <div class="icons align-items-center">
-                    <i class="fa fa-heart text-danger"></i>
-                    @item.HeartCount
-                </div>
             
             </div>
         </div>
     }
 }
+<!-- scriptler ana sayfada yazılır -->
