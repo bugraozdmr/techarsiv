@@ -1,6 +1,5 @@
 ﻿var reqFunc = function(textValue,no)
 {
-    console.log(textValue,no)
     $("#spinner").show();
     
     if (no == undefined) {
@@ -14,14 +13,16 @@
     }
 
     var no = parseInt(no);
-    
 
+    
     if (typeof textValue !== "string") {
         $("#spinner").hide();
         $("#DivError").append('Yorum değeri yanlış !'+
                                                               '<br>');
         return;
     }
+    
+    
     
 
     else if (textValue.trim() === ''){

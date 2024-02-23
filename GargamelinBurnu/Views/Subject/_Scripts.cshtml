@@ -1,6 +1,16 @@
-<script type="text/javascript">
-    $(document).ready(function() {$("#btnYorumKayit").click(function(e) {var textValue = $('#Text').val();var no = $('#SubjectId').val();reqFunc(textValue, no);});$("a[id^='subject_']").click(function(event) {var no = $('#SubjectId').val();var str = $(this).attr('id');ldhFunc(no,str)});return false;});//Sub
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js" integrity="sha512-VCEWnpOl7PIhbYMcb64pqGZYez41C2uws/M/mDdGPy+vtEJHd9BqbShE4/VNnnZdr7YCPOjd+CBmYca/7WWWCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    tinymce.init({
+        selector : '#Content'
+    });
 </script>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {$("#btnYorumKayit").click(function(e) {var textValue = tinymce.get('Content').getContent();;var no = $('#SubjectId').val();reqFunc(textValue, no);});$("a[id^='subject_']").click(function(event) {var no = $('#SubjectId').val();var str = $(this).attr('id');ldhFunc(no,str)});return false;});//Sub
+</script>
+
 
 
 

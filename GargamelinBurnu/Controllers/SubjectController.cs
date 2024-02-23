@@ -40,10 +40,13 @@ public class SubjectController : Controller
     {
         if (ModelState.IsValid)
         {
-            if (model.prefix.Length > 20)
+            if (model.prefix != null)
             {
-                ModelState.AddModelError("","Ön ek 20 karakterden uzun olamaz");
-                return View(model);
+                if (model.prefix.Length > 20)
+                {
+                    ModelState.AddModelError("","Ön ek 20 karakterden uzun olamaz");
+                    return View(model);
+                }
             }
             
             var user = await _userManager.FindByNameAsync(Name);

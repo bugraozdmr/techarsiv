@@ -1,0 +1,249 @@
+@model UserPageViewModel
+
+@{
+    ViewData["Title"] = Model.User.UserName;
+}
+
+@section Head
+{
+    <link rel="stylesheet" href="css/style4.css"></link>
+}
+
+
+<div class="row gutters-sm mt-4">
+    <div class="col-md-4 mb-3">
+        <div class="card-profile">
+            <div class="card-body-profile">
+                <div class="d-flex flex-column align-items-center">
+                    <div class="profile-img">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                        <div class="file btn btn-lg btn-primary">
+                            Change Photo
+                            <input type="file" class="form-control" name="file" >
+
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <h4 class="text-center">@Model.User.UserName</h4>
+                        @if (Model.User.Job is not null)
+                        {
+                            <p class="text-secondary mb-1 text-center">@Model.User.Job</p>
+                        }
+                        @if (Model.User.Place is not null)
+                        {
+                            <p class="text-secondary mb-1 text-center"><a href="https://www.google.com/maps/place/@Model.User.Place" target="_blank" style="text-decoration: none">
+                                @Model.User.Place
+                            </a></p>
+                        }
+                        @if (Model.User.About is not null)
+                        {
+                            <div class="card">
+                                <div class="card-body">
+                                    <p>@Model.User.About</p>
+                                </div>
+                            </div>
+                        }
+                        <!-- beklemede -->
+                    </div>
+                    @User.Identity.Name
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.Identity.Name.Equals(Model.User.UserName))
+                        {
+                            <button class="btn btn-outline-primary text-center mt-2">Düzenle</button>    
+                        }
+                        else
+                        {
+                            <button class="btn btn-outline-primary text-center mt-2">Takip Et</button>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="card-profile mt-3 text-center">
+            <ul class="list-group list-group-flush">
+                @if (Model.User.instagramUrl is not null)
+                {
+                    <h6 class="mb-0">
+                        <a href="@Model.User.githubUrl" style="text-decoration: none">
+                            <i class="fa fa-github" style="color:black;font-size: 24px"></i> Github
+                        </a>
+                    </h6>
+                    <hr/>
+                }
+                @if (Model.User.githubUrl is not null)
+                {
+                    <h6 class="mb-0">
+                        <a href="@Model.User.youtubeUrl" style="text-decoration: none">
+                            <i class="fa fa-youtube" style="color:red;font-size: 24px"></i> Youtube
+                        </a>
+                    </h6>
+                    <hr/>
+
+                }
+                @if (Model.User.githubUrl is not null)
+                {
+                    <h6 class="mb-0">
+                        <a href="@Model.User.githubUrl" style="text-decoration: none">
+                            <i class="fa fa-instagram" style="color:orange;font-size: 24px"></i> Github
+                        </a>
+                    </h6>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card-profile mb-3">
+            <div class="card-body-profile">
+                <!-- Statistic -->
+                <div class="card mt-2 mb-3">
+                    <div class="card-header">@Model.User.UserName istatislikeri</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-8">
+                                <ul class="list-unstyled mb-0">
+                                    <li>
+                                        Konu Sayısı
+                                    </li>
+                                    <li>
+                                        Mesaj Sayısı
+                                    </li>
+                                    <li>
+                                        Bıraktığı Beğeni Sayısı 
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-4">
+                                <ul class="list-unstyled mb-0">
+                                    <li>
+                                        @Model.SubjectCount
+                                    </li>
+                                    <li>
+                                        @Model.CommentCount
+                                    </li>
+                                    <li>
+                                        @Model.LikeCount
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- card end -->
+                
+                
+            </div>
+        </div>
+
+        
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Son konuları</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="subjects-tab" data-toggle="tab" href="#subjects" role="tab" aria-controls="subjects" aria-selected="false">Son konuları</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="comments-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false">Son yorumları</a>
+            </li>
+        </ul>
+    
+        <div class="tab-content profile-tab mt-2" id="myTabContent">
+            <div class="tab-pane fade mt-2" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+                @foreach (var item in Model.Comments)
+                {
+                    <a asp-action="Details" asp-controller="Subject" asp-route-url="@item.Url" target="_blank" style="text-decoration: none">@item.Title</a>
+                    <div>
+                        <small>@(item.Content.Length > 200 ? @item.Content.Substring(0, 200) + "..." : item.Content)</small>
+                    </div>
+                    <p>
+                        @item.Username -
+                        @await Component.InvokeAsync("ShowTime", @item.createdAt)
+                        - @item.CategoryName
+                    </p>
+                    <hr/>
+                }
+            </div>
+        
+            <div class="tab-pane fade mt-2 show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="row mt-4">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Tam Isim</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        @Model.User.FullName
+                    </div>
+                </div>
+                <hr>
+
+                @if (Model.User.signature is not null)
+                {
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Imza</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            @Model.User.signature
+                        </div>
+                    </div>
+                    <hr>
+                }
+
+                @if (Model.User.Gender is not null)
+                {
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Cinsiyet</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            @Model.User.Gender
+                        </div>
+                    </div>
+                    <hr>
+                }
+                @if (Model.User.Birthday is not null)
+                {
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Yaş</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            @Model.User.Birthday?.ToString("d") (Yaş: @(DateTime.Now.Year - Model.User.Birthday?.Year))
+                        </div>
+                    </div>
+                    <hr>
+                }
+            </div>
+            
+            <div class="tab-pane fade mt-2" id="subjects" role="tabpanel" aria-labelledby="subjects-tab">
+                @foreach (var item in Model.Subjects)
+                {
+                    <a asp-action="Details" asp-controller="Subject" asp-route-url="@item.Url" target="_blank" style="text-decoration: none">
+                        @(item.Title.Length > 100 ? @item.Title.Substring(0, 100) + "..." : item.Title)
+                    </a>
+                    <p>
+                        @item.Username -
+                        @await Component.InvokeAsync("ShowTime", @item.createdAt)
+                        - @item.CategoryName
+                    </p>
+                    <hr/>
+                }
+            </div>
+        </div>
+        
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function(){
+                $('.nav-tabs a').click(function(){
+                    $(this).tab('show');
+                });
+            });
+        </script>
+}

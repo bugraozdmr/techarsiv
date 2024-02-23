@@ -3,8 +3,10 @@ using Entities.Dtos;
 using Entities.Models;
 using GargamelinBurnu.Infrastructure.Helpers.Contracts;
 using GargamelinBurnu.Models;
+using GargamelinBurnu.Models.Userpage;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Services.Helpers;
 
 
 namespace GargamelinBurnu.Controllers;
