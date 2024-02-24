@@ -5,6 +5,7 @@ namespace Entities.Models;
 
 public class User : IdentityUser
 {
+    public string? Image { get; set; }
     public string? FullName { get; set; }
     public string? instagramUrl { get; set; }
     public string? githubUrl { get; set; }

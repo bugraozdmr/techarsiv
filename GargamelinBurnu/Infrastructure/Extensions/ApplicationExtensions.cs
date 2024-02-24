@@ -33,7 +33,9 @@ public static class ApplicationExtensions
                 FullName = "Grant Wick",
                 Email = "bugra.ozdemir@gmail.com",
                 UserName = adminUser,
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now,
+                EmailConfirmed = true,
+                Image = "/user/images/avatar_1"
             };
 
             var result = await userManager.CreateAsync(user, adminPassword);

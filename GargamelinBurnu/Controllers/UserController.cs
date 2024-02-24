@@ -1,10 +1,13 @@
 using Entities.Models;
 using GargamelinBurnu.Models;
 using GargamelinBurnu.Models.Userpage;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Services.Contracts;
+using Services.Helpers;
+
 
 namespace GargamelinBurnu.Controllers;
 
@@ -31,6 +34,11 @@ public class UserController : Controller
             .Where(u => u.UserName.Equals(username))
             .FirstOrDefault();
 
+        if (user is null)
+        {
+            return NotFound();
+        }
+        
         model.User = user;
 
         // likecount
@@ -82,15 +90,109 @@ public class UserController : Controller
             .Include(s => s.Comments)
             .Include(s => s.Category)
             .Where(s => s.UserId.Equals(user.Id))
+            .OrderByDescending(s => s.CreatedAt)
             .Select(s => new TitleViewModel()
             {
                 Title = s.Title,
                 Username = s.User.UserName,
                 createdAt = s.CreatedAt,
                 CommentCount = s.Comments.Count(),
-                CategoryName = s.Category.CategoryName
+                CategoryName = s.Category.CategoryName,
+                Url = s.Url
             }).ToList();
         
         return View(model);
+    }
+
+    [Authorize]
+    [HttpPost("/biri/{username}")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UploadImage(string username,IFormFile file)
+    {
+        if (username is null)
+        {
+            return NotFound();
+        }
+
+        if (!username.Equals(User.Identity.Name))
+        {
+            return Unauthorized();
+        }
+        
+        // controls
+        if (file is null)
+        {
+            TempData["profile_message"] = "resim boş olamaz";
+            return Redirect($"/biri/{username}");
+        }
+        
+        var user = _userManager.Users.Where(s => s.UserName.Equals(username)).FirstOrDefault();
+
+        if (user is null)
+        {
+            TempData["profile_message"] = "bir şeyler ters gitti";
+            return Redirect($"/biri/{username}");
+        }
+        
+        
+        // file
+        var uzanti = Path.GetExtension(file.FileName);
+
+        if (uzanti != ".jpg" && uzanti != ".png")
+        {
+            TempData["profile_message"] = "sadece .jpg ve .png uzantılı dosyalar yüklenebilir";
+            return Redirect($"/biri/{username}");
+        }
+
+        var maxFileLength = 1 * 1024 * 1024;
+
+        if (file.Length > maxFileLength)
+        {
+            TempData["profile_message"] = "Dosya 1 MB'dan büyük olamaz";
+            return Redirect($"/biri/{username}");
+        }
+        
+        
+        var name_without_extension = Path.GetFileNameWithoutExtension(file.FileName);
+            
+        var name = 
+            $"{SlugModifier.RemoveNonAlphanumericAndSpecialChars(SlugModifier.ReplaceTurkishCharacters(name_without_extension.Replace(' ', '-').ToLower()))}"+$"-{SlugModifier.GenerateUniqueHash()}";;
+             
+        var filename = name + uzanti;
+            
+        // file operation
+        string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images/user", filename);
+        
+        // garbage collector hemen çalışsın bitsin
+        using (var stream = new FileStream(path, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+
+            string yol = $"/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/wwwroot{user.Image}";
+            
+            if (System.IO.File.Exists(yol) && !yol.Contains("/samples/"))
+            {
+                System.IO.File.Delete(yol);
+            }
+        }
+        
+        
+        
+
+        
+        
+        // user -- önceki resim silinsin / done
+        user.Image = String.Concat("/images/user/", filename);
+
+        var result = await _userManager.UpdateAsync(user);
+
+        if (!result.Succeeded)
+        {
+            TempData["profile_message"] = "bir şeyler ters gitti";
+            return Redirect($"/biri/{username}");
+        }
+        
+
+        return Redirect($"/biri/{username}");
     }
 }

@@ -15,14 +15,27 @@
         <div class="card-profile">
             <div class="card-body-profile">
                 <div class="d-flex flex-column align-items-center">
-                    <div class="profile-img">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
-                        <div class="file btn btn-lg btn-primary">
-                            Change Photo
-                            <input type="file" class="form-control" name="file" >
-
-                        </div>
+                    <div class="text-center">
+                        @if (TempData["profile_message"] != null)
+                        {
+                            <div class="text-warning">
+                                @TempData["profile_message"]
+                            </div>
+                        }
+                        <img src="@Model.User.Image" alt="Admin" class="rounded-circle" style="width: 150px;height: 150px">
+                        @if (User.Identity.Name.Equals(Model.User.UserName))
+                        {
+                            <form asp-action="UploadImage" asp-route-username="@Model.User.UserName" method="post" enctype="multipart/form-data">
+                                <div>
+                                    <label class="form-label">Resim seç</label>
+                                    <input id="formFileSm" class="form-control form-control-sm" name="file" type="file" onchange="showButton()"/>
+                                    <button id="submitButton" class="btn btn-outline-success mt-1" type="submit" style="display: none">Yükle</button>
+                                </div>
+                            </form>
+                        }
                     </div>
+                    
+                    
                     <div class="mt-3">
                         <h4 class="text-center">@Model.User.UserName</h4>
                         @if (Model.User.Job is not null)
@@ -62,30 +75,30 @@
         </div>
         <div class="card-profile mt-3 text-center">
             <ul class="list-group list-group-flush">
-                @if (Model.User.instagramUrl is not null)
+                @if (Model.User.instagramUrl is not null && Model.User.instagramUrl.ToLower().Contains("instagram"))
                 {
-                    <h6 class="mb-0">
+                    <h6 class="mb-0 mt-2">
+                        <a href="@Model.User.instagramUrl" style="text-decoration: none">
+                            <i class="fa fa-instagram" style="color:orange;font-size: 24px"></i> Instagram
+                        </a>
+                    </h6>
+                    <hr/>
+                }
+                @if (Model.User.githubUrl is not null && Model.User.githubUrl.ToLower().Contains("github"))
+                {
+                    <h6 class="mb-0 mt-2">
                         <a href="@Model.User.githubUrl" style="text-decoration: none">
                             <i class="fa fa-github" style="color:black;font-size: 24px"></i> Github
                         </a>
                     </h6>
                     <hr/>
-                }
-                @if (Model.User.githubUrl is not null)
-                {
-                    <h6 class="mb-0">
-                        <a href="@Model.User.youtubeUrl" style="text-decoration: none">
-                            <i class="fa fa-youtube" style="color:red;font-size: 24px"></i> Youtube
-                        </a>
-                    </h6>
-                    <hr/>
 
                 }
-                @if (Model.User.githubUrl is not null)
+                @if (Model.User.youtubeUrl is not null && Model.User.youtubeUrl.ToLower().Contains("youtube"))
                 {
-                    <h6 class="mb-0">
-                        <a href="@Model.User.githubUrl" style="text-decoration: none">
-                            <i class="fa fa-instagram" style="color:orange;font-size: 24px"></i> Github
+                    <h6 class="mb-0 mt-2">
+                        <a href="@Model.User.youtubeUrl" style="text-decoration: none">
+                            <i class="fa fa-youtube" style="color:red;font-size: 24px"></i> Youtube
                         </a>
                     </h6>
                 }
@@ -139,7 +152,7 @@
         
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Son konuları</a>
+                <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Hakkında</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="subjects-tab" data-toggle="tab" href="#subjects" role="tab" aria-controls="subjects" aria-selected="false">Son konuları</a>
@@ -150,23 +163,30 @@
         </ul>
     
         <div class="tab-content profile-tab mt-2" id="myTabContent">
-            <div class="tab-pane fade mt-2" id="comments" role="tabpanel" aria-labelledby="comments-tab">
-                @foreach (var item in Model.Comments)
+            <div class="tab-pane fade mt-2 mx-1" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+                @if (Model.Comments.Count != 0 && Model.Comments.Count != null)
                 {
-                    <a asp-action="Details" asp-controller="Subject" asp-route-url="@item.Url" target="_blank" style="text-decoration: none">@item.Title</a>
-                    <div>
-                        <small>@(item.Content.Length > 200 ? @item.Content.Substring(0, 200) + "..." : item.Content)</small>
-                    </div>
-                    <p>
-                        @item.Username -
-                        @await Component.InvokeAsync("ShowTime", @item.createdAt)
-                        - @item.CategoryName
-                    </p>
-                    <hr/>
+                    @foreach (var item in Model.Comments)
+                    {
+                        <a asp-action="Details" asp-controller="Subject" asp-route-url="@item.Url" target="_blank" style="text-decoration: none">@item.Title</a>
+                        <div>
+                            <small>@Html.Raw((item.Content.Length > 200 ? @item.Content.Substring(0, 200) + "..." : item.Content))</small>
+                        </div>
+                        <p>
+                            @item.Username -
+                            @await Component.InvokeAsync("ShowTime", @item.createdAt)
+                            - @item.CategoryName
+                        </p>
+                        <hr/>
+                    }
+                }
+                else
+                {
+                    <p>Son yorum yok</p>
                 }
             </div>
         
-            <div class="tab-pane fade mt-2 show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="tab-pane fade mt-2 show active mx-1" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="row mt-4">
                     <div class="col-sm-3">
                         <h6 class="mb-0">Tam Isim</h6>
@@ -176,6 +196,16 @@
                     </div>
                 </div>
                 <hr>
+                <div class="row mt-4">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Katılma Tarihi</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        @Model.User.CreatedAt.ToString("d")
+                    </div>
+                </div>
+                <hr>
+                
 
                 @if (Model.User.signature is not null)
                 {
@@ -216,18 +246,25 @@
                 }
             </div>
             
-            <div class="tab-pane fade mt-2" id="subjects" role="tabpanel" aria-labelledby="subjects-tab">
-                @foreach (var item in Model.Subjects)
+            <div class="tab-pane fade mt-2 mx-1" id="subjects" role="tabpanel" aria-labelledby="subjects-tab">
+                @if (Model.Subjects.Count != 0 && Model.Subjects.Count != null)
                 {
-                    <a asp-action="Details" asp-controller="Subject" asp-route-url="@item.Url" target="_blank" style="text-decoration: none">
-                        @(item.Title.Length > 100 ? @item.Title.Substring(0, 100) + "..." : item.Title)
-                    </a>
-                    <p>
-                        @item.Username -
-                        @await Component.InvokeAsync("ShowTime", @item.createdAt)
-                        - @item.CategoryName
-                    </p>
-                    <hr/>
+                    @foreach (var item in Model.Subjects)
+                    {
+                        <a asp-action="Details" asp-controller="Subject" asp-route-url="@item.Url" target="_blank" style="text-decoration: none">
+                            @(item.Title.Length > 100 ? @item.Title.Substring(0, 100) + "..." : item.Title)
+                        </a>
+                        <p>
+                            @item.Username -
+                            @await Component.InvokeAsync("ShowTime", @item.createdAt)
+                            - @item.CategoryName
+                        </p>
+                        <hr/>
+                    }
+                }
+                else
+                {
+                    <p>Son konu yok</p>
                 }
             </div>
         </div>
@@ -246,4 +283,19 @@
                 });
             });
         </script>
+    
+    <script type="text/javascript">
+
+    function showButton() {
+            var fileInput = document.getElementById('formFileSm');
+            var submitButton = document.getElementById('submitButton');
+            
+            
+            if (fileInput.files.length > 0) {
+                submitButton.style.display = 'block';
+            } else {
+                submitButton.style.display = 'none';
+            }
+        }
+    </script>
 }

@@ -7,7 +7,7 @@ public static class SlugModifier
         string guid = Guid.NewGuid().ToString("N");
 
         
-        int length = 3;
+        int length = 4;
         if (guid.Length < length)
         {
             length = guid.Length;

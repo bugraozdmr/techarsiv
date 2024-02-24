@@ -130,6 +130,11 @@ public class AccountController : Controller
                 CreatedAt = DateTime.UtcNow
             };
             
+            Random rnd = new Random();
+            int randomSayi = rnd.Next(1, 11);
+
+            user.Image = $"/images/user/samples/avatar_{randomSayi}.jpg";
+            
             var result = await _userManager.CreateAsync(user, model.Password);
             
             if (result.Succeeded)
