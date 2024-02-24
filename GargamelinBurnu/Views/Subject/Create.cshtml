@@ -47,6 +47,10 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="form_message">
+                                                @if (TempData["create_message"] is not null)
+                                                {
+                                                    <p class="text-warning">@TempData["create_message"]</p>
+                                                }
                                                 Konu *
                                                 <i class="fa fa-question text-warning"
                                                    data-toggle="tooltip"

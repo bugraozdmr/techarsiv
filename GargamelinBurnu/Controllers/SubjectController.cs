@@ -9,7 +9,7 @@ using Services.Contracts;
 
 using GargamelinBurnu.Models;
 using Microsoft.AspNetCore.Authorization;
-
+using Services.Helpers;
 
 
 namespace GargamelinBurnu.Controllers;
@@ -74,19 +74,42 @@ public class SubjectController : Controller
     }
 
 
-    [HttpPost]  //düzenlencek
-    public IActionResult UploadImage(List<IFormFile> files)
+    [HttpPost]
+    public async Task<IActionResult> UploadImage(List<IFormFile> files)
     {
         var filepath = "";
         foreach (IFormFile photo in Request.Form.Files)
         {
-            string serverMapPath = Path.Combine(_env.WebRootPath, "images/subjects", photo.FileName);
+            var uzanti = Path.GetExtension(photo.FileName);
+            if (uzanti != ".jpg" && uzanti != ".png")
+            {
+                TempData["create_message"] = "sadece .jpg ve .png uzantılı dosyalar yüklenebilir";
+                return Json(new { Url = "fail" });
+            }
+            
+            var maxFileLength = 1 * 1024 * 1024;
+
+            if (photo.Length > maxFileLength)
+            {
+                TempData["create_message"] = "Dosya 1 MB'dan büyük olamaz";
+                return Json(new { Url = "fail" });
+            }
+            
+            var name_without_extension = Path.GetFileNameWithoutExtension(photo.FileName);
+            
+            var name = 
+                $"{SlugModifier.RemoveNonAlphanumericAndSpecialChars(SlugModifier.ReplaceTurkishCharacters(name_without_extension.Replace(' ', '-').ToLower()))}"+$"-{SlugModifier.GenerateUniqueHash()}";;
+             
+            var filename = name + uzanti;
+            
+            
+            string serverMapPath = Path.Combine(_env.WebRootPath, "images/subjects", filename);
             using (var stream = new FileStream(serverMapPath,FileMode.Create))
             {
-                photo.CopyTo(stream);
+                await photo.CopyToAsync(stream);
             }
 
-            filepath = "https://localhost:7056/" + "images/subjects/" + photo.FileName;
+            filepath = "https://localhost:7056/" + "images/subjects/" + filename;
         }
 
         return Json(new { Url = filepath });
