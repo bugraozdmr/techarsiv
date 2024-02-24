@@ -6,8 +6,15 @@
         <h5 class="card-title"><a asp-action="Details" asp-controller="Subject"
                                   asp-route-url="@item.Url"
                                   style="text-decoration: none">@item.Title</a></h5>
-        <p class="card-text">@item.owner - @await Component.InvokeAsync("ShowTime",@item.CreatedAt)
-            - Mesaj: @item.MessageCount - Kalp Sayısı: @item.HeartCount</p>
+        <p class="card-text">
+            <img src="@item.OwnerImage" class="rounded mb-1" style="width: 20px;height: 20px"/>
+            <a asp-controller="User" asp-action="Index" asp-route-username="@item.owner"
+               style="text-decoration: none;color: gray">
+                @item.owner
+            </a>
+             - @await Component.InvokeAsync("ShowTime", @item.CreatedAt)
+            - Mesaj: @item.MessageCount - Kalp Sayısı: @item.HeartCount
+        </p>
     
     }            
 </div>

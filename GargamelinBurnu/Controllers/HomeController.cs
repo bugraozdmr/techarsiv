@@ -10,12 +10,12 @@ public class HomeController : Controller
     [HttpGet("/")]
     public IActionResult Index(string? section)
     {
-        section = section ?? "son eklenenler";
+        section = section ?? "son_eklenenler";
         return View("Index",section);
     }
     
     public IActionResult LastComments()
     {
-        return RedirectToAction("Index", new { section = "Son yorumlar" });
+        return RedirectToAction("Index", new { section = "son_yorumlar" });
     }
 }

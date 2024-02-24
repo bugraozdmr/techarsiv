@@ -13,25 +13,41 @@
                 <div class="col-4">
                     <div class="row">
                         <div class="col-6">
-                            <div>Konular</div>
+                            <div>Konu</div>
                         </div>
                         <div class="col-6">
-                            <div>Mesajlar</div>
+                            <div>Mesaj</div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <div>&nbsp;&nbsp;&nbsp;&nbsp;@item.catSubCount</div>
+                            <div>&nbsp;&nbsp;&nbsp;@item.catSubCount</div>
                         </div>
                         <div class="col-6">
-                            <div>&nbsp;&nbsp;&nbsp;&nbsp;@item.catComCount</div>
+                            <div>&nbsp;&nbsp;&nbsp;@item.catComCount</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-5">
-                    <div>@(item.LastSubjectName.Length > 30 ? item.LastSubjectName.Substring(0, 30) + "..." : item.LastSubjectName)</div>
-                    <div>@await Component.InvokeAsync("ShowTime",@item.LastCreatedAt) - @item.LastSubjectUser</div>
+                    @if (item.LastSubjectName is null || item.LastSubjectName == "")
+                    {
+                        <p class="mt-2">Şu anlık burası boş gibi</p>
+                    }
+                    else
+                    {
+                        <div>
+                            <a asp-controller="Subject" asp-action="Details" asp-route-url="@item.LastSubjectUrl"
+                               style="text-decoration: none">
+                                @(item.LastSubjectName.Length > 30 ? item.LastSubjectName.Substring(0, 30) + "..." : item.LastSubjectName)
+                            </a>
+                        </div>
+                        <div>@await Component.InvokeAsync("ShowTime",@item.LastCreatedAt) - 
+                        <a asp-controller="User" asp-action="Index" asp-route-username="@item.LastSubjectUser"
+                           style="text-decoration: none ;color: gray">
+                            @item.LastSubjectUser
+                        </a></div>
+                    }
                 </div>
             </div>
         }

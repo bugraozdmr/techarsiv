@@ -3,6 +3,7 @@ namespace GargamelinBurnu.Models;
 public class TitleViewModel
 {
     public string Username { get; set; }
+    public string ImageUrl { get; set; }
     public string Content { get; set; }
     public string CategoryName { get; set; }
     public string Title { get; set; }

@@ -8,8 +8,15 @@
             <h5 class="card-title"><a asp-action="Details" asp-controller="Subject"
                                       asp-route-url="@item.Url"
                                       style="text-decoration: none">@item.SubjectTitle</a></h5>
-            <p class="card-text">@item.username - @await Component.InvokeAsync("ShowTime",@item.CreatedAt)
-                - @item.CategoryName</p>
+            <p class="card-text">
+                <img src="@item.UserImage" style="width: 20px;height: 20px" class="rounded-circle mb-1"/>
+                <a asp-action="Index" asp-controller="User"
+                   asp-route-username="@item.username" style="text-decoration: none;color: gray">
+                    @item.username
+                </a>
+                - @await Component.InvokeAsync("ShowTime", @item.CreatedAt)
+                - @item.CategoryName
+            </p>
     
         }   
     }

@@ -18,12 +18,14 @@ public class SubjectController : Controller
 {
     private readonly IServiceManager _manager;
     private readonly UserManager<User> _userManager;
+    private readonly IWebHostEnvironment _env;
 
     public SubjectController(IServiceManager manager
-        , UserManager<User> userManager)
+        , UserManager<User> userManager, IWebHostEnvironment env)
     {
         _manager = manager;
         _userManager = userManager;
+        _env = env;
     }
 
     [Authorize]
@@ -71,7 +73,24 @@ public class SubjectController : Controller
         return View(model);
     }
 
-   
+
+    [HttpPost]  //düzenlencek
+    public IActionResult UploadImage(List<IFormFile> files)
+    {
+        var filepath = "";
+        foreach (IFormFile photo in Request.Form.Files)
+        {
+            string serverMapPath = Path.Combine(_env.WebRootPath, "images/subjects", photo.FileName);
+            using (var stream = new FileStream(serverMapPath,FileMode.Create))
+            {
+                photo.CopyTo(stream);
+            }
+
+            filepath = "https://localhost:7056/" + "images/subjects/" + photo.FileName;
+        }
+
+        return Json(new { Url = filepath });
+    }
     
 
     private SelectList GetCategoriesSelectList()
@@ -83,7 +102,7 @@ public class SubjectController : Controller
     [HttpGet("/{url}")]
     public async Task<IActionResult> Details([FromRoute] string url)
     {
-        if (url.ToLower().Equals("index") || url.ToLower().Equals("style1.css"))
+        if (url.ToLower().Equals("index"))
         {
             return RedirectToAction("Index", "Home");
         }
@@ -120,8 +139,10 @@ public class SubjectController : Controller
                     CommentCount = s.Comments.Count,
                     Category = s.Category,
                     UserName = s.User.UserName,
+                    UserImage = s.User.Image,
                     CreatedAt = s.User.CreatedAt,
                     UserCommentCount = s.User.Comments.Count,
+                    UserSignature = s.User.signature
                 }).AsEnumerable()
                 .FirstOrDefault(s => s.Subject.Url.Equals(topic.Url));
             
@@ -222,16 +243,18 @@ public class SubjectController : Controller
             });
         }
 
-        CommentCountViewModel model = new CommentCountViewModel();
+        CommentDetailsViewModel model = new CommentDetailsViewModel();
         
         model = await _userManager.Users
             .Where(u => u.UserName == User.Identity.Name)
             .Include(u => u.Comments)
-            .Select(u => new  CommentCountViewModel()
+            .Select(u => new  CommentDetailsViewModel()
             {
                 Username = u.UserName,
                 CreatedAt = u.CreatedAt,
-                Count = u.Comments.Count
+                Count = u.Comments.Count,
+                userSignature = u.signature,
+                userImage = u.Image
             })
             .FirstOrDefaultAsync();
         
@@ -248,7 +271,9 @@ public class SubjectController : Controller
             text = Text,
             createdAt = model.CreatedAt,
             username = model.Username,
-            messageCount = model.Count
+            messageCount = model.Count,
+            userSignature = model.userSignature,
+            userImage = model.userImage
         });
     }
     

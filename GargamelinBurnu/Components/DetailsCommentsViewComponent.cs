@@ -31,6 +31,8 @@ public class DetailsCommentsViewComponent : ViewComponent
             .Select(c => new CommentViewModel()
             {
                 CommentUserName = c.User.UserName,
+                CommentUserImage = c.User.Image,
+                CommentUserSignature = c.User.signature,
                 CommentId = c.CommentId,
                 UserCommentCount = c.User.Comments.Count,
                 CreatedAt = c.User.CreatedAt,

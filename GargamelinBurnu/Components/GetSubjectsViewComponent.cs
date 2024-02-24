@@ -25,7 +25,7 @@ public class GetSubjectsViewComponent : ViewComponent
             {
                 CategoryName = s.CategoryName,
                 CategoryId = s.CategoryId,
-                Icon = s.Icon
+                Icon = s.Icon,
             }).ToList();
 
         foreach (var category in model)
@@ -53,12 +53,18 @@ public class GetSubjectsViewComponent : ViewComponent
                 {
                     LastCreatedAt = s.CreatedAt,
                     LastSubjectName = s.Title,
-                    LastSubjectUser = s.User.UserName
+                    LastSubjectUser = s.User.UserName,
+                    LastSubjectUrl = s.Url
                 }).FirstOrDefault();
 
-            category.LastCreatedAt = helperModel.LastCreatedAt;
-            category.LastSubjectUser = helperModel.LastSubjectUser;
-            category.LastSubjectName = helperModel.LastSubjectName;
+            if (helperModel?.LastCreatedAt is not null)
+            {
+                category.LastCreatedAt = helperModel?.LastCreatedAt;    
+            }
+            
+            category.LastSubjectUser = helperModel?.LastSubjectUser ?? "";
+            category.LastSubjectName = helperModel?.LastSubjectName ?? "";
+            category.LastSubjectUrl = helperModel?.LastSubjectUrl ?? "";
         }
         
         return View(model);

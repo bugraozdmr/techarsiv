@@ -37,6 +37,7 @@ public class HomePageContentViewComponent : ViewComponent
                 createdAt = s.CreatedAt,
                 SubjectId = s.SubjectId,
                 Url = s.Url,
+                ImageUrl = s.User.Image,
                 CommentCount = s.Comments.Count,
                 Content = s.Content
             }).ToList();

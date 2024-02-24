@@ -28,6 +28,7 @@ public class MostHeartViewComponent : ViewComponent
             .Select(s => new MostHeartViewModel
             {
                 owner = s.User.UserName,
+                OwnerImage = s.User.Image,
                 Title = s.Title,
                 Url = s.Url,
                 CreatedAt = s.CreatedAt,

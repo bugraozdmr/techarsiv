@@ -32,7 +32,8 @@ public class LastCommentsContentViewComponent : ViewComponent
                 Title = c.Subject.Title,
                 Url = c.Subject.Url,
                 Username = c.User.UserName,
-                Content = c.Text
+                Content = c.Text,
+                ImageUrl = c.User.Image
             }).ToList();
 
 

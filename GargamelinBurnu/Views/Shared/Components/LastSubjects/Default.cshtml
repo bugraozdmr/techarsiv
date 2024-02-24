@@ -9,8 +9,15 @@
             <h5 class="card-title"><a asp-action="Details" asp-controller="Subject"
                                       asp-route-url="@item.Url"
                                       style="text-decoration: none">@item.Title</a></h5>
-            <p class="card-text">@item.Username - @await Component.InvokeAsync("ShowTime",@item.CreatedAt)
-                - Mesaj: @item.MessageCount - @item.CategoryName</p>
+            <p class="card-text">
+                <img src="@item.UserImage" style="width: 20px;height: 20px" class="rounded-circle mb-1"/>
+                <a asp-action="Index" asp-controller="User"
+                   asp-route-username="@item.Username" style="text-decoration: none;color: gray">
+                    @item.Username
+                </a>
+                 - @await Component.InvokeAsync("ShowTime", @item.CreatedAt)
+                - Mesaj: @item.MessageCount - @item.CategoryName
+            </p>
     
         }  
     }

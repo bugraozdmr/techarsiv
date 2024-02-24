@@ -6,9 +6,14 @@
     <div class="d-flex flex-column my-2" id="comment-container">
     <div class="bg-white">
         <div class="flex-row d-flex">
-            <img src="dp.jpg" width="40" class="rounded-circle">
-            <div class="d-flex flex-column justify-content-start ml-2">
-                <span class="d-block font-weight-bold name">@item.CommentUserName</span>
+            <img src="@item.CommentUserImage" width="40" class="rounded-circle" style="width: 40px;height: 40px">
+            <div class="d-flex flex-column justify-content-start ml-2 mx-2">
+                <span class="d-block font-weight-bold name">
+                    <a asp-controller="User" asp-action="Index" asp-route-username="@item.CommentUserName"
+                       style="text-decoration: none">
+                        @item.CommentUserName
+                    </a>
+                </span>
                 <span class="date text-black-50">Katılma Tarihi : @item.CreatedAt.ToString("d")</span>
                 <span class="date text-black-50">Mesaj Sayısı : @item.UserCommentCount</span>
             </div>
@@ -18,7 +23,7 @@
         </div>
     </div>
     <div class="bg-white">
-        @if (item.CommentUserName.Equals(User.Identity.Name))
+        @if (item.CommentUserName.Equals(User.Identity.Name) || !User.Identity.IsAuthenticated)
         {
             <div class="d-flex flex-row fs-14">
                 <div class="p-2  p-2">
@@ -65,6 +70,14 @@
             </div>
         }
         <div class="text-muted">@await Component.InvokeAsync("ShowTime",item.CommentDate)</div>
+        @if (item.CommentUserSignature is not null)
+        {
+            <hr/>
+            <div>
+                <p style="color: gray; font-size: 12px; margin-bottom: 5px;">Kullanıcı Imzası:</p>
+                <p style="font-size: 14px; margin-bottom: 0;">@item.CommentUserSignature</p>
+            </div>
+        }
     </div>
 </div>
 

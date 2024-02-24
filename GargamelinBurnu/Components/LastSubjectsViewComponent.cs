@@ -27,6 +27,7 @@ public class LastSubjectsViewComponent : ViewComponent
             .Select(s => new SubjectCardViewModel
             {
                 Username = s.User.UserName,
+                UserImage = s.User.Image,
                 Title = s.Title,
                 Url = s.Url,
                 CreatedAt = s.CreatedAt,

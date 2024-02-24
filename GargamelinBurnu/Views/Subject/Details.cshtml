@@ -37,9 +37,14 @@
                 <div class="bg-white">
                     <div id="err" class="text-danger mb-2"></div>
                     <div class="flex-row d-flex">
-                        <img src="dp.jpg" width="40" class="rounded-circle">
-                        <div class="d-flex flex-column justify-content-start ml-2">
-                            <span class="d-block font-weight-bold name">@Model.UserName</span>
+                        <img src="@Model.UserImage" style="width: 40px;height: 40px" class="rounded-circle mt-2">
+                        <div class="d-flex flex-column justify-content-start ml-2 mx-3">
+                            <span class="d-block font-weight-bold name">
+                                <a asp-controller="User" asp-action="Index" asp-route-username="@Model.UserName"
+                                   style="text-decoration: none ">
+                                    @Model.UserName
+                                </a>
+                            </span>
                             <span class="date text-black-50">Katılma Tarihi : @Model.CreatedAt.ToString("d")</span>
                             <span class="date text-black-50">Mesaj Sayısı : @Model.UserCommentCount</span>
                         </div>
@@ -54,7 +59,7 @@
                         var content = HtmlContentToString.ConvertHtmlContentToString(user);
                     }
                     
-                    @if (content == "false")
+                    @if (content == "false" && User.Identity.IsAuthenticated)
                     {
                         <div class="d-flex flex-row fs-14">
                             <div class="p-2 cursor p-2">
@@ -90,10 +95,6 @@
                                     <span id="heartcount">@Model.heartCount</span>
                                 </a>
                             </div>
-
-                            <!--<div class="p-2 cursor p-2">
-                                <i class="fa fa-comment"></i><span class="ml-1">Reply</span>
-                            </div>-->
                         </div>
                     }
                     else
@@ -116,6 +117,16 @@
 
                     <div class="text-muted">@await Component.InvokeAsync("ShowTime", Model.Subject.CreatedAt)</div>
                     <!-- zaman kaybı 4 saat sildim -->
+                    
+                    @if (Model.UserSignature is not null)
+                    {
+                        <hr/>
+                        <div>
+                            <p style="color: gray; font-size: 12px; margin-bottom: 5px;">Kullanıcı Imzası:</p>
+                            <p style="font-size: 14px; margin-bottom: 0;">@Model.UserSignature</p>
+                        </div>
+                    }
+
                 </div>
             </div>
 
@@ -138,7 +149,7 @@
                                     
                         <div class="col-md-12 mb-3">
                             <label class="form-label">Yorum</label>
-                            <textarea id="Content"></textarea>
+                            <textarea id="Content" name="Content"></textarea>
                         </div>
                                     
                         <div class="col-md-12 mb-3">
@@ -174,9 +185,27 @@
 
 
     <script type="text/javascript">
+   
     $(document).ready(() => {
         $('[data-toggle="tooltip"]').tooltip();
         });
+    </script>
+    
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('figure.image img').each(function() {
+                var width = $(this).width();
+                var height = $(this).height();
+                
+                $(this).css('max-width', '100%');
+                $(this).css('height', 'auto');
+        
+                $(this).css('display', 'block');
+                $(this).css('margin-left', 'auto');
+                $(this).css('margin-right', 'auto');
+            });
+        });
+       
     </script>
     
 }

@@ -46,9 +46,21 @@
             },
             success: function(yorum) {
                 $("#spinner").hide();
+                console.log(yorum)
 
                 var date = new Date(yorum.createdAt);
                 var shortDate = date.toLocaleDateString('tr-TR');
+
+                var userSignatureHTML = '';
+                if (yorum.userSignature != null) {
+                    userSignatureHTML = `
+                        <hr/>
+                        <div>
+                            <p style="color: gray; font-size: 12px; margin-bottom: 5px;">Kullanıcı Imzası:</p>
+                            <p style="font-size: 14px; margin-bottom: 0;">${yorum.userSignature}</p>
+                        </div>
+                        `;
+                };
 
 
 
@@ -56,9 +68,11 @@
                 <div class="d-flex flex-column my-2" id="comment-container">
                     <div class="bg-white">
                         <div class="flex-row d-flex">
-                            <img src="dp.jpg" width="40" class="rounded-circle">
-                            <div class="d-flex flex-column justify-content-start ml-2">
-                                <span class="d-block font-weight-bold name">${yorum.username}</span>
+                            <img src="${yorum.userImage}" style="width: 40px;height: 40px" class="rounded-circle mt-2">
+                            <div class="d-flex flex-column justify-content-start ml-2 mx-3">
+                                <span class="d-block font-weight-bold name"><a
+                                 href="http://localhost:7056/biri/${yorum.username}"
+                                 style="text-decoration: none">${yorum.username}</a></span>
                                 <span class="date text-black-50">Katılma Tarihi : ${shortDate}</span>
                                 <span class="date text-black-50">Mesaj Sayısı : ${yorum.messageCount}</span>
                             </div>
@@ -70,12 +84,13 @@
                     <div class="bg-white">
                         <div class="text-muted">Hemen şimdi</div>
                     </div>
+                    ${userSignatureHTML}
                 </div>
             `);
 
 
 
-                $("#Text").val('');
+                $('.ck-content p').Text('');
 
                 var adet = parseInt($("#commentCount").text());
                 $("#commentCount").text(adet + 1);
@@ -383,4 +398,86 @@ var ComLDFunc = function(clickedId){
             }
         });
     }
+}
+
+
+
+
+// CkEditor
+
+class MyUploadAdapter {
+    constructor( loader ) {
+        this.loader = loader;
+    }
+
+
+    upload() {
+        return this.loader.file
+            .then( file => new Promise( ( resolve, reject ) => {
+                this._initRequest();
+                this._initListeners( resolve, reject, file );
+                this._sendRequest( file );
+            } ) );
+    }
+
+
+    abort() {
+        if ( this.xhr ) {
+            this.xhr.abort();
+        }
+    }
+
+
+    _initRequest() {
+        const xhr = this.xhr = new XMLHttpRequest();
+
+        xhr.open( 'POST', '/subject/UploadImage', true );
+        xhr.responseType = 'json';
+    }
+
+    _initListeners( resolve, reject, file ) {
+        const xhr = this.xhr;
+        const loader = this.loader;
+        const genericErrorText = `Couldn't upload file: ${ file.name }.`;
+
+        xhr.addEventListener( 'error', () => reject( genericErrorText ) );
+        xhr.addEventListener( 'abort', () => reject() );
+        xhr.addEventListener( 'load', () => {
+            const response = xhr.response;
+
+            if ( !response || response.error ) {
+                return reject( response && response.error ? response.error.message : genericErrorText );
+            }
+
+            resolve( {
+                default: response.url
+            } );
+        } );
+
+        if ( xhr.upload ) {
+            xhr.upload.addEventListener( 'progress', evt => {
+                if ( evt.lengthComputable ) {
+                    loader.uploadTotal = evt.total;
+                    loader.uploaded = evt.loaded;
+                }
+            } );
+        }
+    }
+
+    _sendRequest( file ) {
+        const data = new FormData();
+
+        data.append( 'upload', file );
+
+
+        this.xhr.send( data );
+    }
+
+}
+
+function MyCustomUploadAdapterPlugin( editor ) {
+    editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+
+        return new MyUploadAdapter( loader );
+    };
 }

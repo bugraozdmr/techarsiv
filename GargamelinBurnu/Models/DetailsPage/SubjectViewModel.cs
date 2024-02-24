@@ -6,9 +6,11 @@ public class SubjectViewModel
 {
     public UserSubjectLdhViewModel UserSubjectLdh { get; set; }
     public int CommentCount { get; set; }
+    public string UserSignature { get; set; }
     public Subject Subject { get; set; }
     public Category Category { get; set; }
     public string UserName { get; set; }
+    public string UserImage { get; set; }
     public int UserCommentCount { get; set; }
     public DateTime CreatedAt { get; set; }
 

@@ -15,6 +15,7 @@ builder.Services.ConfigureEmailSender(builder.Configuration);
 builder.Services.ConfigureRepositoryRegistration();
 builder.Services.ConfigureServicesRegistration();
 builder.Services.AddSignalR();
+
 // automapper
 builder.Services.AddAutoMapper(typeof(Program));
 

@@ -6,7 +6,10 @@ public class CommentViewModel
 {
     public Comment Comment { get; set; }
     public int CommentId { get; set; }
+    
     public string CommentUserName { get; set; }
+    public string CommentUserSignature { get; set; }
+    public string CommentUserImage { get; set; }
     public string Username { get; set; }
     
     public string Content { get; set; }
