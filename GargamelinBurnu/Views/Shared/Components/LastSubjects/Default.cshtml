@@ -16,7 +16,11 @@
                     @item.Username
                 </a>
                  - @await Component.InvokeAsync("ShowTime", @item.CreatedAt)
-                - Mesaj: @item.MessageCount - @item.CategoryName
+                - Mesaj: @item.MessageCount - 
+                <a asp-controller="Home" asp-action="Tags" asp-route-category="@item.categoryUrl"
+                   style="text-decoration: none;color: gray">
+                    @item.CategoryName
+                </a>
             </p>
     
         }  

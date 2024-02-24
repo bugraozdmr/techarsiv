@@ -7,5 +7,6 @@ public class CommentCardViewModel
     public string Url { get; set; }
     public string SubjectTitle { get; set; }
     public string CategoryName { get; set; }
+    public string categoryUrl { get; set; }
     public DateTime CreatedAt { get; set; }
 }

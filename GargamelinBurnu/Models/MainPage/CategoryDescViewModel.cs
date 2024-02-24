@@ -5,6 +5,7 @@ public class CategoryDescViewModel
 {
     public int? CategoryId { get; set; }
     public string CategoryName { get; set; }
+    public string CategoryUrl { get; set; }
     public string Icon { get; set; }
     public string? LastSubjectName { get; set; }
     public string? LastSubjectUser { get; set; }

@@ -13,6 +13,10 @@
                 @item.owner
             </a>
              - @await Component.InvokeAsync("ShowTime", @item.CreatedAt)
+            - <a asp-controller="Home" asp-action="Tags" asp-route-category="@item.CategoryUrl"
+                 style="text-decoration: none;color: gray;">
+                @item.CategoryName
+            </a>
             - Mesaj: @item.MessageCount - Kalp Sayısı: @item.HeartCount
         </p>
     

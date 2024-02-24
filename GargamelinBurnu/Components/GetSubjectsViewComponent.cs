@@ -26,6 +26,7 @@ public class GetSubjectsViewComponent : ViewComponent
                 CategoryName = s.CategoryName,
                 CategoryId = s.CategoryId,
                 Icon = s.Icon,
+                CategoryUrl = s.CategoryUrl
             }).ToList();
 
         foreach (var category in model)

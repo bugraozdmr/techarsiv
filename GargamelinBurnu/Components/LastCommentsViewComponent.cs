@@ -30,6 +30,7 @@ public class LastCommentsViewComponent : ViewComponent
                 CreatedAt = s.CreatedAt,
                 Url = s.Subject.Url,
                 CategoryName = s.Subject.Category.CategoryName,
+                categoryUrl = s.Subject.Category.CategoryUrl,
                 username = s.User.UserName,
                 UserImage = s.User.Image
             }).ToList();

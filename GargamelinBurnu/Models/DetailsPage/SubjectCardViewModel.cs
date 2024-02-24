@@ -9,4 +9,5 @@ public class SubjectCardViewModel
     public DateTime CreatedAt { get; set; }
     public int MessageCount { get; set; }
     public string CategoryName { get; set; }
+    public string categoryUrl { get; set; }
 }

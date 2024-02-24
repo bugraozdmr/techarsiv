@@ -32,7 +32,8 @@ public class LastSubjectsViewComponent : ViewComponent
                 Url = s.Url,
                 CreatedAt = s.CreatedAt,
                 MessageCount = s.Comments.Count,
-                CategoryName = s.Category.CategoryName
+                CategoryName = s.Category.CategoryName,
+                categoryUrl = s.Category.CategoryUrl
             }).ToList();
         
         return View(model);

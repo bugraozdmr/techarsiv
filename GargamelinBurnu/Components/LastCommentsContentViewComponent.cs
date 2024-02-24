@@ -29,6 +29,7 @@ public class LastCommentsContentViewComponent : ViewComponent
             {
                 createdAt = c.CreatedAt,
                 CategoryName = c.Subject.Category.CategoryName,
+                categoryUrl = c.Subject.Category.CategoryUrl,
                 Title = c.Subject.Title,
                 Url = c.Subject.Url,
                 Username = c.User.UserName,

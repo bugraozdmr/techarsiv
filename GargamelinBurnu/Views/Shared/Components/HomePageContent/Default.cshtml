@@ -19,7 +19,7 @@ else
                         <b class="font-weight-bold text-dark"><a 
                                       data-toggle="tooltip"
                                       data-popper-placement="top"
-                                      title="@(item.Content.Contains("</p>") ? "" : item.Content.Length > 100 ? item.Content.Substring(0, 100) + "..." : item.Content)"
+                                      title="@(item.Content.Contains("</p>") || item.Content.Contains("</figure>") ? "" : item.Content.Length > 100 ? item.Content.Substring(0, 100) + "..." : item.Content)"
                                     
                                       asp-action="Details"
                                       asp-controller="Subject" 
@@ -40,7 +40,13 @@ else
                     <span class="dots"></span>
                     <small> @await Component.InvokeAsync("ShowTime",item.createdAt) </small>
                     <span class="dots"></span>
-                    <small>@item.CategoryName</small>
+                    <small>
+                        <a asp-controller="Home" asp-action="Tags" asp-route-category="@item.categoryUrl"
+                           style="text-decoration: none;color: gray">
+                            @item.CategoryName
+                        </a>
+                        
+                    </small>
                 </div>
 
                 <div class="icons align-items-center">
