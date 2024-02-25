@@ -12,7 +12,14 @@
 
 <div class="headings d-flex justify-content-between align-items-center mb-3">
     <div>
-        <h6 class="mt-1"><span class="badge bg-secondary">@Model.Category.CategoryName</span></h6>
+        <h6 class="mt-1">
+            <span class="badge bg-secondary">
+                <a asp-controller="Home" asp-action="Tags" asp-route-category="@Model.Category.CategoryUrl"
+                   style="text-decoration: none;color: white">
+                    @Model.Category.CategoryName
+                </a>
+            </span>
+        </h6>
         <h4><strong>@Model.Subject.Title</strong></h4>
         <p><i class="fa fa-user"></i> @Model.UserName 
             · <i class="fa fa-clock-o" aria-hidden="true"></i> @await Component.InvokeAsync("ShowTime",Model.CreatedAt)
@@ -32,109 +39,111 @@
 <div class="row">
     <div class="col-lg-8">
         <div class="row  d-flex justify-content-center">
-            
-            <div class="d-flex flex-column" id="comment-container">
-                <div class="bg-white">
-                    <div id="err" class="text-danger mb-2"></div>
-                    <div class="flex-row d-flex">
-                        <img src="@Model.UserImage" style="width: 40px;height: 40px" class="rounded-circle mt-2">
-                        <div class="d-flex flex-column justify-content-start ml-2 mx-3">
-                            <span class="d-block font-weight-bold name">
-                                <a asp-controller="User" asp-action="Index" asp-route-username="@Model.UserName"
-                                   style="text-decoration: none ">
-                                    @Model.UserName
-                                </a>
-                            </span>
-                            <span class="date text-black-50">Katılma Tarihi : @Model.CreatedAt.ToString("d")</span>
-                            <span class="date text-black-50">Mesaj Sayısı : @Model.UserCommentCount</span>
+            <!-- subject start -->
+            @if (Model.isMain)
+            {
+                <div class="d-flex flex-column" id="comment-container">
+                    <div class="bg-white">
+                        <div id="err" class="text-danger mb-2"></div>
+                        <div class="flex-row d-flex">
+                            <img src="@Model.UserImage" style="width: 40px;height: 40px" class="rounded-circle mt-2">
+                            <div class="d-flex flex-column justify-content-start ml-2 mx-3">
+                                <span class="d-block font-weight-bold name">
+                                    <a asp-controller="User" asp-action="Index" asp-route-username="@Model.UserName"
+                                       style="text-decoration: none ">
+                                        @Model.UserName
+                                    </a>
+                                </span>
+                                <span class="date text-black-50">Katılma Tarihi : @Model.CreatedAt.ToString("d")</span>
+                                <span class="date text-black-50">Mesaj Sayısı : @Model.UserCommentCount</span>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <p>@Html.Raw(@Model.Subject.Content)</p>
                         </div>
                     </div>
-                    <div class="mt-3">
-                        <p>@Html.Raw(@Model.Subject.Content)</p>
-                    </div>
-                </div>
-                <div class="bg-white">
-                    @{
-                        var user = await Component.InvokeAsync("CheckSubjectUser", @Model.Subject.SubjectId);
-                        var content = HtmlContentToString.ConvertHtmlContentToString(user);
-                    }
-                    
-                    @if (content == "false" && User.Identity.IsAuthenticated)
-                    {
-                        <div class="d-flex flex-row fs-14">
-                            <div class="p-2 cursor p-2">
-                                <a id="subject_like"
-                                   data-toggle="tooltip"
-                                   data-popper-placement="top"
-                                   title="Beğen">
-                                    <i id="like_icon" class="fa fa-thumbs-o-up @(Model.isLiked ? "text-primary" : "")"></i>
+                    <div class="bg-white">
+                        @{
+                            var user = await Component.InvokeAsync("CheckSubjectUser", @Model.Subject.SubjectId);
+                            var content = HtmlContentToString.ConvertHtmlContentToString(user);
+                        }
+
+                        @if (content == "false" && User.Identity.IsAuthenticated)
+                        {
+                            <div class="d-flex flex-row fs-14">
+                                <div class="p-2 cursor p-2">
+                                    <a id="subject_like"
+                                       data-toggle="tooltip"
+                                       data-popper-placement="top"
+                                       title="Beğen">
+                                        <i id="like_icon" class="fa fa-thumbs-o-up @(Model.isLiked ? "text-primary" : "")"></i>
+                                        <span id="likecount">@Model.likeCount</span>
+
+                                    </a>
+                                </div>
+                                <div class="p-2 cursor p-2">
+                                    <a
+                                        id="subject_dislike"
+                                        data-toggle="tooltip"
+                                        data-popper-placement="top"
+                                        title="Beğenme">
+                                        <i id="dislike_icon" class="fa fa-thumbs-o-down @(Model.isdisLiked ? "text-danger" : "")"></i>
+
+                                        <span id="dislikecount">@Model.dislikeCount</span>
+
+                                    </a>
+                                </div>
+                                <div class="p-2 cursor p-2">
+                                    <a
+                                        id="subject_heart"
+                                        data-toggle="tooltip"
+                                        data-popper-placement="top"
+                                        title="Kalp">
+                                        <i id="heart_icon" class="fa fa-heart @(Model.isheart ? "text-warning" : "")"></i>
+
+                                        <span id="heartcount">@Model.heartCount</span>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="d-flex flex-row fs-14">
+                                <div class="p-2 p-2">
+                                    <i id="like_icon" class="fa fa-thumbs-o-up"></i>
                                     <span id="likecount">@Model.likeCount</span>
-
-                                </a>
-                            </div>
-                            <div class="p-2 cursor p-2">
-                                <a
-                                    id="subject_dislike"
-                                    data-toggle="tooltip"
-                                    data-popper-placement="top"
-                                    title="Beğenme">
-                                    <i id="dislike_icon" class="fa fa-thumbs-o-down @(Model.isdisLiked ? "text-danger" : "")"></i>
-
+                                </div>
+                                <div class="p-2 p-2">
+                                    <i id="dislike_icon" class="fa fa-thumbs-o-down"></i>
                                     <span id="dislikecount">@Model.dislikeCount</span>
-
-                                </a>
-                            </div>
-                            <div class="p-2 cursor p-2">
-                                <a
-                                    id="subject_heart"
-                                    data-toggle="tooltip"
-                                    data-popper-placement="top"
-                                    title="Kalp">
-                                    <i id="heart_icon" class="fa fa-heart @(Model.isheart ? "text-warning" : "")"></i>
-
+                                </div>
+                                <div class="p-2 p-2">
+                                    <i id="heart_icon" class="fa fa-heart"></i>
                                     <span id="heartcount">@Model.heartCount</span>
-                                </a>
+                                </div>
                             </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="d-flex flex-row fs-14">
-                            <div class="p-2 p-2">
-                                <i id="like_icon" class="fa fa-thumbs-o-up"></i>
-                                <span id="likecount">@Model.likeCount</span>
-                            </div>
-                            <div class="p-2 p-2">
-                                <i id="dislike_icon" class="fa fa-thumbs-o-down"></i>
-                                <span id="dislikecount">@Model.dislikeCount</span>
-                            </div>
-                            <div class="p-2 p-2">
-                                <i id="heart_icon" class="fa fa-heart"></i>
-                                <span id="heartcount">@Model.heartCount</span>
-                            </div>
-                        </div>
-                    }
+                        }
 
-                    <div class="text-muted">@await Component.InvokeAsync("ShowTime", Model.Subject.CreatedAt)</div>
-                    <!-- zaman kaybı 4 saat sildim -->
-                    
-                    @if (Model.UserSignature is not null)
-                    {
-                        <hr/>
-                        <div>
-                            <p style="color: gray; font-size: 12px; margin-bottom: 5px;">Kullanıcı Imzası:</p>
-                            <p style="font-size: 14px; margin-bottom: 0;">@Model.UserSignature</p>
-                        </div>
-                    }
+                        <div class="text-muted">@await Component.InvokeAsync("ShowTime", Model.Subject.CreatedAt)</div>
+                        <!-- zaman kaybı 4 saat sildim -->
 
+                        @if (Model.UserSignature is not null)
+                        {
+                            <hr/>
+                            <div>
+                                <p style="color: gray; font-size: 12px; margin-bottom: 5px;">Kullanıcı Imzası:</p>
+                                <p style="font-size: 14px; margin-bottom: 0;">@Model.UserSignature</p>
+                            </div>
+                        }
+
+                    </div>
                 </div>
-            </div>
-
-            
+            }
+            <!-- subject end -->
             <hr class="mt-6"/>
             
             <div id="comments">
-                @await Component.InvokeAsync("DetailsComments",@Model.Subject.SubjectId)
+                @await Component.InvokeAsync("DetailsComments",new{subjectId=Model.Subject.SubjectId,p = Model.p})
             </div>
             
             <hr class="my-3"/>

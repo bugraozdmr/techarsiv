@@ -1,7 +1,8 @@
-﻿using System.Diagnostics;
+﻿
+using Entities.RequestParameters;
 using Microsoft.AspNetCore.Mvc;
 using GargamelinBurnu.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 using Services.Contracts;
 
 namespace GargamelinBurnu.Controllers;
@@ -16,20 +17,45 @@ public class HomeController : Controller
     }
 
     [HttpGet("/")]
-    public IActionResult Index(string? section)
+    [HttpGet("/index")]
+    public IActionResult Index(SubjectRequestParameters? p)
     {
-        section = section ?? "son_eklenenler";
-        return View("Index",section);
+        p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
+        p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
+
+        p.Pagesize = p.Pagesize > 15 ? 15 : p.Pagesize;
+        
+        var model = new IndexPageViewModel()
+        {
+            p = p
+        };
+        return View("Index",model);
     }
     
-    public IActionResult LastComments()
+    [HttpGet("/son_yorumlar")]
+    public IActionResult LastComments(SubjectRequestParameters p)
     {
-        return RedirectToAction("Index", new { section = "son_yorumlar" });
+        p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
+        p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
+        
+        p.Pagesize = p.Pagesize > 15 ? 15 : p.Pagesize;
+        
+        var model = new IndexPageViewModel()
+        {
+            p = p,
+            section = "Son yorumlar"
+        };
+        return View("Index",model);
     }
 
     [HttpGet("/bolum/{category}")]
-    public IActionResult Tags(string? category)
+    public IActionResult Tags(string? category,SubjectRequestParameters p)
     {
+        p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
+        p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
+        
+        p.Pagesize = p.Pagesize > 15 ? 15 : p.Pagesize;
+        
         var model = new CategoryViewModel();
 
         model = _manager
@@ -43,6 +69,8 @@ public class HomeController : Controller
                 CategoryUrl = c.CategoryUrl
             })
             .FirstOrDefault();
+
+        model.p = p;
         
         return View(model);
     }

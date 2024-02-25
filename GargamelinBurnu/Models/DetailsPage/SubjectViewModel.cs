@@ -1,10 +1,14 @@
 using Entities.Models;
+using Entities.RequestParameters;
 
 namespace GargamelinBurnu.Models;
 
 public class SubjectViewModel
 {
+    public SubjectRequestParameters p { get; set; }
+    
     public UserSubjectLdhViewModel UserSubjectLdh { get; set; }
+    public bool isMain { get; set; }
     public int CommentCount { get; set; }
     public string UserSignature { get; set; }
     public Subject Subject { get; set; }

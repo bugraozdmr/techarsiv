@@ -1,4 +1,5 @@
 using Entities.Models;
+using Entities.RequestParameters;
 using GargamelinBurnu.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ public class DetailsCommentsViewComponent : ViewComponent
         _userManager = userManager;
     }
 
-    public IViewComponentResult Invoke(int subjectId)
+    public IViewComponentResult Invoke(int subjectId,SubjectRequestParameters? p)
     {
         // Take'in yeri sonlarda olmalı yoksa önce alır sonra sorgular sorun çıkar
         List<CommentViewModel> model = _manager
@@ -27,7 +28,8 @@ public class DetailsCommentsViewComponent : ViewComponent
             .getAllComments(false)
             .OrderBy(c => c.CreatedAt)
             .Where(c => c.SubjectId.Equals(subjectId))
-            .Take(10)
+            .Skip(p.Pagesize*(p.PageNumber-1))
+            .Take(p.Pagesize)
             .Select(c => new CommentViewModel()
             {
                 CommentUserName = c.User.UserName,
@@ -47,6 +49,12 @@ public class DetailsCommentsViewComponent : ViewComponent
             .Select(u => u.Id)
             .FirstOrDefault();
 
+        // total comment count
+        int total_count = _manager
+            .CommentService
+            .getAllComments(false)
+            .Count(c => c.SubjectId.Equals(subjectId));
+        
         // comment extras start
         if (model is not null && userid is not null)
         {
@@ -80,7 +88,28 @@ public class DetailsCommentsViewComponent : ViewComponent
             }
         }
         // comment extras end
+
+        var pagination = new Pagination()
+        {
+            CurrentPage = p.PageNumber,
+            ItemsPerPage = p.Pagesize,
+            TotalItems = total_count
+        };
+
+        var realModel = new CommentPaginationViewModel()
+        {
+            List = model,
+            Pagination = pagination
+        };
+
+        var subject_url = _manager
+            .SubjectService
+            .GetAllSubjects(false)
+            .Where(s => s.SubjectId.Equals(subjectId))
+            .Select(s => s.Url).FirstOrDefault();
+
+        realModel.Action = subject_url;
         
-        return View(model);
+        return View(realModel);
     }
 }

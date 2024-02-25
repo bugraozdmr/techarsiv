@@ -1,15 +1,15 @@
-@model List<TitleViewModel>
+@model IndexCommentsViewModel
 
 
 
 
-@if (Model.Count().Equals(0) || Model is null)
+@if (Model.List.Count().Equals(0) || Model is null)
 {
     <div class="text-secondary">Gösterilecek yorum bulunamadı</div>
 }
 else
 {
-    @foreach (var item in Model)
+    @foreach (var item in Model.List)
     {
         <div class="card p-3 mt-2">
             <div class="d-flex justify-content-between align-items-center">
@@ -55,5 +55,12 @@ else
             </div>
         </div>
     }
+    <div page-model="@Model.Pagination" page-action="LastComments"
+         page-class="btn"
+         page-class-normal="btn-outline-success"
+         page-class-selected="btn-primary"
+         page-classes-enabled="true"
+         class="btn group mt-3">
+    </div>
 }
 <!-- scriptler ana sayfada yazılır -->

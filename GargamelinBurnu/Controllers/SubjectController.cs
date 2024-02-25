@@ -1,6 +1,7 @@
 using Entities.Dtos.Comment;
 using Entities.Dtos.SubjectDtos;
 using Entities.Models;
+using Entities.RequestParameters;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -123,8 +124,14 @@ public class SubjectController : Controller
     }
 
     [HttpGet("/{url}")]
-    public async Task<IActionResult> Details([FromRoute] string url)
+    public async Task<IActionResult> Details([FromRoute] string url,SubjectRequestParameters? p)
     {
+        p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
+        p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
+
+        p.Pagesize = p.Pagesize > 10 ? 10 : p.Pagesize;
+
+        
         if (url.ToLower().Equals("index"))
         {
             return RedirectToAction("Index", "Home");
@@ -244,6 +251,9 @@ public class SubjectController : Controller
                 // subject extras end
             }
         }
+
+        model.p = p;
+        model.isMain = p.PageNumber == 1 || p.PageNumber == null ? true : false;
         
         
         return View(model);

@@ -1,6 +1,13 @@
-﻿@model string
+﻿@model IndexPageViewModel
 @{
-    ViewData["Title"] = "Ana Sayfa";
+    if (Model.section == "Son yorumlar")
+    {
+        ViewData["Title"] = "Son yorumlar";    
+    }
+    else
+    {
+        ViewData["Title"] = "Ana Sayfa";    
+    }
 }
 
 @section Head
@@ -24,7 +31,7 @@
 }
 
 <div class="headings d-flex justify-content-between align-items-center mb-3">
-    <h5>@(Model == "son_yorumlar" ? "Son yorumlar" : "Son konular")</h5>
+    <h5>@(Model.section == "Son yorumlar" ? "Son yorumlar" : "Son konular")</h5>
            
     <div class="buttons">
         <span class="badge bg-white d-flex flex-row align-items-center">
@@ -42,13 +49,17 @@
 <div class="row">
     <div class="col-lg-8">
         <div class="row d-flex justify-content-center">
-            @if (Model.Equals("son_yorumlar"))
+            @if (Model.section != null && Model.section != "")
             {
-                @await Component.InvokeAsync("LastCommentsContent")
+                if (Model.section.Equals("Son yorumlar"))
+                {
+                    @await Component.InvokeAsync("LastCommentsContent",new {p=Model.p})    
+                }
             }
             else
             {
-                @await Component.InvokeAsync("HomePageContent")
+                // bunu kullanan tags.cshtml var o daha fazla eleman yollar
+                @await Component.InvokeAsync("HomePageContent",new {p=Model.p})
             }
         </div>
         <!-- subjects -->
@@ -57,12 +68,14 @@
     <div class="col-lg-4">
         <!-- Search widget-->
         <div class="card mb-4 mt-2">
-            <div class="card-header">Search</div>
+            <div class="card-header">Konu ara</div>
             <div class="card-body">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search"/>
-                    <button class="btn btn-primary" id="button-search" type="button">Go!</button>
-                </div>
+                <form method="get" asp-controller="Home" asp-action="Index">
+                    <div class="input-group">
+                        <input class="form-control" type="text" name="SearchTerm" placeholder="Aranacak konu" />
+                        <button class="btn btn-primary" type="submit">Ara</button>
+                    </div>
+                </form>
             </div>
         </div>
         
