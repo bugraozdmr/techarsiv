@@ -34,12 +34,12 @@ public class AccountController : Controller
             return RedirectToAction("Index", "Home");
         }
         
-        return View();
+        return View("LoginRegister");
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login([FromForm] LoginModel model)
+    public async Task<IActionResult> Login([FromForm] RegisterLoginViewModel model)
     {
         if (User.Identity.IsAuthenticated)
         {
@@ -48,13 +48,13 @@ public class AccountController : Controller
         
         if (ModelState.IsValid)
         {
-            User user = await _userManager.FindByNameAsync(model.Username);
+            User user = await _userManager.FindByNameAsync(model.LoginModel.Username);
 
             if (user is not null)
             {
                 await _signInManager.SignOutAsync();
 
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, true);
+                var result = await _signInManager.PasswordSignInAsync(user, model.LoginModel.Password, model.LoginModel.RememberMe, true);
                 
                 if (result.Succeeded)
                 {
@@ -74,18 +74,18 @@ public class AccountController : Controller
                 else
                 {
                     
-                    bool passwordCorrect = await _userManager.CheckPasswordAsync(user, model.Password);
+                    bool passwordCorrect = await _userManager.CheckPasswordAsync(user, model.LoginModel.Password);
 
                     if (!passwordCorrect)
                     {
                         ModelState.AddModelError("", $"Kullanıcı adı ya da şifre hatalı.");
-                        return View(model);
+                        return View("LoginRegister",model);
                     }
                     
                     if (!await _userManager.IsEmailConfirmedAsync(user))
                     {
                         ModelState.AddModelError("", "Hesabınızı onaylayınız.");
-                        return View(model);
+                        return View("LoginRegister",model);
                     }
 
                     
@@ -98,7 +98,7 @@ public class AccountController : Controller
             }
         }
     
-        return View(model);
+        return View("LoginRegister",model);
     }
 
     public IActionResult Register()
@@ -108,12 +108,12 @@ public class AccountController : Controller
             return RedirectToAction("Index", "Home");
         }
         
-        return View();
+        return View("LoginRegister");
     }
     
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register([FromForm] RegisterDto model)
+    public async Task<IActionResult> Register([FromForm] RegisterLoginViewModel model)
     {
         if (User.Identity.IsAuthenticated)
         {
@@ -124,9 +124,9 @@ public class AccountController : Controller
         {
             var user = new User()
             {
-                UserName = model.Username,
-                FullName = model.FullName,
-                Email = model.Email,
+                UserName = model.RegisterDto.Username,
+                FullName = model.RegisterDto.FullName,
+                Email = model.RegisterDto.Email,
                 CreatedAt = DateTime.UtcNow
             };
             
@@ -135,7 +135,7 @@ public class AccountController : Controller
 
             user.Image = $"/images/user/samples/avatar_{randomSayi}.jpg";
             
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _userManager.CreateAsync(user, model.RegisterDto.Password);
             
             if (result.Succeeded)
             {
@@ -157,7 +157,7 @@ public class AccountController : Controller
                         $"<a href='https://localhost:7056{url}'>tıklayın</a>");
                 
                 
-                    TempData["message"] = "email hesabınızdaki onay mailine tıklayın.";
+                    TempData["message_login"] = "email hesabınızdaki onay mailine tıklayın.";
                     
                     return RedirectToAction("Login");
                 }
@@ -176,7 +176,7 @@ public class AccountController : Controller
                 }
             }
         }
-        return View(model);
+        return View("LoginRegister",model);
     }
     
     
@@ -195,7 +195,7 @@ public class AccountController : Controller
     {
         if (id == null || token == null)
         {
-            TempData["message"] = "Geçersiz Token";
+            TempData["confirmEmail"] = "Geçersiz Token";
             return View();
         }
         
@@ -208,16 +208,16 @@ public class AccountController : Controller
             
             if (result.Succeeded)
             {
-                TempData["message"] = "Hesabınız onaylandı";
+                TempData["confirmEmail"] = "Hesabınız onaylandı";
                 return View();
             }
 
-            TempData["message"] = "Bir şeyler ters gitti.";
+            TempData["confirmEmail"] = "Bir şeyler ters gitti.";
             return View();
         }
         
         
-        TempData["message"] = "Kullanıcı bulunamadı";
+        TempData["confirmEmail"] = "Kullanıcı bulunamadı";
         return View();
     }
     
@@ -251,7 +251,7 @@ public class AccountController : Controller
             $"Şifrenizi değiştirmek için " +
             $"<strong><a href='https://localhost:7056{url}'>tıklayın</a></strong>");
 
-        TempData["message"] = "eposta adresinize gönderilen link ile şifrenizi sıfırlayabilirsiniz.";
+        TempData["message_reset"] = "eposta adresinize gönderilen link ile şifrenizi sıfırlayabilirsiniz.";
         return View();
         
     }
@@ -261,7 +261,7 @@ public class AccountController : Controller
     {
         if (id == null || token == null)
         {
-            TempData["message"] = "değerler boş";
+            TempData["message_login"] = "değerler boş";
             return RedirectToAction("Login");
         }
 
@@ -281,7 +281,7 @@ public class AccountController : Controller
 
             if (user is null)
             {
-                TempData["message"] = "Bir hata oluştu.";
+                TempData["message_login"] = "Bir hata oluştu.";
                 return RedirectToAction("Index", "Home");
             }
             
@@ -290,7 +290,7 @@ public class AccountController : Controller
 
             if (result.Succeeded)
             {
-                TempData["message"] = "Şifre değiştirildi.";
+                TempData["message_login"] = "Şifre değiştirildi.";
                 return RedirectToAction("Login");
             }
 

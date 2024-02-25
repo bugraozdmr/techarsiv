@@ -1,0 +1,60 @@
+@model RegisterLoginViewModel
+
+@section Head
+{
+  <link rel="stylesheet" asp-append-version="true" href="~/css/app.css"/>
+}
+
+
+<div class="logReg">
+  <div class="wrapper">
+    @if (TempData["message_login"] is not null)
+    {
+      <div class="text-warning mb-3">@TempData["message_login"]</div>
+    }
+
+    <div class="card-switch">
+      <label class="switch">
+        <input type="checkbox" class="toggle">
+        <span class="slider"></span>
+        <span class="card-side"></span>
+        <div class="flip-card__inner">
+          <div class="flip-card__front">
+            <div class="title">Giriş Yap</div>
+            <form class="flip-card__form" method="post" asp-action="Login">
+              <div class="text-danger" asp-validation-summary="All"></div>
+              <input class="flip-card__input" asp-for="LoginModel.Username" placeholder="kullanıcı adı">
+              <input class="flip-card__input" asp-for="LoginModel.Password" placeholder="Parola">
+              
+              <div class="forgot-remember-wrapper">
+                <div class="remember_input">
+                  <input class="" asp-for="LoginModel.RememberMe" type="checkbox">
+                  <label for="remember-me" class="flip-card_checkbox">Remember me</label>
+                </div>
+                <a asp-action="ForgotPassword" class="forgot">Forgot password</a>
+              </div>
+              
+              <button class="flip-card__btn" type="submit">Giriş Yap</button>
+            </form>
+          </div>
+          <div class="flip-card__back">
+            <div class="title">Kayıt ol</div>
+            <form class="flip-card__form" asp-action="Register" method="post">
+              <input class="flip-card__input" asp-for="RegisterDto.Username" placeholder="Kullanıcı adı">
+              <span class="text-danger" asp-validation-for="RegisterDto.Username"></span>
+              <input class="flip-card__input" asp-for="RegisterDto.FullName" placeholder="Tam isim">
+              <span class="text-danger" asp-validation-for="RegisterDto.FullName"></span>
+              <input class="flip-card__input" asp-for="RegisterDto.Email" placeholder="Email">
+              <span class="text-danger" asp-validation-for="RegisterDto.Email"></span>
+              <input class="flip-card__input" asp-for="RegisterDto.Password" placeholder="Parola">
+              <span class="text-danger" asp-validation-for="RegisterDto.Password"></span>
+              <input class="flip-card__input" asp-for="RegisterDto.ConfirmPassword" placeholder="Parola tekrar">
+              <span class="text-danger" asp-validation-for="RegisterDto.ConfirmPassword"></span>
+              <button class="flip-card__btn" type="submit">Kayıt ol</button>
+            </form>
+          </div>
+        </div>
+      </label>
+    </div>
+  </div>
+</div>

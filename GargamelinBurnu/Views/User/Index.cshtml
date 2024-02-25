@@ -23,15 +23,18 @@
                             </div>
                         }
                         <img src="@Model.User.Image" alt="Admin" class="rounded-circle" style="width: 150px;height: 150px">
-                        @if (User.Identity.Name.Equals(Model.User.UserName))
+                        @if (User.Identity.IsAuthenticated)
                         {
-                            <form asp-action="UploadImage" asp-route-username="@Model.User.UserName" method="post" enctype="multipart/form-data">
-                                <div>
-                                    <label class="form-label">Resim seç</label>
-                                    <input id="formFileSm" class="form-control form-control-sm" name="file" type="file" onchange="showButton()"/>
-                                    <button id="submitButton" class="btn btn-outline-success mt-1" type="submit" style="display: none">Yükle</button>
-                                </div>
-                            </form>
+                            @if (User.Identity.Name.Equals(Model.User.UserName))
+                            {
+                                <form asp-action="UploadImage" asp-route-username="@Model.User.UserName" method="post" enctype="multipart/form-data">
+                                    <div>
+                                        <label class="form-label">Resim seç</label>
+                                        <input id="formFileSm" class="form-control form-control-sm" name="file" type="file" onchange="showButton()"/>
+                                        <button id="submitButton" class="btn btn-outline-success mt-1" type="submit" style="display: none">Yükle</button>
+                                    </div>
+                                </form>
+                            }
                         }
                     </div>
                     

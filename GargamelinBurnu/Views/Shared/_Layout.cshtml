@@ -37,8 +37,8 @@
                             Sosyal
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li><a class="dropdown-item" href="https://www.youtube.com/">En çok yorumlananlar</a></li>
-                            <li><a class="dropdown-item" href="#">En çok beğenilenler</a></li>
+                            <li><a class="dropdown-item" href="https://www.youtube.com/"><b>Kullanıcı konuları</b></a></li>
+                            <li><a class="dropdown-item" href="#"><b>Kullanıcı Mesajları</b></a></li>
                             <li><a class="dropdown-item" href="#"><b>Kategoriler</b></a></li>
                         </ul>
                     </li>
@@ -48,16 +48,16 @@
                     @if (!User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="Register" asp-controller="Account">Kayıt Ol</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link active" aria-current="page" asp-action="Login" asp-controller="Account">Giriş Yap</a>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page">@User.Identity.Name</a>
+                            <a class="nav-link active" 
+                               asp-controller="User"
+                               asp-action="Index" asp-route-username="@User.Identity.Name"
+                               aria-current="page">@User.Identity.Name</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" asp-action="Logout" asp-controller="Account">Çıkış Yap</a>
@@ -77,8 +77,8 @@
     </main>
 </div>
 
-<div class="container mt-4">
-  <footer class="py-3 my-4">
+<div class="footer">
+  <footer class="py-3 my-4" >
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
       <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Ana sayfa</a></li>
       <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Blog</a></li>

@@ -1,2 +1,8 @@
-<h1>Hesap Onayı</h1>
-<a class="btn btn-primary" asp-action="Index" asp-controller="Home">Ana Sayfa</a>
+<div class="text-center mt-4">
+    @if (@TempData["confirmEmail"] is not null)
+    {
+        <div class="text-warning text-center">@TempData["confirmEmail"]</div>
+    }
+    <h1 class="text-success">Hesap Onayı</h1>
+    <a class="btn btn-primary" asp-action="Index" asp-controller="Home">Ana Sayfa</a>
+</div>
