@@ -1,0 +1,45 @@
+@model SubjectListViewModel
+
+<div class="card-body">
+    <!--- model gidiyor null değil yani --->
+    @if (Model != null && (Model?.List?.Count != 0 && Model?.List?.Count != null))
+    {
+        @foreach (var item in Model.List)
+        {
+            <h5 class="card-title">
+                <a asp-action="Details" asp-controller="Subject"
+                   asp-route-url="@item.Url"
+                   style="text-decoration: none">@item.Title</a></h5>
+            <p class="card-text">
+                <img src="@item.ImageUrl" style="width: 20px;height: 20px" class="rounded-circle mb-1"/>
+                <a asp-action="Index" asp-controller="User"
+                   asp-route-username="@item.Username" style="text-decoration: none;color: gray">
+                    @item.Username
+                </a>
+                - @await Component.InvokeAsync("ShowTime", @item.createdAt)
+                -
+                <a asp-controller="Home" asp-action="Tags" asp-route-category="@item.categoryUrl"
+                   style="text-decoration: none;color: gray">
+                    @item.CategoryName
+                </a>
+            </p>
+        }
+        <div page-model="@Model.Pagination" page-action="userSubjects"
+             page-class="btn"
+             page-class-normal="btn-outline-success"
+             page-class-selected="btn-primary"
+             page-classes-enabled="true"
+             class="btn group mt-3">
+        </div>
+    }
+    else
+    {
+        <h4>
+            Konunuz yok ya da
+            <a asp-controller="Account" asp-action="Login"
+               style="text-decoration: none;color: burlywood">
+                giriş
+            </a> yapmadınız
+        </h4>
+    }
+</div>

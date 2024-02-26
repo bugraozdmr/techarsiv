@@ -32,7 +32,7 @@ public class HomeController : Controller
         return View("Index",model);
     }
     
-    [HttpGet("/son_yorumlar")]
+    [HttpGet("/son_mesajlar")]
     public IActionResult LastComments(SubjectRequestParameters p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
@@ -43,10 +43,29 @@ public class HomeController : Controller
         var model = new IndexPageViewModel()
         {
             p = p,
-            section = "Son yorumlar"
+            section = "Son mesajlar"
         };
         return View("Index",model);
     }
+    
+    [HttpGet("/konularim")]
+    public IActionResult userSubjects(SubjectRequestParameters p)
+    {
+        p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
+        p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
+        
+        p.Pagesize = p.Pagesize > 15 ? 15 : p.Pagesize;
+        
+        var model = new IndexPageViewModel()
+        {
+            p = p,
+            section = "Kullanıcı konuları"
+        };
+        return View("Index",model);
+    }
+
+
+    
 
     [HttpGet("/bolum/{category}")]
     public IActionResult Tags(string? category,SubjectRequestParameters p)

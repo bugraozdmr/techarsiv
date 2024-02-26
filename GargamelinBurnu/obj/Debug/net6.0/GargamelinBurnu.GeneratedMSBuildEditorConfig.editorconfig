@@ -15,6 +15,22 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu
 build_property._RazorSourceGeneratorDebug = 
 
+[/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Pages/About.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWJvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Pages/confidentiality.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvY29uZmlkZW50aWFsaXR5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Views/Account/ConfirmEmail.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Db25maXJtRW1haWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -73,6 +89,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Views/Shared/Components/SiteStatistics/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvU2l0ZVN0YXRpc3RpY3MvRGVmYXVsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Views/Shared/Components/UserSubjects/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvVXNlclN1YmplY3RzL0RlZmF1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Views/Shared/Error.cshtml]

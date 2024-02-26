@@ -32,16 +32,28 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/">Ana Sayfa</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                            Sosyal
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li><a class="dropdown-item" href="https://www.youtube.com/"><b>Kullanıcı konuları</b></a></li>
-                            <li><a class="dropdown-item" href="#"><b>Kullanıcı Mesajları</b></a></li>
-                            <li><a class="dropdown-item" href="#"><b>Kategoriler</b></a></li>
-                        </ul>
-                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                                Sosyal
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="userSubjects">
+                                        <b>Kullanıcı konuları</b>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <b>Takip edilen konular</b>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </li>
+                    }
                     <li class="nav-item">
                         <a class="nav-link" href="#!">Blog</a>
                     </li>
@@ -53,6 +65,15 @@
                     }
                     else
                     {
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link active" 
+                                   asp-controller=""
+                                   asp-action=""
+                                   aria-current="page">Admin</a>
+                            </li>        
+                        }
                         <li class="nav-item">
                             <a class="nav-link active" 
                                asp-controller="User"
@@ -83,10 +104,10 @@
       <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Ana sayfa</a></li>
       <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Blog</a></li>
       
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Hakkında</a></li>
+      <li class="nav-item"><a asp-page="/About" aria-current="page" class="nav-link px-2 text-muted">Hakkında</a></li>
     </ul>
     <p class="text-center text-muted">&copy; @DateTime.Now.Year gargamelinburnu.com</p>
-    <p class="text-center text-muted" style="text-decoration: none;font-size: 12px"><a href="#">Gizlilik sözleşmesi</a></p>
+    <p class="text-center text-muted" style="text-decoration: none;font-size: 12px"><a asp-page="/confidentiality" aria-current="page">Gizlilik sözleşmesi</a></p>
   </footer>
 </div>
 
