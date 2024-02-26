@@ -147,14 +147,19 @@ public class SubjectController : Controller
         }
         else
         {
-            var topic = await _manager.SubjectService.getOneSubject(url, false);
+            var topic = await _manager
+                .SubjectService
+                .getOneSubject(url, false);
         
             if (topic is null)
             {
                 return NotFound();
             }
-            
-            
+
+            if (!topic.IsActive)
+            {
+                return NotFound();
+            }
             
             model = _manager
                 .SubjectService

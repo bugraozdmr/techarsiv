@@ -47,7 +47,7 @@ public class UserSubjectsViewComponent : ViewComponent
                 .Include(s => s.Comments)
                 .Include(s => s.User)
                 .Include(s => s.Category)
-                .Where(s => s.UserId.Equals(userId))
+                .Where(s => s.UserId.Equals(userId) && s.IsActive.Equals(true))
                 .Skip(p.Pagesize*(p.PageNumber-1))
                 .Take(p.Pagesize)
                 .Select(s => new TitleViewModel()

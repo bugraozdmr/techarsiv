@@ -25,6 +25,7 @@ public class MostHeartViewComponent : ViewComponent
             .Include(s => s.Comments)
             .Include(s => s.Category)
             .OrderByDescending(s => s.HeartCount)
+            .Where(s => s.IsActive.Equals(true))
             .Take(6)
             .Select(s => new MostHeartViewModel
             {

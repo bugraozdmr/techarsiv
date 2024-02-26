@@ -37,7 +37,7 @@ public class HomePageContentViewComponent : ViewComponent
                 .Include(s => s.Comments)
                 .Include(s => s.User)
                 .Include(s => s.Category)
-                .Where(s => s.Category.CategoryUrl.Equals(CategoryUrl))
+                .Where(s => s.Category.CategoryUrl.Equals(CategoryUrl) && s.IsActive.Equals(true))
                 .Skip(p.Pagesize*(p.PageNumber-1))
                 .Take(p.Pagesize)
                 .Select(s => new TitleViewModel()
@@ -58,7 +58,7 @@ public class HomePageContentViewComponent : ViewComponent
                 .SubjectService
                 .GetAllSubjects(false)
                 .Include(s => s.Category)
-                .Count(s => s.Category.CategoryUrl.Equals(CategoryUrl));
+                .Count(s => s.Category.CategoryUrl.Equals(CategoryUrl) && s.IsActive.Equals(true));
         }
         else
         {
@@ -71,7 +71,7 @@ public class HomePageContentViewComponent : ViewComponent
                     .Include(s => s.Comments)
                     .Include(s => s.User)
                     .Include(s => s.Category)
-                    .Where(s => s.Title.Contains(p.SearchTerm.ToLower()))
+                    .Where(s => s.Title.Contains(p.SearchTerm.ToLower())  && s.IsActive.Equals(true))
                     .Skip(p.Pagesize*(p.PageNumber-1))
                     .Take(p.Pagesize)
                     .Select(s => new TitleViewModel()
@@ -91,7 +91,7 @@ public class HomePageContentViewComponent : ViewComponent
                 total_count = _manager
                     .SubjectService
                     .GetAllSubjects(false)
-                    .Count(s => s.Title.Contains(p.SearchTerm.ToLower()));
+                    .Count(s => s.Title.Contains(p.SearchTerm.ToLower()) && s.IsActive.Equals(true));
                 realModel.Param = $"SearchTerm={p.SearchTerm}";
             }
             else
@@ -103,6 +103,7 @@ public class HomePageContentViewComponent : ViewComponent
                     .Include(s => s.Comments)
                     .Include(s => s.User)
                     .Include(s => s.Category)
+                    .Where(s => s.IsActive.Equals(true))
                     .Skip(p.Pagesize*(p.PageNumber-1))
                     .Take(p.Pagesize)
                     .Select(s => new TitleViewModel()
@@ -122,7 +123,7 @@ public class HomePageContentViewComponent : ViewComponent
                 total_count = _manager
                     .SubjectService
                     .GetAllSubjects(false)
-                    .Count();
+                    .Count(s => s.IsActive.Equals(true));
             }
         }
         

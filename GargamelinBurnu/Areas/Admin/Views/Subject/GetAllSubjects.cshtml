@@ -1,0 +1,61 @@
+@model PaginationSubjectListViewModel
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Tüm Konular</h1>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Tüm konular</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Başlık</th>
+                        <th>Sahibi</th>
+                        <th>Kategori</th>
+                        <th>Oluşturma Zamanı</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.List)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-action="Details"
+                                   asp-controller="Subject"
+                                   asp-area="" asp-route-url="@item.SubjectUrl">
+                                    @item.Title
+                                </a>
+                            </td>
+                            <td>
+                                <a asp-area="" asp-action="Index"
+                                   asp-controller="User"
+                                   asp-route-username="@item.Username">
+                                    @item.Username
+                                </a>
+                            </td>
+                            <td>@item.categoryName</td>
+                            <td>@await Component.InvokeAsync("ShowTime",@item.CreatedAt)</td>
+                        </tr>
+                    }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div page-model="@Model.Pagination" page-action="GetAllSubjects"
+             page-class="btn"
+             page-class-normal="btn-outline-dark"
+             page-class-selected="btn-primary"
+             page-classes-enabled="true"
+             class="btn group mt-3">
+        </div>
+    </div>
+</div>

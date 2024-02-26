@@ -35,7 +35,7 @@ public static class ApplicationExtensions
                 UserName = adminUser,
                 CreatedAt = DateTime.Now,
                 EmailConfirmed = true,
-                Image = "/user/images/avatar_1"
+                Image = "/images/user/avatar_1"
             };
 
             var result = await userManager.CreateAsync(user, adminPassword);
@@ -43,6 +43,7 @@ public static class ApplicationExtensions
             if (!result.Succeeded)
                 throw new Exception("Admin could not created.");
             
+            // bozuk bu
             var roleResult = await userManager.AddToRolesAsync(user,
                 roleManager
                     .Roles
@@ -50,7 +51,7 @@ public static class ApplicationExtensions
                     .ToList());
 
             if (!roleResult.Succeeded)
-                throw new Exception("System have problems with role defination for admin.");
+                throw new Exception("System have problems with role definition for admin.");
         }
     } 
 }

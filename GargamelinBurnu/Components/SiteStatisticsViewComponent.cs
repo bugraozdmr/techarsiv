@@ -24,7 +24,7 @@ public class SiteStatisticsViewComponent : ViewComponent
         {
             CommentCount =  _manager.CommentService.getAllComments(false).Count(),
             Usercount = _userManager.Users.Count(),
-            SubjectCount = _manager.SubjectService.GetAllSubjects(false).Count(),
+            SubjectCount = _manager.SubjectService.GetAllSubjects(false).Count(s => s.IsActive.Equals(true)),
             LastUser = _userManager.Users.OrderBy(s => s.CreatedAt)
                 .Select(s => s.UserName).LastOrDefault()
         };

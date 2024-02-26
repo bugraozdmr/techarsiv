@@ -49,7 +49,7 @@ public class GetSubjectsViewComponent : ViewComponent
                 .GetAllSubjects(false)
                 .OrderByDescending(s => s.CreatedAt)
                 .Include(s => s.User)
-                .Where(s => s.categoryId.Equals(category.CategoryId))
+                .Where(s => s.categoryId.Equals(category.CategoryId) && s.IsActive)
                 .Select(s => new CategoryDescHelper()
                 {
                     LastCreatedAt = s.CreatedAt,
