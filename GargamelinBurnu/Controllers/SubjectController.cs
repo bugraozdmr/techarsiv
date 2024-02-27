@@ -123,6 +123,45 @@ public class SubjectController : Controller
             , "CategoryId", "CategoryName", "1");
     }
 
+    // Preview -- dummy not usable
+    [HttpPost]
+    [Authorize]
+    public IActionResult Preview(string? Title,string? Content)
+    {
+        if (!User.Identity.IsAuthenticated)
+        {
+            return NotFound();
+        }
+
+        var model = _userManager
+            .Users
+            .Where(s => s.UserName.Equals(User.Identity.Name))
+            .Select(s => new SubjectViewModel()
+            {
+                UserName = s.UserName,
+                UserImage = s.Image,
+                CreatedAt = s.CreatedAt,
+                UserSignature = s.signature
+            }).FirstOrDefault();
+
+        var userId = _userManager
+            .Users
+            .Where(s => s.UserName.Equals(User.Identity.Name))
+            .Select(s => s.Id)
+            .FirstOrDefault();
+
+        model.UserCommentCount = _manager
+            .CommentService
+            .getAllComments(false)
+            .Count(s => s.UserId.Equals(userId));
+        
+        model.Title = Title;
+        model.Content = Content;
+        
+        
+        return View(model);
+    }
+
     [HttpGet("/{url}")]
     public async Task<IActionResult> Details([FromRoute] string url,SubjectRequestParameters? p)
     {

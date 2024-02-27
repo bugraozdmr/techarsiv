@@ -70,6 +70,15 @@
                                 </div>
                             </div>
                         </form>
+                        <!--<div class="col-md-12 text-center mt-3">
+                            <form method="post" asp-action="Preview">
+                                <input type="hidden" name="Title" id="TitlePrew"/>
+                                <input type="hidden" name="Content" id="ContentPrew"/>
+                                <button type="submit" id="preview" class="btn btn-outline-secondary">
+                                    Sayfada nasıl duruyor bak
+                                </button>
+                            </form>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -79,15 +88,15 @@
 
 @section Scripts
 {
-    
-    
+
+
     <script>
 
     ClassicEditor.create( document.querySelector('#Content'),{
                 extraPlugins: [ MyCustomUploadAdapterPlugin ]
     })
     .then(editor => {
-          
+        
       })
      .catch(error => {
          console.error(error);
@@ -98,6 +107,7 @@
         $('[data-toggle="tooltip"]').tooltip();
     });
 
-    </script>
+
+</script>
 }
     

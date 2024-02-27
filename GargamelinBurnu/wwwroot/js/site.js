@@ -481,3 +481,22 @@ function MyCustomUploadAdapterPlugin( editor ) {
         return new MyUploadAdapter( loader );
     };
 }
+
+
+// preview dummy function
+var dummy = function (){
+    $(document).ready(function(){
+        $('#preview').click(function(){
+            var content = editor.getData();
+            var title = $('#Title').val();
+
+            $('#TitlePrew').val(title);
+            $('#ContentPrew').val(content);
+
+            editor.setData(content);
+
+            $('.ck-content p:first-child').html(content)
+        });
+
+    });    
+}

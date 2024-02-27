@@ -5,6 +5,10 @@ namespace GargamelinBurnu.Models;
 
 public class SubjectViewModel
 {
+    // for preview page -- do not use for others
+    public string Title { get; set; }
+    public string Content { get; set; }
+    
     public SubjectRequestParameters p { get; set; }
     
     public UserSubjectLdhViewModel UserSubjectLdh { get; set; }
