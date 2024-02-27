@@ -61,7 +61,7 @@ public class UserController : Controller
         model.SubjectCount = _manager
             .SubjectService
             .GetAllSubjects(false)
-            .Count(s => s.UserId.Equals(user.Id));
+            .Count(s => s.UserId.Equals(user.Id) && s.IsActive.Equals(true));
 
         // titleViewModel uyuyor istediğim özelliklere
         model.Comments = _manager
@@ -89,7 +89,7 @@ public class UserController : Controller
             .Include(s => s.User)
             .Include(s => s.Comments)
             .Include(s => s.Category)
-            .Where(s => s.UserId.Equals(user.Id))
+            .Where(s => s.UserId.Equals(user.Id) && s.IsActive.Equals(true))
             .OrderByDescending(s => s.CreatedAt)
             .Select(s => new TitleViewModel()
             {

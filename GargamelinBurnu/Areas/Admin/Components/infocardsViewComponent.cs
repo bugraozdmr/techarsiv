@@ -29,10 +29,14 @@ public class infocardsViewComponent : ViewComponent
             SubjectCount = _manager
                 .SubjectService
                 .GetAllSubjects(false)
-                .Count(),
+                .Count(s => s.IsActive.Equals(true)),
             UserCount = _userManager
                 .Users
-                .Count()
+                .Count(),
+            waitingSubjectCount = _manager
+                .SubjectService
+                .GetAllSubjects(false)
+                .Count(s => s.IsActive.Equals(false))
         };
         
         return View(model);

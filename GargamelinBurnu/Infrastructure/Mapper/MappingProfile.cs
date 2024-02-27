@@ -11,5 +11,6 @@ public class MappingProfile : Profile
     {
         CreateMap<Subject, CreateSubjectDto>().ReverseMap();
         CreateMap<Comment, CreateCommentDto>().ReverseMap();
+        CreateMap<Subject, UpdateSubjectDto>().ReverseMap();
     }
 }

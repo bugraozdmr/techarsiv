@@ -1,0 +1,93 @@
+@model EditSubjectViewModel
+
+<div class="container-fluid">
+
+    @if (Model is null)
+    {
+        <text>Bir sorun oluştu</text>
+    }
+    else
+    {
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800"><strong>@Model.Title</strong> düzenle</h1>
+        </div>
+
+
+        <div class="mt-4">
+            <div class="row">
+                <div>
+                    <a asp-area="" asp-controller="User" asp-action="Index"
+                       asp-route-username="@Model.SubjectOwner" style="text-decoration: none">
+                        @Model.SubjectOwner
+                    </a>
+                </div>
+                <div class="mx-2">
+                    Kategori : <b class="text-success">@Model.CategoryName</b>
+                </div>
+                <div class="mx-2">
+                    <b class="text-success">@await Component.InvokeAsync("ShowTime",@Model.CreatedAt)</b>
+                </div>
+            </div>
+            <div class="mt-2">
+                <form method="post" asp-action="Edit" asp-controller="Subject" asp-area="Admin">
+                    <input type="hidden" asp-for="SubjectOwner"/>
+                    <input type="hidden" asp-for="SubjectId"/>
+                    <input type="hidden" asp-for="CategoryName"/>
+                    <input type="hidden" asp-for="CreatedAt"/>
+                    
+                    <div class="text-danger" asp-validation-summary="All"></div>
+                    <div class="form-group">
+                        <label >Başlık</label>
+                        <input type="text" class="form-control" asp-for="Title" value="@Model.Title">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">ön ek</label>
+                        <input type="text" class="form-control" asp-for="Prefix" value="@Model.Prefix">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">içerik</label>
+                        <textarea class="form-control" asp-for="Content"
+                           id="Content"
+                           value="@Model.Content"></textarea>
+                    </div>
+
+                    <div class="custom-control custom-switch mb-2">
+                        <input type="checkbox" class="custom-control-input" id="customSwitches"
+                               asp-for="IsActive">
+                        <label class="custom-control-label" for="customSwitches">Onayla</label>
+                    </div>
+
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-outline-success">Gönder</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    
+</div>
+
+@section Scripts
+{
+    <script asp-append-version="true" src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+
+    <script type="text/javascript">
+        ClassicEditor.create( document.querySelector('#Content'),{
+            toolbar: [
+                'heading', '|', 'bold', 'italic', 'underline', 'strikethrough', '|', 'numberedList', 'bulletedList', '|',
+                'alignment', '|', 'indent', 'outdent', '|', 'link', '|', 'undo', 'redo'
+            ]
+        })
+        .then(editor => {
+               
+           editor.setData(@Html.Raw(Json.Serialize(Model.Content)));
+           })
+         .catch(error => {
+             console.error(error);
+         });
+    </script>
+}

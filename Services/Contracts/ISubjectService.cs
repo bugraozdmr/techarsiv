@@ -9,6 +9,6 @@ public interface ISubjectService
     Task<Subject?> getOneSubject(string url,bool trackChanges);
 
     Task CreateSubject(CreateSubjectDto subject);
-    //void UpdateSubject(ProductDtoForUpdate product);
+    Task UpdateSubject(UpdateSubjectDto subject);
     Task DeleteSubject(string url);
 }

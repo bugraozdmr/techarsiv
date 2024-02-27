@@ -26,5 +26,9 @@ public class SubjectRepository : RepositoryBase<Subject> , ISubjectRepository
 
     public void deleteSubject(Subject subject) => Remove(subject);
 
-    public void UpdateSubject(Subject subject) => Update(subject);
+    public void UpdateSubject(Subject subject)
+    {
+        Update(subject);
+        _context.SaveChanges();
+    }
 }

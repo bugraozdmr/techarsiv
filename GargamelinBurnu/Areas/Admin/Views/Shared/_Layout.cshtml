@@ -362,10 +362,12 @@
     </div>
 
     
-    @RenderSectionAsync("Scripts",false)
+    @await RenderSectionAsync("Scripts",false)
     
-    <script asp-append-version="true" src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script asp-append-version="true" src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
+    
+    <script asp-append-version="true" src="~/startbootstrap-sb-admin-2-gh-pages/vendor/lib/jquery/dist/jquery.min.js"></script>
+    <script asp-append-version="true" src="~/startbootstrap-sb-admin-2-gh-pages/vendor/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script asp-append-version="true" src="~/startbootstrap-sb-admin-2-gh-pages/vendor/jquery/jquery.min.js"></script>
     <script asp-append-version="true" src="~/startbootstrap-sb-admin-2-gh-pages/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -382,7 +384,6 @@
     <!-- Page level custom scripts -->
     <script asp-append-version="true" src="~/startbootstrap-sb-admin-2-gh-pages/js/demo/chart-area-demo.js"></script>
     <script asp-append-version="true" src="~/startbootstrap-sb-admin-2-gh-pages/js/demo/chart-pie-demo.js"></script>
-
-</body>
+    </body>
 
 </html>

@@ -6,7 +6,7 @@ namespace Entities.Models;
 public class Subject
 {
     public int SubjectId { get; set; }
-    public string Url { get; set; }
+    public string? Url { get; set; }
     public DateTime CreatedAt { get; set; }
     public bool IsActive { get; set; }
 

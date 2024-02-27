@@ -64,6 +64,44 @@ public class SubjectManager : ISubjectService
         await _manager.SaveAsync();
     }
 
+    // dto olduğuna bakma la -- record değil
+    public async Task UpdateSubject(UpdateSubjectDto subject)
+    {
+        var entity = _mapper.Map<Subject>(subject);
+        
+        // boş gidemeyecek değerler var
+        entity.Url = _manager
+            .Subject
+            .GetAllSubjects(false)
+            .Where(s => s.SubjectId.Equals(subject.SubjectId))
+            .Select(s => s.Url)
+            .FirstOrDefault();
+        
+        entity.UserId = _manager
+            .Subject
+            .GetAllSubjects(false)
+            .Where(s => s.SubjectId.Equals(subject.SubjectId))
+            .Select(s => s.UserId)
+            .FirstOrDefault();
+        
+        entity.categoryId = _manager
+            .Subject
+            .GetAllSubjects(false)
+            .Where(s => s.SubjectId.Equals(subject.SubjectId))
+            .Select(s => s.categoryId)
+            .FirstOrDefault();
+        
+        entity.CreatedAt = _manager
+            .Subject
+            .GetAllSubjects(false)
+            .Where(s => s.SubjectId.Equals(subject.SubjectId))
+            .Select(s => s.CreatedAt)
+            .FirstOrDefault();
+        
+        _manager.Subject.UpdateSubject(entity);
+        await _manager.SaveAsync();
+    }
+
     public async Task DeleteSubject(string url)
     {
         var subject = await getOneSubject(url, false);
