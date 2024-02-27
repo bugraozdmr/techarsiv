@@ -16,6 +16,7 @@ public class User : IdentityUser
     public string? Job { get; set; }
     public string? About { get; set; }
     public DateTime? Birthday { get; set; }
+    public DateTime? BanUntill { get; set; }
     public DateTime CreatedAt { get; set; }
     
     public List<Subject> Subjects { get; set; } = new List<Subject>();

@@ -1,0 +1,45 @@
+@model List<WaitingSubjectsViewModel>
+
+@if (Model is not null && Model.Count() != 0)
+{
+    <div class="card">
+        <div class="card-header">
+            Onay bekleyen konular
+        </div>
+        <div class="card-body mb-2">
+            @foreach (var item in Model)
+            {
+                <div class="row">
+                    <div class="col-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="user d-flex flex-row align-items-center">
+                                <img src="@item.Image" style="width: 30px;height: 30px;" class="user-img rounded-circle mx-3 mt-2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-10">
+                        <div>
+                            <div class="mt-1">@item.Title</div>
+                        </div>
+                        <div>
+                            <b class="font-weight-bold text-dark">
+                                <a asp-action="Index" asp-controller="User" asp-route-username="@item.Username"
+                                   style="text-decoration: none;color: gray">
+                                    @item.Username
+                                </a>
+                            </b>
+                            - <span class="text-muted">@item.categoryName</span> -
+                            <span class="text-muted">@await Component.InvokeAsync("ShowTime", @item.CreatedAt)</span>
+                        </div>
+                    </div>    
+                                    
+                </div>
+               
+            }
+        </div>
+    </div>
+}
+else
+{
+    
+}
