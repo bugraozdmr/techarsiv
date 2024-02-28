@@ -53,6 +53,7 @@ app.UseEndpoints(endpoints =>
 
 });
 
+app.ConfigureDefaultRoles();
 app.ConfigureDefaultAdminUser();
 app.MapHub<UsersOnlineHub>("/UsersOnlineHub");
 

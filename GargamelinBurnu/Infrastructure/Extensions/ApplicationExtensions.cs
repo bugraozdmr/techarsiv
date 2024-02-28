@@ -53,5 +53,36 @@ public static class ApplicationExtensions
             if (!roleResult.Succeeded)
                 throw new Exception("System have problems with role definition for admin.");
         }
-    } 
+    }
+    
+    public static async void ConfigureDefaultRoles(this IApplicationBuilder app)
+    {
+        // User Manager
+        RoleManager<IdentityRole> roleManager = app
+            .ApplicationServices
+            .CreateScope()
+            .ServiceProvider
+            .GetService<RoleManager<IdentityRole>>();
+        
+        var roles = new List<IdentityRole>
+        {
+            new IdentityRole() { Name = "User", NormalizedName = "USER" },
+            new IdentityRole() { Name = "Moderator", NormalizedName = "MODERATOR" },
+            new IdentityRole() { Name = "Admin", NormalizedName = "ADMIN" }
+        };
+        
+        foreach (var role in roles)
+        {
+            // Role zaten varsa eklemeyi dene
+            var existingRole = await roleManager.FindByNameAsync(role.Name);
+            if (existingRole == null)
+            {
+                var result = await roleManager.CreateAsync(role);
+                if (!result.Succeeded)
+                {
+                    throw new Exception("System have problems with role definition.");
+                }
+            }
+        }
+    }
 }

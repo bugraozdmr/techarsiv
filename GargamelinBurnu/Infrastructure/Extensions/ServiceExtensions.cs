@@ -43,6 +43,7 @@ public static class ServiceExtensions
             })
             .AddEntityFrameworkStores<RepositoryContext>()
             .AddDefaultTokenProviders();
+        
     }
 
     public static void ConfigureCookie(this IServiceCollection services)
