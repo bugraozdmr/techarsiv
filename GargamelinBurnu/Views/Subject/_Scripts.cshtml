@@ -10,8 +10,72 @@
             return editor.getData();
         }
           
+       
+        function setDataInside(value){
+            editor.setData(value);
+        }
+        
+        
           
-          $(document).ready(function(){$("#btnYorumKayit").click(function(e) {var textValue = data();var no = $('#SubjectId').val();reqFunc(textValue, no);editor.setData('');})});
+          $(document).ready(function(){$("a[id^='editComment_']").click(function(e)
+           {
+               var clickedId = $(this).attr('id');
+               
+               commentId = clickedId.split("-")[0].split("_")[1];
+               
+               var divElement = document.querySelector('.cmt_id');
+               divElement.textContent = commentId;
+
+               
+               var id = `${commentId}-111-comment`;
+               var element = document.getElementById(id);              
+               var icerik = element.innerHTML;
+               
+               var elementToscroll = document.getElementById("contentLabel");   
+               elementToscroll.scrollIntoView({ behavior: "smooth" });
+    
+               editor.setData('');
+               editor.setData(icerik);
+               
+               var text = data();
+               
+               
+               var divElement = document.getElementById("edit_button");
+               
+               divElement.style.display="block";
+    
+               var kayitbtn = document.getElementById("btnkayit");
+               kayitbtn.style.display = "none";
+               
+               
+               
+           })
+          });
+            
+        $(document).ready(function(){$("#updatecommentbtn").click(function(e){
+            // hazir tanımlı olmayınca ateşlenmiyor
+            
+            var divElement = document.querySelector('.cmt_id');
+            var commentId = divElement.textContent;
+
+            console.log(commentId)
+            
+            var text = data();
+            editComment(commentId,text);
+            var divElement = document.getElementById("updatecommentbtn");
+            divElement.style.display="none";
+            
+            var kayitbtn = document.getElementById("btnkayit");
+            kayitbtn.style.display = "block";
+            
+            var editBtn = document.getElementById("updatecommentbtn");
+            editBtn.style.display = "none";
+                       
+            editor.setData('');
+        })});
+          
+        
+        $(document).ready(function(){$("#btnYorumKayit").click(function(e) {var textValue = data();var no = $('#SubjectId').val();reqFunc(textValue, no);editor.setData('');})});
       })
      .catch(error => {
          console.error(error);

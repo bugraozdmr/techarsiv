@@ -155,16 +155,20 @@
                     <form asp-action="AddComment" asp-controller="Subject" method="post">
                         <!--<div class="text-danger" asp-validation-summary="All"></div>-->
                         <input type="hidden" name="SubjectId" id="SubjectId" value="@Model.Subject.SubjectId"/>
-                                    
+
                         <div class="col-md-12 mb-3">
-                            <label class="form-label">Yorum</label>
+                            <label id="contentLabel" class="form-label">Yorum</label>
                             <textarea id="Content" name="Content"></textarea>
                         </div>
-                                    
-                        <div class="col-md-12 mb-3">
-                            <button id="btnYorumKayit" type="button" class="btn btn-primary">Kaydet</button>
+
+                        <div id="btnkayit" class="col-md-12 mb-3">
+                            <button id="btnYorumKayit" type="button" class="btn btn-outline-primary">Kaydet</button>
+                        </div>
+                        <div id="edit_button" class="col-md-12 mb-3" style="display: none">
+                            <button id="updatecommentbtn" type="button" class="btn btn-outline-success">Düzenle</button>
                         </div>
                     </form>
+                    <div class="cmt_id" style="display: none"></div>
                 }
                 else
                 {

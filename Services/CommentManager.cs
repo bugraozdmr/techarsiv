@@ -38,4 +38,22 @@ public class CommentManager : ICommentService
         await _manager.SaveAsync();
         //_context.SaveChanges();
     }
+
+    public async Task UpdateComment(updateCommentDto commentDto)
+    {
+        var commentToGo = _mapper.Map<Comment>(commentDto);
+
+        var oldComment = _manager
+            .Comments
+            .GetAllComments(false)
+            .Where(c => c.CommentId.Equals(commentToGo.CommentId))
+            .FirstOrDefault();
+
+        commentToGo.CreatedAt = oldComment.CreatedAt;
+        commentToGo.UserId = oldComment.UserId;
+        commentToGo.SubjectId = oldComment.SubjectId;
+        
+        _manager.Comments.UpdateComment(commentToGo);
+        await _manager.SaveAsync();
+    }
 }

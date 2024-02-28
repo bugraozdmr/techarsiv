@@ -19,4 +19,9 @@ public class CommentRepository : RepositoryBase<Comment>,ICommentRepository
     {
         Create(comment);
     }
+
+    public void UpdateComment(Comment comment)
+    {
+        Update(comment);
+    }
 }

@@ -6,7 +6,7 @@
 
 @section Head
 {
-    <link rel="stylesheet" href="css/style4.css"></link>
+    <link rel="stylesheet" href="/css/style4.css"></link>
 }
 
 
@@ -80,7 +80,7 @@
             <ul class="list-group list-group-flush">
                 @if (Model.User.instagramUrl is not null && Model.User.instagramUrl.ToLower().Contains("instagram"))
                 {
-                    <h6 class="mb-0 mt-2">
+                    <h6 class="mb-0 mt-2 mb-2">
                         <a href="@Model.User.instagramUrl" style="text-decoration: none;color: black;">
                             <i class="fa fa-instagram" style="color:orange;font-size: 24px"></i> Instagram
                         </a>
@@ -89,7 +89,7 @@
                 }
                 @if (Model.User.githubUrl is not null && Model.User.githubUrl.ToLower().Contains("github"))
                 {
-                    <h6 class="mb-0 mt-2">
+                    <h6 class="mb-0 mt-2 mb-2">
                         <a href="@Model.User.githubUrl" style="text-decoration: none;color: black;">
                             <i class="fa fa-github" style="color:black;font-size: 24px"></i> Github
                         </a>
@@ -99,7 +99,7 @@
                 }
                 @if (Model.User.youtubeUrl is not null && Model.User.youtubeUrl.ToLower().Contains("youtube"))
                 {
-                    <h6 class="mb-0 mt-2">
+                    <h6 class="mb-0 mt-2 mb-2">
                         <a href="@Model.User.youtubeUrl" style="text-decoration: none;color: black;">
                             <i class="fa fa-youtube" style="color:red;font-size: 24px"></i> Youtube
                         </a>

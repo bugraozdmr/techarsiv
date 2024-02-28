@@ -6,4 +6,5 @@ public interface ICommentRepository : IRepositoryBase<Comment>
 {
     IQueryable<Comment> GetAllComments(bool trackChanges);
     void CreateComment(Comment comment);
+    void UpdateComment(Comment comment);
 }

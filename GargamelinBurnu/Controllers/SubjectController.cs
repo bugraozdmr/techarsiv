@@ -428,6 +428,57 @@ public class SubjectController : Controller
         }
     }
 
+    public async Task<IActionResult> EditComment(string Text,int commentId)
+    {
+        // çok kod kirliliği var
+        var user = _userManager
+            .Users
+            .Where(s => s.UserName.Equals(User.Identity.Name))
+            .Select(s => new { UserId = s.Id })
+            .FirstOrDefault();
+
+        if (user is null)
+        {
+            return Json(new
+            {
+                success = -1
+            });
+        }
+
+
+        CommentDetailsViewModel model = new CommentDetailsViewModel();
+        
+        model = await _userManager.Users
+            .Where(u => u.UserName == User.Identity.Name)
+            .Include(u => u.Comments)
+            .Select(u => new  CommentDetailsViewModel()
+            {
+                Username = u.UserName,
+                Count = u.Comments.Count,
+                userSignature = u.signature,
+                userImage = u.Image
+            })
+            .FirstOrDefaultAsync();
+        
+        _manager.CommentService.UpdateComment(new updateCommentDto()
+        {
+            CommentId = commentId,
+            Text = Text
+        });
+        
+        return Json(new
+        {
+            success = 1,
+            text = Text,
+            username = model.Username,
+            messageCount = model.Count,
+            userSignature = model.userSignature,
+            userImage = model.userImage
+        });
+        
+    }
+    
+    
     [Authorize]
     public IActionResult likeSubjectRemove(int SubjectId,string UserId)
     {

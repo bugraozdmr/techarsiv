@@ -8,4 +8,5 @@ public interface ICommentService
 {
     IQueryable<Comment> getAllComments(bool trackChanges);
     Task CreateComment(CreateCommentDto comment);
+    Task UpdateComment(updateCommentDto commentDto);
 }
