@@ -35,7 +35,7 @@ public static class ApplicationExtensions
                 UserName = adminUser,
                 CreatedAt = DateTime.Now,
                 EmailConfirmed = true,
-                Image = "/images/user/avatar_1"
+                Image = "/images/user/samples/avatar_4.jpg"
             };
 
             var result = await userManager.CreateAsync(user, adminPassword);

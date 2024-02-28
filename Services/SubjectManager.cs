@@ -1,7 +1,7 @@
 using AutoMapper;
 using Entities.Dtos.SubjectDtos;
 using Entities.Models;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Repositories.Contracts;
 using Services.Contracts;
 using Services.Helpers;
@@ -11,13 +11,19 @@ namespace Services;
 public class SubjectManager : ISubjectService
 {
     private readonly IRepositoryManager _manager;
+    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly UserManager<User> _userManager;
     private readonly IMapper _mapper;
 
     public SubjectManager(IMapper mapper
-        , IRepositoryManager manager)
+        , IRepositoryManager manager,
+        RoleManager<IdentityRole> roleManager,
+        UserManager<User> userManager)
     {
         _mapper = mapper;
         _manager = manager;
+        _roleManager = roleManager;
+        _userManager = userManager;
     }
 
     public IQueryable<Subject> GetAllSubjects(bool trackChanges)
@@ -55,7 +61,17 @@ public class SubjectManager : ISubjectService
         }
         
         productToGo.CreatedAt = DateTime.Now;
-        productToGo.IsActive = false;
+
+        // role check
+        var roles = await GetRolesForUserAsync(subject.UserId);
+        if (roles.Contains("Admin"))
+        {
+            productToGo.IsActive = true;
+        }
+        else
+        {
+            productToGo.IsActive = false;
+        }
         productToGo.Url = url;
 
         
@@ -112,4 +128,16 @@ public class SubjectManager : ISubjectService
             await _manager.SaveAsync();
         }
     }
+    
+    
+    protected async Task<IEnumerable<string>> GetRolesForUserAsync(string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+            return Enumerable.Empty<string>();
+
+        var roles = await _userManager.GetRolesAsync(user);
+        return roles;
+    }
+
 }
