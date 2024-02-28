@@ -66,7 +66,7 @@
                     {
                         if (User.Identity.Name.Equals(Model.User.UserName))
                         {
-                            <button class="btn btn-outline-primary text-center mt-2">Düzenle</button>    
+                            <a asp-action="Edit" class="btn btn-outline-primary text-center mt-2">Düzenle</a>    
                         }
                         else
                         {
@@ -235,18 +235,7 @@
                     </div>
                     <hr>
                 }
-                @if (Model.User.Birthday is not null)
-                {
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h6 class="mb-0">Yaş</h6>
-                        </div>
-                        <div class="col-sm-9 text-secondary">
-                            @Model.User.Birthday?.ToString("d") (Yaş: @(DateTime.Now.Year - Model.User.Birthday?.Year))
-                        </div>
-                    </div>
-                    <hr>
-                }
+                
             </div>
             
             <div class="tab-pane fade mt-2 mx-1" id="subjects" role="tabpanel" aria-labelledby="subjects-tab">

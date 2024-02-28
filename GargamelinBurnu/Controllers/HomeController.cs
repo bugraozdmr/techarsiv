@@ -1,8 +1,11 @@
 ﻿
+using Entities.Models;
 using Entities.RequestParameters;
 using Microsoft.AspNetCore.Mvc;
 using GargamelinBurnu.Models;
-
+using GargamelinBurnu.Models.Userpage;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Services.Contracts;
 
 namespace GargamelinBurnu.Controllers;
@@ -10,10 +13,13 @@ namespace GargamelinBurnu.Controllers;
 public class HomeController : Controller
 {
     private readonly IServiceManager _manager;
+    private readonly UserManager<User> _userManager;
 
-    public HomeController(IServiceManager manager)
+    public HomeController(IServiceManager manager,
+        UserManager<User> userManager)
     {
         _manager = manager;
+        _userManager = userManager;
     }
 
     [HttpGet("/")]

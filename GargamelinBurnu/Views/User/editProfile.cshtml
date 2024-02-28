@@ -1,0 +1,85 @@
+@model EditUserViewModel
+
+<div class="text-center mt-4 mb-2">
+    <h4>Profili Düzenle</h4>
+</div>
+<div class="col-10 mx-auto">
+    <div class="mt-4">
+        <form method="post" asp-action="editProfile">
+            <input type="hidden" asp-for="@Model.Userid" value="@Model.Userid"/>
+            <div class="text-danger" asp-validation-summary="All"></div>
+            <div class="row mb-2">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Full isim</label>
+                        <input type="text" class="form-control" asp-for="Fullname" placeholder="isim alanı">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Yer</label>
+                        <input type="text" class="form-control" asp-for="Place" placeholder="nerde yaşıyorsun alanı">
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-12">
+                    @if (Model.Gender == null)
+                    {
+                        <select class="form-select mt-4" asp-for="Gender" aria-label="Default select example">
+                            <option selected>Cinsiyet</option>
+                            <option value="erkek">Erkek</option>
+                            <option value="kadın">Kadın</option>
+                        </select>
+                    }
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Youtube hesap link</label>
+                        <input type="text" class="form-control" asp-for="youtubeUrl" placeholder="link">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Github hesap link</label>
+                        <input type="text" class="form-control" asp-for="githubUrl" placeholder="link">
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Instagram hesap link</label>
+                        <input type="text" class="form-control" asp-for="instagramUrl" placeholder="link">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>iş</label>
+                        <input type="text" class="form-control" asp-for="Job" placeholder="neyle meşgulsun">
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="form-group">
+                    <label>Hakkında</label>
+                    <textarea class="form-control" asp-for="About" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label>Imza</label>
+                    <textarea class="form-control" asp-for="signature" rows="3"></textarea>
+                </div>
+            </div>
+
+
+            <div class="text-center mt-3">
+                <button class="btn btn-outline-success" type="submit">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -195,4 +195,104 @@ public class UserController : Controller
 
         return Redirect($"/biri/{username}");
     }
+    
+    [Authorize]
+    public IActionResult Edit()
+    {
+        return View();
+    }
+
+    [Authorize]
+    [HttpGet("editProfile/{username}")]
+    public IActionResult editProfile(string? username)
+    {
+        if (username is null)
+        {
+            return NotFound();
+        }
+        
+        // silinebilir
+        if (!User.Identity.Name.Equals(username))
+        {
+            return NotFound();
+        }
+        
+        var user = _userManager
+            .Users
+            .Where(s => s.UserName.Equals(User.Identity.Name))
+            .Select(s => new EditUserViewModel
+            {
+                Fullname = s.FullName,
+                Place = s.Place,
+                About = s.About,
+                signature = s.signature,
+                Gender = s.Gender,
+                githubUrl = s.githubUrl,
+                youtubeUrl = s.youtubeUrl,
+                Job = s.Job,
+                Userid = s.Id
+            })
+            .FirstOrDefault();
+        
+        return View(user);
+    }
+
+    [Authorize]
+    [HttpPost("editProfile/{username}")]
+    public async Task<IActionResult> editProfile(EditUserViewModel model)
+    {
+        // maxlenght için yapılcak tek şey burda doğrulamadır ancak gerek yok sorun olursa yapılır
+        
+        var gender = _userManager
+            .Users
+            .Where(s => s.UserName.Equals(User.Identity.Name))
+            .Select(s => s.Gender)
+            .FirstOrDefault();
+
+        if (model.Gender != gender && gender != null)
+        {
+            model.Gender = gender;
+        }
+
+        // user update
+        var user = await _userManager.FindByIdAsync(model.Userid);
+
+        if (user is not null)
+        {
+            if (User.Identity.Name == user.UserName)
+            {
+                user.FullName = model.Fullname;
+                user.Gender = model.Gender;
+                user.signature = model.signature;
+                user.About = model.About;
+                user.instagramUrl = model.instagramUrl;
+                user.githubUrl = model.githubUrl;
+                user.youtubeUrl = model.youtubeUrl;
+                user.Place = model.Place;
+                user.Job = model.Job;
+            
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Edit");
+                }
+                else
+                {
+                    ModelState.AddModelError("","güncelleme sırasında bir hata meydana geldi.");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("","hata !");
+            }
+        }
+        else
+        {
+            ModelState.AddModelError("","bir hata oluştu ...");
+        }
+        
+        
+        
+        return View(model);
+    }
 }

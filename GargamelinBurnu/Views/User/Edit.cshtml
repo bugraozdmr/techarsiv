@@ -1,0 +1,46 @@
+@section Head
+{
+    <link asp-append-version="true" rel="stylesheet" href="~/css/styleprofile.css"></link>
+}
+
+<div class="mt-3 row">
+    <div class="col-3">
+        <div class="card mt-4">
+            <div class="card-body">
+                <a href="" style="text-decoration: none;color: cornflowerblue">hesap kapatma başvurusu</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-9">
+
+    </div>
+</div>
+<nav class="menu">
+    <input checked="checked" class="menu-toggler" type="checkbox">
+    <label for="menu-toggler"></label>
+    <ul>
+        <li class="menu-item">
+            <a class="" asp-action="editProfile" asp-route-username="@User.Identity.Name">
+                <i class="fa fa-cog" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a class="" href="#">
+                <i class="fa fa-envelope"></i>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a class="" href="/">
+                <i class="fa fa-arrow-right"></i>
+            </a>
+        </li>
+
+    </ul>
+</nav>
+
+
+<style>
+    .footer {
+        display: none;
+    }
+</style>
