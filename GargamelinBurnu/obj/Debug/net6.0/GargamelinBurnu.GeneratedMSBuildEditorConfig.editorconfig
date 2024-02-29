@@ -15,6 +15,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu
 build_property._RazorSourceGeneratorDebug = 
 
+[/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Areas/Admin/Views/Ban/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvQmFuL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Areas/Admin/Views/Panel/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvUGFuZWwvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -97,6 +101,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Views/Home/Tags.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9UYWdzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Views/Shared/Components/BanWidget/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvQmFuV2lkZ2V0L0RlZmF1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/Views/Shared/Components/DetailsComments/Default.cshtml]

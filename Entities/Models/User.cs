@@ -21,6 +21,8 @@ public class User : IdentityUser
     
     public List<Subject> Subjects { get; set; } = new List<Subject>();
     public List<Comment> Comments { get; set; } = new List<Comment>();
+
+    public List<Ban> Bans { get; set; } = new List<Ban>();
     
 
     public List<SubjectLike> LikedSubjects { get; set; } = new List<SubjectLike>();

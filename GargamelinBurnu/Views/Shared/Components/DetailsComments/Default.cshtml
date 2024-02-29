@@ -46,17 +46,32 @@ else
                                 <span class="text-danger" id="err_@item.CommentId-400"></span>
                             </div>
                         </div>
-
+                        
                         if (User.Identity.IsAuthenticated)
                         {
-                            <div class="mt-2">
-                                <a id="editComment_@item.CommentId-232">
-                                    <i class="fa fa-edit text-warning mx-3" style="font-size: 30px"></i>
-                                    <p class="mb-1" style="text-decoration: none;color: #1c294e">Düzenle</p>
-                                    <br/>
-                                    <span class="text-danger" id="err_@item.CommentId-400"></span>
-                                </a>
-                            </div>
+                            <div class="row">
+                                <div class="col-2">
+                                    <div class="mt-2">
+                                        <a id="editComment_@item.CommentId-232">
+                                            <i class="fa fa-edit text-warning mx-3" style="font-size: 30px"></i>
+                                            <br/>
+                                            <span class="text-danger" id="err_@item.CommentId-400"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <div class="col-2">
+                                        <div class="mt-2">
+                                            <a id="deleteComment_@item.CommentId-121">
+                                                <i class="fa fa-trash text-danger mx-3" style="font-size: 30px"></i>
+                                                <br/>
+                                                <span class="text-danger" id="err_@item.CommentId-400"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                            </div> 
                         }
                     }
                     else
@@ -88,6 +103,30 @@ else
                                 <span class="text-danger" id="err_@item.CommentId-400"></span>
                             </div>
                         </div>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            // gereksiz belki sil eklenir
+                            <div class="row">
+                                <div class="col-2">
+                                    <div class="mt-2">
+                                        <a id="editComment_@item.CommentId-232">
+                                            <i class="fa fa-edit text-warning mx-3" style="font-size: 30px"></i>
+                                            <br/>
+                                            <span class="text-danger" id="err_@item.CommentId-400"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="mt-2">
+                                        <a id="deleteComment_@item.CommentId-121">
+                                            <i class="fa fa-trash text-danger mx-3" style="font-size: 30px"></i>
+                                            <br/>
+                                            <span class="text-danger" id="err_@item.CommentId-400"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     }
                     <div class="text-muted">@await Component.InvokeAsync("ShowTime", item.CommentDate)</div>
                     @if (item.CommentUserSignature is not null)

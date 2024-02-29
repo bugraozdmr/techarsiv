@@ -7,4 +7,5 @@ public interface IServiceManager
     ICommentService CommentService { get; }
     ILikeDService LikeDService { get; }
     ICommentLikeDService CommentLikeDService { get; }
+    IBanService BanService { get; }
 }

@@ -36,7 +36,7 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.Entity<CommentDislike>()
             .HasKey(sl => new { sl.CommentId, sl.UserId });
         
-
+        
         
         // bulur
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
@@ -51,5 +51,5 @@ public class RepositoryContext : IdentityDbContext<User>
     
     public DbSet<Commentlike> Commentlikes { get; set; }
     public DbSet<CommentDislike> CommentDislikes { get; set; }
-    
+    public DbSet<Ban> Bans { get; set; }
 }

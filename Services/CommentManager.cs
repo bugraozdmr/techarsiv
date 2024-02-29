@@ -26,6 +26,11 @@ public class CommentManager : ICommentService
         return _manager.Comments.GetAllComments(trackChanges);
     }
 
+    public Comment? getOneComment(int id, bool trackChanges)
+    {
+        return _manager.Comments.getOneComment(id,trackChanges);
+    }
+
     public async Task<int> CreateComment(CreateCommentDto comment)
     {
         var commentToGo = _mapper.Map<Comment>(comment);
@@ -68,6 +73,31 @@ public class CommentManager : ICommentService
         if (result > 0)
         {
             return 1;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+
+    public async Task<int> DeleteComment(int id)
+    {
+        var comment = getOneComment(id, false);
+
+        if (comment is not null)
+        {
+            _manager.Comments.DeleteComment(comment);
+            
+            var result = await _context.SaveChangesAsync();
+
+            if (result > 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
         }
         else
         {

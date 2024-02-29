@@ -569,7 +569,6 @@ var editComment = function (no,textValue){
             success: function(yorum) {
                 $("#spinner").hide();
                 
-                console.log(yorum.success)
 
                 if (yorum.success==-1){
                     $("#DivError").append('Bir hata oluştu'+
@@ -638,4 +637,59 @@ var editComment = function (no,textValue){
 
         });
     }
+}
+
+
+var deleteComment = function (no){
+    $("#spinner").show();
+
+    if (no == undefined) {
+        $("#spinner").hide();
+        $("#DivError").append('Bir şeyler ters gitti !'+
+            '<br>');
+        setTimeout(function() {
+            $("#DivError").empty();
+        }, 10000); // 30 saniye
+        return;
+    }
+
+    var no = parseInt(no);
+
+
+    $.ajax({
+        type: 'POST',
+        url: '/Subject/deleteComment/',
+        dataType: 'json',
+        data: {
+            commentId: no
+        },
+        success: function(yorum) {
+            $("#spinner").hide();
+
+            if (yorum.success==-1){
+                $(`#err_${no}-400`).append('Bir hata oluştu'+
+                    '<br>');
+
+                setTimeout(function() {
+                    $(`#err_${no}-400`).empty();
+                }, 10000);
+            }
+            else{
+                var elementToRemove = document.getElementById(`comment_${no}-311`)
+                elementToRemove.remove();
+            }
+        },
+        error: function(xhr, status, error) {
+            $("#spinner").hide();
+
+            $(`#err_${no}-400`).append('Bir hata oluştu'+
+                '<br>');
+
+            setTimeout(function() {
+                $(`#err_${no}-400`).empty();
+            }, 10000);
+        }
+
+
+    });
 }

@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Entities.Dtos.Comment;
 using Entities.Dtos.SubjectDtos;
 using Entities.Models;
@@ -82,7 +83,7 @@ public class SubjectController : Controller
         foreach (IFormFile photo in Request.Form.Files)
         {
             var uzanti = Path.GetExtension(photo.FileName);
-            if (uzanti != ".jpg" && uzanti != ".png")
+            if (uzanti != ".jpg" && uzanti != ".png" && uzanti != ".jpeg")
             {
                 TempData["create_message"] = "sadece .jpg ve .png uzantılı dosyalar yüklenebilir";
                 return Json(new { Url = "fail" });
@@ -176,6 +177,11 @@ public class SubjectController : Controller
             return RedirectToAction("Index", "Home");
         }
 
+        if (User.Identity.IsAuthenticated)
+        {
+            await _manager.BanService.checkBan(User.Identity.Name);
+        }
+        
         // model started
         var model = new SubjectViewModel();
         
@@ -320,6 +326,20 @@ public class SubjectController : Controller
             });
         }
 
+        string[] yasakliKelimeler = { "amına koyayım", "siktiğim", "sikik","dalyarak","dalyarrak","yarrak","piç","siktirgit","siktir"};
+        string pattern = string.Join("|", yasakliKelimeler);
+
+        Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+        MatchCollection matches = regex.Matches(Text.ToLower());
+
+        if (matches.Count > 0)
+        {
+            return Json(new
+            {
+                success = -1
+            });
+        }
+        
         CommentDetailsViewModel model = new CommentDetailsViewModel();
         
         model = await _userManager.Users
@@ -439,6 +459,7 @@ public class SubjectController : Controller
         }
     }
 
+    [Authorize]
     public async Task<IActionResult> EditComment(string Text,int commentId)
     {
         // çok kod kirliliği var
@@ -456,6 +477,19 @@ public class SubjectController : Controller
             });
         }
 
+        string[] yasakliKelimeler = { "amına koyayım", "siktiğim", "sikik","dalyarak","dalyarrak","yarrak","piç","siktirgit","siktir"};
+        string pattern = string.Join("|", yasakliKelimeler);
+
+        Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+        MatchCollection matches = regex.Matches(Text.ToLower());
+
+        if (matches.Count > 0)
+        {
+            return Json(new
+            {
+                success = -1
+            });
+        }
 
         CommentDetailsViewModel model = new CommentDetailsViewModel();
         
@@ -497,6 +531,29 @@ public class SubjectController : Controller
             });
         }
         
+    }
+
+    [Authorize(Roles = "Admin,Moderator")]
+    public async Task<IActionResult> deleteComment(int commentId)
+    {
+        // admin olup olmadığını kontrole gerek yok çünkü authorized yapar
+
+        var result = await _manager.CommentService.DeleteComment(commentId);
+
+        if (result == -1)
+        {
+            return Json(new
+            {
+                success = -1
+            });
+        }
+        else
+        {
+            return Json(new
+            {
+                success = 1
+            });
+        }
     }
     
     

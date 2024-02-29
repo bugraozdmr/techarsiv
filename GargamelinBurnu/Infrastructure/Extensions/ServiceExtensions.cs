@@ -64,6 +64,7 @@ public static class ServiceExtensions
         services.AddScoped<ISubjectRepository, SubjectRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ICommentRepository, CommentRepository>();
+        services.AddScoped<IBanRepository, BanRepository>();
     }
     
     public static void ConfigureServicesRegistration(this IServiceCollection services)
@@ -74,6 +75,7 @@ public static class ServiceExtensions
         services.AddScoped<ICommentService, CommentManager>();
         services.AddScoped<ILikeDService, LikeDService>();
         services.AddScoped<ICommentLikeDService, CommentLikeDService>();
+        services.AddScoped<IBanService, BanManager>();
         
     }
 

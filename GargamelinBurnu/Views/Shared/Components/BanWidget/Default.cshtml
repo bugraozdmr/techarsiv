@@ -1,0 +1,45 @@
+@model BanWidgetViewModel
+
+@if (Model is not null && Model?.Username != null)
+{
+    <div class="card">
+        <div class="card-header">
+            Yasaklandınız
+        </div>
+        <div class="card-body mb-2">
+
+            <div class="row">
+                <div class="col-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="user d-flex flex-row align-items-center">
+                            <img src="@Model.Image" style="width: 30px;height: 30px;" class="user-img rounded-circle mx-3 mt-2">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-10">
+                    <div>
+                        <div class="mt-1">
+                            Yasağınızın bitmesine
+                            @((DateTime.Now - Model.EndTime).Days != 0 ? (DateTime.Now - Model.EndTime).Days + " gün" : "")
+                            @((DateTime.Now - Model.EndTime).Hours != 0 ? (DateTime.Now - Model.EndTime).Hours + " saat" : "")
+                            @((DateTime.Now - Model.EndTime).Minutes != 0 ? (DateTime.Now - Model.EndTime).Minutes + " dk" : "bir dakikadan az")
+                        </div>
+                        <div>
+                            <b class="font-weight-bold text-dark">
+                                <a asp-action="Index" asp-controller="User" asp-route-username="@Model.Username"
+                                   style="text-decoration: none;color: gray">
+                                    @Model.Username
+                                </a>
+                            </b>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    
+}

@@ -9,18 +9,21 @@ public class ServiceManager : IServiceManager
     private readonly ICommentService _commentService;
     private readonly ILikeDService _likeDService;
     private readonly ICommentLikeDService _commentLikeDService;
+    private readonly IBanService _banService;
 
     public ServiceManager(ISubjectService subjectService
         , ICategoryService categoryService
         , ICommentService commentService
         , ILikeDService likeDService
-        , ICommentLikeDService commentLikeDService)
+        , ICommentLikeDService commentLikeDService,
+        IBanService banService)
     {
         _subjectService = subjectService;
         _categoryService = categoryService;
         _commentService = commentService;
         _likeDService = likeDService;
         _commentLikeDService = commentLikeDService;
+        _banService = banService;
     }
 
     public ISubjectService SubjectService => _subjectService;
@@ -28,4 +31,5 @@ public class ServiceManager : IServiceManager
     public ICommentService CommentService => _commentService;
     public ILikeDService LikeDService => _likeDService;
     public ICommentLikeDService CommentLikeDService => _commentLikeDService;
+    public IBanService BanService => _banService;
 }

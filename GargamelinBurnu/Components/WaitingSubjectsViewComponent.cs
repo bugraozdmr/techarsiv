@@ -19,7 +19,7 @@ public class WaitingSubjectsViewComponent : ViewComponent
         _userManager = userManager;
     }
 
-    public IViewComponentResult Invoke()
+    public async Task<IViewComponentResult> InvokeAsync()
     {
         var userid = _userManager
             .Users

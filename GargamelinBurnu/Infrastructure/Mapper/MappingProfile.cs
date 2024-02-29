@@ -1,4 +1,5 @@
 using AutoMapper;
+using Entities.Dtos.Ban;
 using Entities.Dtos.Comment;
 using Entities.Dtos.SubjectDtos;
 using Entities.Models;
@@ -13,5 +14,6 @@ public class MappingProfile : Profile
         CreateMap<Comment, CreateCommentDto>().ReverseMap();
         CreateMap<Comment, updateCommentDto>().ReverseMap();
         CreateMap<Subject, UpdateSubjectDto>().ReverseMap();
+        CreateMap<Ban, BanCauseDto>().ReverseMap();
     }
 }

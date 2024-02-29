@@ -33,6 +33,9 @@
 <div class="mb-2">
     @await Component.InvokeAsync("WaitingSubjects")
 </div>
+<div class="mb-2">
+    @await Component.InvokeAsync("BanWidget")
+</div>
 
 <div class="headings d-flex justify-content-between align-items-center mb-3">
     <h5>@(Model.section is not null ? Model.section : "Son konular")</h5>

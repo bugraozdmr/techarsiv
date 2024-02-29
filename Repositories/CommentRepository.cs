@@ -15,6 +15,8 @@ public class CommentRepository : RepositoryBase<Comment>,ICommentRepository
         return FindAll(trackChanges);
     }
 
+    public Comment? getOneComment(int id, bool trackChanges) => FindByCondition(p => p.CommentId.Equals(id), trackChanges);
+
     public void CreateComment(Comment comment)
     {
         Create(comment);
@@ -23,5 +25,10 @@ public class CommentRepository : RepositoryBase<Comment>,ICommentRepository
     public void UpdateComment(Comment comment)
     {
         Update(comment);
+    }
+
+    public void DeleteComment(Comment comment)
+    {
+        Remove(comment);   
     }
 }

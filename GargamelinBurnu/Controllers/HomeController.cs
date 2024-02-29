@@ -24,27 +24,65 @@ public class HomeController : Controller
 
     [HttpGet("/")]
     [HttpGet("/index")]
-    public IActionResult Index(SubjectRequestParameters? p)
+    public async Task<IActionResult> Index(SubjectRequestParameters? p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
         p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
 
         p.Pagesize = p.Pagesize > 15 ? 15 : p.Pagesize;
+
+        IndexPageViewModel model;
         
-        var model = new IndexPageViewModel()
+        if (User.Identity.IsAuthenticated)
         {
-            p = p
-        };
+            await _manager.BanService.checkBan(User.Identity.Name);
+            
+            var banuntill = _userManager
+                .Users
+                .Where(s => s.UserName.Equals(User.Identity.Name))
+                .Select(s => s.BanUntill)
+                .FirstOrDefault();
+            
+            if (banuntill != null)
+            {
+                model = new IndexPageViewModel()
+                {
+                    // gelmezde now dedik
+                    p = p,
+                    banuntill = banuntill ?? DateTime.Now
+                };
+            }
+            else
+            {
+                model = new IndexPageViewModel()
+                {
+                    p = p,
+                };
+            }
+        }
+        else
+        {
+            model = new IndexPageViewModel()
+            {
+                p = p,
+            };
+        }
+        
         return View("Index",model);
     }
     
     [HttpGet("/son_mesajlar")]
-    public IActionResult LastComments(SubjectRequestParameters p)
+    public async Task<IActionResult> LastComments(SubjectRequestParameters p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
         p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
         
         p.Pagesize = p.Pagesize > 15 ? 15 : p.Pagesize;
+        
+        if (User.Identity.IsAuthenticated)
+        {
+            await _manager.BanService.checkBan(User.Identity.Name);
+        }
         
         var model = new IndexPageViewModel()
         {
@@ -55,12 +93,17 @@ public class HomeController : Controller
     }
     
     [HttpGet("/konularim")]
-    public IActionResult userSubjects(SubjectRequestParameters p)
+    public async Task<IActionResult> userSubjects(SubjectRequestParameters p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
         p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
         
         p.Pagesize = p.Pagesize > 15 ? 15 : p.Pagesize;
+        
+        if (User.Identity.IsAuthenticated)
+        {
+            await _manager.BanService.checkBan(User.Identity.Name);
+        }
         
         var model = new IndexPageViewModel()
         {
@@ -74,12 +117,17 @@ public class HomeController : Controller
     
 
     [HttpGet("/bolum/{category}")]
-    public IActionResult Tags(string? category,SubjectRequestParameters p)
+    public async Task<IActionResult> Tags(string? category,SubjectRequestParameters p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
         p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
         
         p.Pagesize = p.Pagesize > 15 ? 15 : p.Pagesize;
+        
+        if (User.Identity.IsAuthenticated)
+        {
+            await _manager.BanService.checkBan(User.Identity.Name);
+        }
         
         var model = new CategoryViewModel();
 

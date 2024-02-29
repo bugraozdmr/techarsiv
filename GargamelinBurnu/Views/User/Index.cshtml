@@ -64,6 +64,16 @@
                     @User.Identity.Name
                     @if (User.Identity.IsAuthenticated)
                     {
+                        if (User.IsInRole("Admin"))
+                        {
+                            if (Model.User.UserName != "Admin")
+                            {
+                                <a asp-action="Index" asp-controller="Ban" asp-area="Admin"
+                                   asp-route-username="@Model.User.UserName"
+                                   class="btn btn-outline-danger text-center mt-2">Ceza</a>
+                            }       
+                        }
+                        
                         if (User.Identity.Name.Equals(Model.User.UserName))
                         {
                             <a asp-action="Edit" class="btn btn-outline-primary text-center mt-2">Düzenle</a>    
