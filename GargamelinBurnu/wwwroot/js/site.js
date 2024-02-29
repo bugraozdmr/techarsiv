@@ -19,6 +19,10 @@
         $("#spinner").hide();
         $("#DivError").append('Yorum değeri yanlış !'+
                                                               '<br>');
+
+        setTimeout(function() {
+            $("#DivError").empty();
+        }, 10000);
         return;
     }
     
@@ -29,6 +33,10 @@
         $("#spinner").hide();
         $("#DivError").append('Yorum boş gidemez !'+
                                                   '<br>');
+
+        setTimeout(function() {
+            $("#DivError").empty();
+        }, 10000);
         return;
     }
 
@@ -46,54 +54,60 @@
             },
             success: function(yorum) {
                 $("#spinner").hide();
-                console.log(yorum)
 
-                var date = new Date(yorum.createdAt);
-                var shortDate = date.toLocaleDateString('tr-TR');
+                if (yorum.success == -1){
+                    $("#DivError").append('Bir hata oluştu'+
+                        '<br>');
 
-                var userSignatureHTML = '';
-                if (yorum.userSignature != null) {
-                    userSignatureHTML = `
+                    setTimeout(function() {
+                        $("#DivError").empty();
+                    }, 10000); 
+                }
+                else{
+                    var date = new Date(yorum.createdAt);
+                    var shortDate = date.toLocaleDateString('tr-TR');
+
+                    var userSignatureHTML = '';
+                    if (yorum.userSignature != null) {
+                        userSignatureHTML = `
                         <hr/>
                         <div>
                             <p style="color: gray; font-size: 12px; margin-bottom: 5px;">Kullanıcı Imzası:</p>
                             <p style="font-size: 14px; margin-bottom: 0;">${yorum.userSignature}</p>
                         </div>
                         `;
-                };
+                    };
 
 
 
-                $("#comments").append(`
-                <div class="d-flex flex-column my-2" id="comment-container">
-                    <div class="bg-white">
-                        <div class="flex-row d-flex">
-                            <img src="${yorum.userImage}" style="width: 40px;height: 40px" class="rounded-circle mt-2">
-                            <div class="d-flex flex-column justify-content-start ml-2 mx-3">
-                                <span class="d-block font-weight-bold name"><a
-                                 href="https://localhost:7056/biri/${yorum.username}"
-                                 style="text-decoration: none">${yorum.username}</a></span>
-                                <span class="date text-black-50">Katılma Tarihi : ${shortDate}</span>
-                                <span class="date text-black-50">Mesaj Sayısı : ${yorum.messageCount}</span>
+                    $("#comments").append(
+                    `
+                        <div class="d-flex flex-column my-2" id="comment-container">
+                            <div class="bg-white">
+                                <div class="flex-row d-flex">
+                                    <img src="${yorum.userImage}" style="width: 40px;height: 40px" class="rounded-circle mt-2">
+                                    <div class="d-flex flex-column justify-content-start ml-2 mx-3">
+                                        <span class="d-block font-weight-bold name"><a
+                                         href="https://localhost:7056/biri/${yorum.username}"
+                                         style="text-decoration: none">${yorum.username}</a></span>
+                                        <span class="date text-black-50">Katılma Tarihi : ${shortDate}</span>
+                                        <span class="date text-black-50">Mesaj Sayısı : ${yorum.messageCount}</span>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <p class="comment-text">${yorum.text}</p>
+                                </div>
                             </div>
+                            <div class="bg-white">
+                                <div class="text-muted">Hemen şimdi</div>
+                            </div>
+                            ${userSignatureHTML}
                         </div>
-                        <div class="mt-3">
-                            <p class="comment-text">${yorum.text}</p>
-                        </div>
-                    </div>
-                    <div class="bg-white">
-                        <div class="text-muted">Hemen şimdi</div>
-                    </div>
-                    ${userSignatureHTML}
-                </div>
-            `);
+                    `);
 
-
-
-                $('.ck-content p').Text('');
-
-                var adet = parseInt($("#commentCount").text());
-                $("#commentCount").text(adet + 1);
+                    var adet = parseInt($("#commentCount").text());
+                    $("#commentCount").text(adet + 1);
+                }
             },
             error: function(xhr, status, error) {
                 $("#spinner").hide();
@@ -504,7 +518,7 @@ var dummy = function (){
 
 var editComment = function (no,textValue){
     $("#spinner").show();
-
+    
     if (no == undefined) {
         $("#spinner").hide();
         $("#DivError").append('Bir şeyler ters gitti !'+
@@ -522,6 +536,10 @@ var editComment = function (no,textValue){
         $("#spinner").hide();
         $("#DivError").append('Yorum değeri yanlış !'+
             '<br>');
+
+        setTimeout(function() {
+            $("#DivError").empty();
+        }, 10000);
         return;
     }
 
@@ -529,6 +547,10 @@ var editComment = function (no,textValue){
         $("#spinner").hide();
         $("#DivError").append('Yorum boş gidemez !'+
             '<br>');
+
+        setTimeout(function() {
+            $("#DivError").empty();
+        }, 10000);
         return;
     }
 
@@ -546,50 +568,61 @@ var editComment = function (no,textValue){
             },
             success: function(yorum) {
                 $("#spinner").hide();
-                console.log(yorum)
+                
+                console.log(yorum.success)
 
-                var userSignatureHTML = '';
-                if (yorum.userSignature != null) {
-                    userSignatureHTML = `
+                if (yorum.success==-1){
+                    $("#DivError").append('Bir hata oluştu'+
+                        '<br>');
+
+                    setTimeout(function() {
+                        $("#DivError").empty();
+                    }, 10000);
+                }
+                else{
+                    var userSignatureHTML = '';
+                    if (yorum.userSignature != null) {
+                        userSignatureHTML = `
                         <hr/>
                         <div>
                             <p style="color: gray; font-size: 12px; margin-bottom: 5px;">Kullanıcı Imzası:</p>
                             <p style="font-size: 14px; margin-bottom: 0;">${yorum.userSignature}</p>
                         </div>
                         `;
-                };
+                    };
 
-                var elementToRemove = document.getElementById(`comment_${no}-311`)
-                elementToRemove.remove();
+                    var elementToRemove = document.getElementById(`comment_${no}-311`)
+                    elementToRemove.remove();
 
 
 
-                $("#comments").append(`
-                <div class="d-flex flex-column my-2" id="comment-container">
-                    <div class="bg-white">
-                        <div class="flex-row d-flex">
-                            <img src="${yorum.userImage}" style="width: 40px;height: 40px" class="rounded-circle mt-2">
-                            <div class="d-flex flex-column justify-content-start ml-2 mx-3">
-                                <span class="d-block font-weight-bold name"><a
-                                 href="https://localhost:7056/biri/${yorum.username}"
-                                 style="text-decoration: none">${yorum.username}</a></span>
-                                <span class="date text-black-50">Mesaj Sayısı : ${yorum.messageCount}</span>
+                    $("#comments").append(`
+                        <div class="d-flex flex-column my-2" id="comment-container">
+                            <div class="bg-white">
+                                <div class="flex-row d-flex">
+                                    <img src="${yorum.userImage}" style="width: 40px;height: 40px" class="rounded-circle mt-2">
+                                    <div class="d-flex flex-column justify-content-start ml-2 mx-3">
+                                        <span class="d-block font-weight-bold name"><a
+                                         href="https://localhost:7056/biri/${yorum.username}"
+                                         style="text-decoration: none">${yorum.username}</a></span>
+                                        <span class="date text-black-50">Mesaj Sayısı : ${yorum.messageCount}</span>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <p class="comment-text">${yorum.text}</p>
+                                </div>
                             </div>
+                            ${userSignatureHTML}
                         </div>
-                        <div class="mt-3">
-                            <p class="comment-text">${yorum.text}</p>
-                        </div>
-                    </div>
-                    ${userSignatureHTML}
-                </div>
-            `);
+                    `);
 
 
 
-                
 
-                var adet = parseInt($("#commentCount").text());
-                $("#commentCount").text(adet + 1);
+
+                    var adet = parseInt($("#commentCount").text());
+                    $("#commentCount").text(adet + 1);
+                }
             },
             error: function(xhr, status, error) {
                 $("#spinner").hide();

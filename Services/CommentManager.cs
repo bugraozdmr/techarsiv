@@ -26,7 +26,7 @@ public class CommentManager : ICommentService
         return _manager.Comments.GetAllComments(trackChanges);
     }
 
-    public async Task CreateComment(CreateCommentDto comment)
+    public async Task<int> CreateComment(CreateCommentDto comment)
     {
         var commentToGo = _mapper.Map<Comment>(comment);
         
@@ -35,11 +35,19 @@ public class CommentManager : ICommentService
         _manager.Comments.CreateComment(commentToGo);
         
         // hata var ama biz geçiyoruz...
-        await _manager.SaveAsync();
-        //_context.SaveChanges();
+        var result = await _context.SaveChangesAsync();
+
+        if (result > 0)
+        {
+            return 1;
+        }
+        else
+        {
+            return -1;
+        }
     }
 
-    public async Task UpdateComment(updateCommentDto commentDto)
+    public async Task<int> UpdateComment(updateCommentDto commentDto)
     {
         var commentToGo = _mapper.Map<Comment>(commentDto);
 
@@ -54,6 +62,16 @@ public class CommentManager : ICommentService
         commentToGo.SubjectId = oldComment.SubjectId;
         
         _manager.Comments.UpdateComment(commentToGo);
-        await _manager.SaveAsync();
+        // await _manager.SaveAsync();  -- bunu daha basitlerinde kullanıcam -- ajaxsız
+        var result = await _context.SaveChangesAsync();
+
+        if (result > 0)
+        {
+            return 1;
+        }
+        else
+        {
+            return -1;
+        }
     }
 }

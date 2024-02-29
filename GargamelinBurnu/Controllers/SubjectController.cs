@@ -335,23 +335,34 @@ public class SubjectController : Controller
             })
             .FirstOrDefaultAsync();
         
-        _manager.CommentService.CreateComment(new CreateCommentDto()
+        var result = await _manager.CommentService.CreateComment(new CreateCommentDto()
         {
             SubjectId = SubjectId,
             Text = Text,
             UserId = user.UserId
         });
-        
-        return Json(new
+
+        if (result == 1)
         {
-            success = 1,
-            text = Text,
-            createdAt = model.CreatedAt,
-            username = model.Username,
-            messageCount = model.Count,
-            userSignature = model.userSignature,
-            userImage = model.userImage
-        });
+            return Json(new
+            {
+                success = 1,
+                text = Text,
+                createdAt = model.CreatedAt,
+                username = model.Username,
+                messageCount = model.Count,
+                userSignature = model.userSignature,
+                userImage = model.userImage
+            });    
+        }
+        else
+        {
+            return Json(new
+            {
+                success = -1
+            });
+        }
+        
     }
     
     [Authorize]
@@ -460,21 +471,31 @@ public class SubjectController : Controller
             })
             .FirstOrDefaultAsync();
         
-        _manager.CommentService.UpdateComment(new updateCommentDto()
+        var result = await _manager.CommentService.UpdateComment(new updateCommentDto()
         {
             CommentId = commentId,
             Text = Text
         });
-        
-        return Json(new
+
+        if (result == -1)
         {
-            success = 1,
-            text = Text,
-            username = model.Username,
-            messageCount = model.Count,
-            userSignature = model.userSignature,
-            userImage = model.userImage
-        });
+            return Json(new
+            {
+                success = -1
+            });
+        }
+        else
+        {
+            return Json(new
+            {
+                success = 1,
+                text = Text,
+                username = model.Username,
+                messageCount = model.Count,
+                userSignature = model.userSignature,
+                userImage = model.userImage
+            });
+        }
         
     }
     
