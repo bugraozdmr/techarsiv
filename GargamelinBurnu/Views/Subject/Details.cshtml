@@ -26,10 +26,12 @@
             · <i class="fa fa-reply" aria-hidden="true"></i> <span id="commentCount"> @Model.CommentCount </span></p>
     </div>
     
+    
     <div class="buttons">
+        <div class="message_share" style="color: gray;font-size: 12px"></div>
         <span class="badge bg-white d-flex flex-row align-items-center">
-            <div class="btn-group">
-                <a href="" class="btn btn-success">Paylaş</a>
+            <div class="btn-group text-center">
+                <a href="" class="btn btn-success" id="shareButton">Paylaş</a>
             </div>
         </span>
     </div>
@@ -205,20 +207,10 @@
     </script>
     
     <script type="text/javascript">
-        $(document).ready(function() {
-            $('figure.image img').each(function() {
-                var width = $(this).width();
-                var height = $(this).height();
-                
-                $(this).css('max-width', '100%');
-                $(this).css('height', 'auto');
-        
-                $(this).css('display', 'block');
-                $(this).css('margin-left', 'auto');
-                $(this).css('margin-right', 'auto');
-            });
-        });
-       
+        $(document).ready(function(){$("figure.image img").each(function(){$(this).width(),$(this).height(),$(this).css("max-width","100%"),$(this).css("height","auto"),$(this).css("display","block"),$(this).css("margin-left","auto"),$(this).css("margin-right","auto")})});
     </script>
     
+    <script type="text/javascript">
+        document.getElementById("shareButton").addEventListener("click",function(t){t.preventDefault();var e=window.location.href;navigator.clipboard.writeText(e).then(function(){var t=document.querySelector(".message_share");t.textContent="Link kopyalandı",setTimeout(function(){t.textContent=""},1e4)}).catch(function(t){alert("Link kopyalanırken bir hata oluştu: "+t)})});
+    </script>
 }

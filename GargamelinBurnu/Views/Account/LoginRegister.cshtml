@@ -29,7 +29,7 @@
               <div class="forgot-remember-wrapper">
                 <div class="remember_input">
                   <input class="" asp-for="LoginModel.RememberMe" type="checkbox">
-                  <label for="remember-me" class="flip-card_checkbox">Remember me</label>
+                  <label for="remember-me" class="flip-card_checkbox">Beni hatırla</label>
                 </div>
                 <a asp-action="ForgotPassword" class="forgot">Forgot password</a>
               </div>
@@ -50,7 +50,20 @@
               <span class="text-danger" asp-validation-for="RegisterDto.Password"></span>
               <input class="flip-card__input" asp-for="RegisterDto.ConfirmPassword" placeholder="Parola tekrar">
               <span class="text-danger" asp-validation-for="RegisterDto.ConfirmPassword"></span>
-              <button class="flip-card__btn" type="submit">Kayıt ol</button>
+
+              <div class="remember_input">
+                <input class="" type="checkbox" id="confidentiality">
+                <label class="flip-card_checkbox">
+                  <a asp-page="/confidentiality" aria-current="page"
+                     style="text-decoration: none;color: gray">
+                    Gizlilik sözleşmesini
+                  </a> okudum onayladım
+                </label>
+              </div>
+              <button class="flip-card__btn" type="submit" id="reg"
+                      style="display: none">
+                Kayıt ol
+              </button>
             </form>
           </div>
         </div>
@@ -58,3 +71,16 @@
     </div>
   </div>
 </div>
+
+
+<script>
+    document.getElementById('confidentiality').addEventListener('change', function() {
+        var regButton = document.getElementById('reg');
+        if (this.checked) {
+            regButton.style.display = 'block';
+        } else {
+            regButton.style.display = 'none';
+        }
+    });
+</script>
+

@@ -74,13 +74,15 @@
 @section Scripts
 {
     <script asp-append-version="true" src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
-
+    <script asp-append-version="true" src="~/js/site.js"></script>
+    
     <script type="text/javascript">
         ClassicEditor.create( document.querySelector('#Content'),{
             toolbar: [
                 'heading', '|', 'bold', 'italic', 'underline', 'strikethrough', '|', 'numberedList', 'bulletedList', '|',
-                'alignment', '|', 'indent', 'outdent', '|', 'link', '|', 'undo', 'redo'
-            ]
+                'alignment', '|', 'indent', 'outdent', '|', 'link', '|', 'undo', 'redo' , '|', 'uploadImage'
+            ],
+            extraPlugins: [ MyCustomUploadAdapterPlugin ]
         })
         .then(editor => {
                
