@@ -27,4 +27,7 @@ public class User : IdentityUser
 
     public List<SubjectLike> LikedSubjects { get; set; } = new List<SubjectLike>();
 
+    public int Points { get; set; } = 0;
+    
+    public List<Awards> Awards { get; set; } = new List<Awards>();
 }

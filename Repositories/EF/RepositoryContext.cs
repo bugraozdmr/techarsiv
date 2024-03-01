@@ -36,6 +36,13 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.Entity<CommentDislike>()
             .HasKey(sl => new { sl.CommentId, sl.UserId });
         
+        // awardUser
+        modelBuilder.Entity<AwardUser>()
+            .HasKey(sl => new { sl.AwardsId, sl.UserId });
+
+        
+        // follower - followed -- maybe later
+        
         
         
         // bulur
@@ -52,4 +59,7 @@ public class RepositoryContext : IdentityDbContext<User>
     public DbSet<Commentlike> Commentlikes { get; set; }
     public DbSet<CommentDislike> CommentDislikes { get; set; }
     public DbSet<Ban> Bans { get; set; }
+    
+    public DbSet<Awards> Awards { get; set; }
+    public DbSet<AwardUser> AwardUsers { get; set; }
 }

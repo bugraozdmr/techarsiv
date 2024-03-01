@@ -1,5 +1,6 @@
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Services.Contracts;
 
 namespace GargamelinBurnu.Infrastructure.Extensions;
 

@@ -302,4 +302,13 @@ public class UserController : Controller
         
         return View(model);
     }
+
+
+    public async Task<IActionResult> Fallow()
+    {
+        return Json(new
+        {
+            success = 1
+        });
+    }
 }

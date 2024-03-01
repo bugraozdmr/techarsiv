@@ -71,7 +71,7 @@
                                 <a asp-action="Index" asp-controller="Ban" asp-area="Admin"
                                    asp-route-username="@Model.User.UserName"
                                    class="btn btn-outline-danger text-center mt-2">Ceza</a>
-                            }       
+                            }   
                         }
                         
                         if (User.Identity.Name.Equals(Model.User.UserName))
@@ -80,7 +80,9 @@
                         }
                         else
                         {
-                            <button class="btn btn-outline-primary text-center mt-2">Takip Et</button>
+                            <button
+                                id="fallowBtn"
+                                class="btn btn-outline-primary text-center mt-2">Takip Et</button>
                         }
                     }
                 </div>
@@ -289,6 +291,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript">
             $(document).ready(function(){$(".nav-tabs a").click(function(){$(this).tab("show")})});
+    </script>
+    
+    <script type="text/javascript">
+        
     </script>
     
     <script type="text/javascript">
