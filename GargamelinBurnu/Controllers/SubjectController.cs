@@ -33,6 +33,17 @@ public class SubjectController : Controller
     [Authorize]
     public IActionResult Create()
     {
+        var userBan = _userManager
+            .Users
+            .Where(u => u.UserName.Equals(User.Identity.Name))
+            .Select(u => u.BanUntill)
+            .FirstOrDefault();
+        
+        if (userBan != null)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        
         ViewBag.Categories = GetCategoriesSelectList();
         return View();
     }
@@ -42,6 +53,17 @@ public class SubjectController : Controller
     [Authorize]
     public async Task<IActionResult> Create([FromForm] CreateSubjectDto model,string Name)
     {
+        var userBan = _userManager
+            .Users
+            .Where(u => u.UserName.Equals(User.Identity.Name))
+            .Select(u => u.BanUntill)
+            .FirstOrDefault();
+        
+        if (userBan != null)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        
         if (ModelState.IsValid)
         {
             if (model.prefix != null)
@@ -206,6 +228,7 @@ public class SubjectController : Controller
                 return NotFound();
             }
             
+            // burası login olsanda olmasanda gelecek bilgiler
             model = _manager
                 .SubjectService
                 .GetAllSubjects(false)
@@ -227,17 +250,16 @@ public class SubjectController : Controller
                 .FirstOrDefault(s => s.Subject.Url.Equals(topic.Url));
             
             
-            
-            
-            
-            
             // taking user
             var user = _userManager
                 .Users
                 .Where(s => s.UserName.Equals(User.Identity.Name))
-                .Select(s => new { UserName = s.UserName, UserId = s.Id })
+                .Select(s => new { UserName = s.UserName, UserId = s.Id ,banuntil=s.BanUntill})
                 .FirstOrDefault();
 
+            // Banuntill atama yapildi
+            model.BanUntill = user.banuntil ?? DateTime.MinValue;
+            
             if (user is not null)
             {
                 var userId = user.UserId;
@@ -312,6 +334,17 @@ public class SubjectController : Controller
     [Authorize]
     public async Task<IActionResult> addComment(int SubjectId,string Text)
     {
+        var userBan = _userManager
+            .Users
+            .Where(u => u.UserName.Equals(User.Identity.Name))
+            .Select(u => u.BanUntill)
+            .FirstOrDefault();
+        
+        if (userBan != null)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        
         var user = _userManager
             .Users
             .Where(s => s.UserName.Equals(User.Identity.Name))
@@ -462,6 +495,17 @@ public class SubjectController : Controller
     [Authorize]
     public async Task<IActionResult> EditComment(string Text,int commentId)
     {
+        var userBan = _userManager
+            .Users
+            .Where(u => u.UserName.Equals(User.Identity.Name))
+            .Select(u => u.BanUntill)
+            .FirstOrDefault();
+        
+        if (userBan != null)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        
         // çok kod kirliliği var
         var user = _userManager
             .Users

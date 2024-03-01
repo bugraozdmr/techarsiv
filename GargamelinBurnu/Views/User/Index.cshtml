@@ -137,6 +137,9 @@
                                     <li>
                                         Bıraktığı Beğeni Sayısı 
                                     </li>
+                                    <li>
+                                        Yasaklanma sayısı 
+                                    </li>
                                 </ul>
                             </div>
                             <div class="col-4">
@@ -149,6 +152,9 @@
                                     </li>
                                     <li>
                                         @Model.LikeCount
+                                    </li>
+                                    <li>
+                                        @Model.BanCount
                                     </li>
                                 </ul>
                             </div>
@@ -269,7 +275,10 @@
                     <p>Son konu yok</p>
                 }
             </div>
+            
         </div>
+        
+        
         
 
     </div>
@@ -279,12 +288,8 @@
 {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript">
-            $(document).ready(function(){
-                $('.nav-tabs a').click(function(){
-                    $(this).tab('show');
-                });
-            });
-        </script>
+            $(document).ready(function(){$(".nav-tabs a").click(function(){$(this).tab("show")})});
+    </script>
     
     <script type="text/javascript">
     function showButton() {var fileInput = document.getElementById('formFileSm');var submitButton = document.getElementById('submitButton');if (fileInput.files.length > 0) {submitButton.style.display = 'block';} else {submitButton.style.display = 'none';}}

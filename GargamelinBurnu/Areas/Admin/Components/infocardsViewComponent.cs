@@ -36,7 +36,11 @@ public class infocardsViewComponent : ViewComponent
             waitingSubjectCount = _manager
                 .SubjectService
                 .GetAllSubjects(false)
-                .Count(s => s.IsActive.Equals(false))
+                .Count(s => s.IsActive.Equals(false)),
+            forbiddenUserCount = _userManager
+                .Users
+                .Count(s => s.BanUntill > DateTime.Now)
+            
         };
         
         return View(model);

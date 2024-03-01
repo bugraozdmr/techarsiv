@@ -43,7 +43,7 @@
     <div class="buttons">
         <span class="badge bg-white d-flex flex-row align-items-center">
             <div class="btn-group">
-                @if (User.Identity.IsAuthenticated)
+                @if (User.Identity.IsAuthenticated && Model.banuntill.Equals(DateTime.MinValue))
                 {
                     <a asp-controller="Subject" asp-action="Create" class="btn btn-warning mx-2">Konu Oluştur</a>
                 }

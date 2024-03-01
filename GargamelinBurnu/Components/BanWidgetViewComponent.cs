@@ -1,3 +1,4 @@
+using Entities.Dtos.Ban;
 using Entities.Models;
 using GargamelinBurnu.Models;
 using Microsoft.AspNetCore.Identity;
@@ -45,6 +46,16 @@ public class BanWidgetViewComponent : ViewComponent
                     })
                     .FirstOrDefault();
             }
+
+            model.Cause = _manager
+                .BanService
+                .getAllBans(false)
+                .Include(s => s.User)
+                .Where(s => s.User.UserName.Equals(User.Identity.Name))
+                .OrderByDescending(s => s.CreatedAt)
+                .Select(s => s.Cause)
+                .FirstOrDefault();
+
         }
         
         

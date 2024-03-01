@@ -100,6 +100,13 @@ public class UserController : Controller
                 CategoryName = s.Category.CategoryName,
                 Url = s.Url
             }).ToList();
+
+        model.BanCount = _manager
+            .BanService
+            .getAllBans(false)
+            .Count(s => s.UserId.Equals(model.User.Id));
+        
+        
         
         return View(model);
     }

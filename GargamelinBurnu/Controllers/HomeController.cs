@@ -22,8 +22,13 @@ public class HomeController : Controller
         _userManager = userManager;
     }
 
-    [HttpGet("/")]
     [HttpGet("/index")]
+    public IActionResult indexFor()
+    {
+        return RedirectToAction("Index");
+    }
+    
+    [HttpGet("/")]
     public async Task<IActionResult> Index(SubjectRequestParameters? p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;

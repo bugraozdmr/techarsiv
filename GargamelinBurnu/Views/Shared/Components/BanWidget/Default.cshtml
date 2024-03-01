@@ -22,7 +22,35 @@
                             Yasağınızın bitmesine
                             @((DateTime.Now - Model.EndTime).Days != 0 ? (DateTime.Now - Model.EndTime).Days + " gün" : "")
                             @((DateTime.Now - Model.EndTime).Hours != 0 ? (DateTime.Now - Model.EndTime).Hours + " saat" : "")
-                            @((DateTime.Now - Model.EndTime).Minutes != 0 ? (DateTime.Now - Model.EndTime).Minutes + " dk" : "bir dakikadan az")
+                            @((DateTime.Now - Model.EndTime).Minutes != 0 ? (DateTime.Now - Model.EndTime).Minutes + " dk var" : "bir dakikadan az kaldı")
+                        </div>
+                        <div>
+                            Yasak sebebi <span style="color: #78261f">
+                                @if (Model.Cause.Equals("swear"))
+                                {
+                                    <text>Yorumda yasaklı kelimeler kullanma</text>
+                                }
+                                else if (Model.Cause.Equals("inappropriatePhoto"))
+                                {
+                                    <text>Uygunsuz fotoğraf</text>
+                                }
+                                else if (Model.Cause.Equals("anotherLang"))
+                                {
+                                    <text>Başka dil kullanma</text>
+                                }
+                                else if (Model.Cause.Equals("wrongSubject"))
+                                {
+                                    <text>Yanlış konu oluşturma</text>
+                                }
+                                else if (Model.Cause.Equals("inappropriateUsername"))
+                                {
+                                    <text>Uygunsuz kullanıcı adı</text>
+                                }
+                                else
+                                {
+                                    <text>...</text>
+                                }
+                            </span>
                         </div>
                         <div>
                             <b class="font-weight-bold text-dark">
@@ -32,6 +60,7 @@
                                 </a>
                             </b>
                         </div>
+                        <p class="mt-3"><i>Yasak bitimini ana sayfadan kontrol etmeyi unutmayın</i></p>
                     </div>
 
                 </div>

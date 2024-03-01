@@ -21,6 +21,7 @@ public class SubjectViewModel
     public string UserImage { get; set; }
     public int UserCommentCount { get; set; }
     public DateTime CreatedAt { get; set; }
+    public DateTime BanUntill { get; set; }
 
     public int likeCount { get; set; }
     public bool isLiked { get; set; }
