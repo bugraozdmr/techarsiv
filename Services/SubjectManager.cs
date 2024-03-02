@@ -11,7 +11,6 @@ namespace Services;
 public class SubjectManager : ISubjectService
 {
     private readonly IRepositoryManager _manager;
-    private readonly RoleManager<IdentityRole> _roleManager;
     private readonly UserManager<User> _userManager;
     private readonly IMapper _mapper;
 
@@ -22,7 +21,6 @@ public class SubjectManager : ISubjectService
     {
         _mapper = mapper;
         _manager = manager;
-        _roleManager = roleManager;
         _userManager = userManager;
     }
 
@@ -77,6 +75,9 @@ public class SubjectManager : ISubjectService
         
         
         _manager.Subject.CreateSubject(productToGo);
+        
+        
+        
         await _manager.SaveAsync();
     }
 

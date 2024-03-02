@@ -83,6 +83,25 @@ public class SubjectController : Controller
                 
                 await _manager.SubjectService.CreateSubject(model);
 
+
+                // en son uretilen Id'yi al
+                int subjectId = _manager
+                    .SubjectService
+                    .GetAllSubjects(false)
+                    .Include(s => s.User)
+                    .Where(s => s.User.Id.Equals(user.Id))
+                    .OrderByDescending(s => s.CreatedAt)
+                    .Select(s => s.SubjectId)
+                    .FirstOrDefault();
+                
+                // follow created
+                _manager.FollowingSubjects.Follow(new FollowingSubjects()
+                {
+                    SubjectId = subjectId,
+                    UserId = model.UserId
+                });
+                
+
                 return RedirectToAction("Index", "Home");    
             }
             else
@@ -219,6 +238,10 @@ public class SubjectController : Controller
         if (url == "son_mesajlar")
         {
             return RedirectToAction("LastComments", "Home");
+        }
+        else if (url == "takip")
+        {
+            return RedirectToAction("followedSubjects", "Home");
         }
         else
         {

@@ -4,6 +4,10 @@
     {
         ViewData["Title"] = "Son yorumlar";    
     }
+    else if (Model.section == "Takip edilen konular")
+    {
+        ViewData["Title"] = "Takip edilen konular";
+    }
     else
     {
         ViewData["Title"] = "Ana Sayfa";    
@@ -61,6 +65,10 @@
                 if (Model.section.Equals("Son mesajlar"))
                 {
                     @await Component.InvokeAsync("LastCommentsContent",new {p=Model.p})    
+                }
+                else if (Model.section.Equals("Takip edilen konular"))
+                {
+                    @await Component.InvokeAsync("FollowedSubjects",new {p=Model.p})
                 }
                 if (Model.section.Equals("Kullanıcı konuları"))
                 {

@@ -118,7 +118,26 @@ public class HomeController : Controller
         return View("Index",model);
     }
 
-
+    [HttpGet("/takip")]
+    public async Task<IActionResult> followedSubjects(SubjectRequestParameters p)
+    {
+        p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
+        p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
+        
+        p.Pagesize = p.Pagesize > 15 ? 15 : p.Pagesize;
+        
+        if (User.Identity.IsAuthenticated)
+        {
+            await _manager.BanService.checkBan(User.Identity.Name);
+        }
+        
+        var model = new IndexPageViewModel()
+        {
+            p = p,
+            section = "Takip edilen konular"
+        };
+        return View("Index",model);
+    }
     
 
     [HttpGet("/bolum/{category}")]
