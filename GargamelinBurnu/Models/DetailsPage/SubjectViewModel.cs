@@ -8,6 +8,8 @@ public class SubjectViewModel
     // for preview page -- do not use for others
     public string Title { get; set; }
     public string Content { get; set; }
+
+    public bool IsFollowing { get; set; }
     
     public SubjectRequestParameters p { get; set; }
     

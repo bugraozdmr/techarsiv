@@ -30,8 +30,27 @@
     <div class="buttons">
         <div class="message_share" style="color: gray;font-size: 12px"></div>
         <span class="badge bg-white d-flex flex-row align-items-center">
-            <div class="btn-group text-center">
-                <a href="" class="btn btn-success" id="shareButton">Paylaş</a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="btn-group text-center">
+                    <form method="post" asp-action="fallowSubject" asp-controller="Subject">
+                        <input type="hidden" name="username" value="@User.Identity.Name"/>
+                        <input type="hidden" name="subjectId" value="@Model.Subject.SubjectId"/>
+                        <input type="hidden" name="url" value="@Model.Subject.Url"/>
+                        
+                        @if (Model.IsFollowing)
+                        {
+                            <button type="submit" class="btn btn-outline-secondary">Takibi bırak</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-outline-secondary">Konuyu takip et</button>
+                        }
+                    </form>
+                </div>
+            }
+            <div class="btn-group text-center mx-2">
+                <a href="" class="btn btn-outline-success" id="shareButton">Paylaş</a>
             </div>
         </span>
     </div>
@@ -156,7 +175,7 @@
                     if (Model.BanUntill.Equals(DateTime.MinValue))
                     {
                         <h4>Yorum Ekle</h4>
-                        <form asp-action="AddComment" asp-controller="Subject" method="post">
+                        <form asp-action="AddComment" asp-controller="Comment" method="post">
                             <!--<div class="text-danger" asp-validation-summary="All"></div>-->
                             <input type="hidden" name="SubjectId" id="SubjectId" value="@Model.Subject.SubjectId"/>
 

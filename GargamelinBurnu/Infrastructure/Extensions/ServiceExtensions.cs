@@ -80,6 +80,7 @@ public static class ServiceExtensions
         services.AddScoped<IAwardUserService, AwardUserManager>();
         services.AddScoped<IAwardService, AwardManager>();
         services.AddScoped<INotificationService, NotificationManager>();
+        services.AddScoped<IFollowingSubjects, FollowingSubjectsManager>();
     }
 
 

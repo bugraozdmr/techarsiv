@@ -31,4 +31,6 @@ public class User : IdentityUser
 
     // not
     public List<Notification> Notifications { get; set; } = new List<Notification>();
+
+    public List<FollowingSubjects> FallowingSubjects { get; set; }
 }

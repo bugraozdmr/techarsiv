@@ -1,7 +1,9 @@
 namespace Entities.Dtos.Notification;
 
-public record NotificationDto
+public class NotificationDto
 {
-    // createdAt servicede tanımlanır
-    public string UserId { get; init; }
+    // kullanıcıdan alınmadığı için sorun yok recod değil
+    public string UserId { get; set; }
+    public int SubjectId { get; set; }
+    //public int CommentId { get; set; }
 }

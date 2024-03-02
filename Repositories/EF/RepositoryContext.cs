@@ -40,7 +40,11 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.Entity<AwardUser>()
             .HasKey(sl => new { sl.AwardsId, sl.UserId });
 
-        
+        // fallowing subjects
+        modelBuilder.Entity<FollowingSubjects>()
+            .HasKey(sl => new { sl.UserId, sl.SubjectId });
+
+
         // follower - followed -- maybe later
         
         
@@ -63,4 +67,5 @@ public class RepositoryContext : IdentityDbContext<User>
     public DbSet<Awards> Awards { get; set; }
     public DbSet<AwardUser> AwardUsers { get; set; }
     public DbSet<Notification> Notifications { get; set; }
+    public DbSet<FollowingSubjects> FollowingSubjects { get; set; }
 }

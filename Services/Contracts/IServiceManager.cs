@@ -10,6 +10,7 @@ public interface IServiceManager
     IBanService BanService { get; }
     IAwardService AwardService { get; }
     INotificationService NotificationService { get; }
+    IFollowingSubjects FollowingSubjects { get; }
     
     IAwardUserService AwardUserService { get; }
     

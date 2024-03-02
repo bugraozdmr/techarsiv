@@ -46,7 +46,7 @@
         $.ajax({
 
             type: 'POST',
-            url: '/Subject/addComment/',
+            url: '/Comment/addComment/',
             dataType: 'json',
             data: {
                 SubjectId: no,

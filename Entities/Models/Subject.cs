@@ -33,4 +33,6 @@ public class Subject
     public int DislikeCount { get; set; } = 0;
     
     public List<Notification> Notifications { get; set; } = new List<Notification>();
+    
+    public List<FollowingSubjects> FallowingSubjects { get; set; } = new List<FollowingSubjects>();
 }

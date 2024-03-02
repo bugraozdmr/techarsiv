@@ -25,7 +25,9 @@ public class NotificationManager : INotificationService
         not.createdAt = DateTime.Now;
         
         _manager.Notification.CreateNotification(not);
-        await _manager.SaveAsync();
+        
+        // notification save işlemi en sona kalsın diye controllere gidiyor sistem yoruluyor.
+        
     }
 
     public IQueryable<Notification> GetAllNotification(bool trackChanges)

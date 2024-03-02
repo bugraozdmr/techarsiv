@@ -207,6 +207,14 @@ public class SubjectController : Controller
         // model started
         var model = new SubjectViewModel();
         
+        // global user
+        // taking user
+        var user = _userManager
+            .Users
+            .Where(s => s.UserName.Equals(User.Identity.Name))
+            .Select(s => new { UserName = s.UserName, UserId = s.Id ,banuntil=s.BanUntill})
+            .FirstOrDefault();
+        
         
         if (url == "son_mesajlar")
         {
@@ -250,18 +258,15 @@ public class SubjectController : Controller
                 .FirstOrDefault(s => s.Subject.Url.Equals(topic.Url));
             
             
-            // taking user
-            var user = _userManager
-                .Users
-                .Where(s => s.UserName.Equals(User.Identity.Name))
-                .Select(s => new { UserName = s.UserName, UserId = s.Id ,banuntil=s.BanUntill})
-                .FirstOrDefault();
-
-            // Banuntill atama yapildi
-            model.BanUntill = user.banuntil ?? DateTime.MinValue;
+            // user yukarı taşındı
+            
             
             if (user is not null)
             {
+                // Banuntill atama yapildi
+                model.BanUntill = user.banuntil ?? DateTime.MinValue;
+
+                
                 var userId = user.UserId;
             
                 
@@ -326,97 +331,25 @@ public class SubjectController : Controller
 
         model.p = p;
         model.isMain = p.PageNumber == 1 || p.PageNumber == null ? true : false;
+
+        if (user is not null)
+        {
+            // isFollowing
+            var checking = _manager
+                .FollowingSubjects
+                .FSubjects
+                .Where(s => s.UserId.Equals(user.UserId) &&
+                            s.SubjectId.Equals(model.Subject.SubjectId))
+                .FirstOrDefault();
+            
+            model.IsFollowing = checking is null ? false : true;
+        }
         
         
         return View(model);
     }
     
-    [Authorize]
-    public async Task<IActionResult> addComment(int SubjectId,string Text)
-    {
-        var userBan = _userManager
-            .Users
-            .Where(u => u.UserName.Equals(User.Identity.Name))
-            .Select(u => u.BanUntill)
-            .FirstOrDefault();
-        
-        if (userBan != null)
-        {
-            return RedirectToAction("Index", "Home");
-        }
-        
-        var user = _userManager
-            .Users
-            .Where(s => s.UserName.Equals(User.Identity.Name))
-            .Select(s => new {  UserId = s.Id })
-            .FirstOrDefault();
-        
-        if (user is null)
-        {
-            return Json(new
-            {
-                success = -1
-            });
-        }
-
-        string[] yasakliKelimeler = { "amına koyayım", "siktiğim", "sikik","dalyarak","dalyarrak","yarrak","piç","siktirgit","siktir"};
-        string pattern = string.Join("|", yasakliKelimeler);
-
-        Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-        MatchCollection matches = regex.Matches(Text.ToLower());
-
-        if (matches.Count > 0)
-        {
-            return Json(new
-            {
-                success = -1
-            });
-        }
-        
-        CommentDetailsViewModel model = new CommentDetailsViewModel();
-        
-        model = await _userManager.Users
-            .Where(u => u.UserName == User.Identity.Name)
-            .Include(u => u.Comments)
-            .Select(u => new  CommentDetailsViewModel()
-            {
-                Username = u.UserName,
-                CreatedAt = u.CreatedAt,
-                Count = u.Comments.Count,
-                userSignature = u.signature,
-                userImage = u.Image
-            })
-            .FirstOrDefaultAsync();
-        
-        var result = await _manager.CommentService.CreateComment(new CreateCommentDto()
-        {
-            SubjectId = SubjectId,
-            Text = Text,
-            UserId = user.UserId
-        });
-
-        if (result == 1)
-        {
-            return Json(new
-            {
-                success = 1,
-                text = Text,
-                createdAt = model.CreatedAt,
-                username = model.Username,
-                messageCount = model.Count,
-                userSignature = model.userSignature,
-                userImage = model.userImage
-            });    
-        }
-        else
-        {
-            return Json(new
-            {
-                success = -1
-            });
-        }
-        
-    }
+    
     
     [Authorize]
     public async Task<IActionResult> LikeSubject(int SubjectId)
@@ -826,5 +759,47 @@ public class SubjectController : Controller
                 .Where(l => l.SubjectId.Equals(SubjectId)).Count()
 
         });
+    }
+
+
+    [Authorize]
+    [HttpPost]
+    public IActionResult fallowSubject(string username,int subjectId,string url)
+    {
+        var userId = _userManager
+            .Users
+            .Where(s => s.UserName.Equals(username))
+            .Select(s => s.Id)
+            .FirstOrDefault();
+        
+        
+        var check = _manager
+            .FollowingSubjects
+            .FSubjects
+            .Where(s => s.UserId.Equals(userId) && s.SubjectId.Equals(subjectId))
+            .FirstOrDefault();
+
+        if (check == null)
+        {
+            _manager.FollowingSubjects.Follow(new FollowingSubjects()
+            {
+                SubjectId = subjectId,
+                UserId = userId
+            });    
+        }
+        else
+        {
+            unfallowSubject(userId, subjectId);
+        }
+        
+
+        return Redirect($"/{url}");
+    }
+    
+    [Authorize]
+    [HttpPost]
+    public void unfallowSubject(string userId,int subjectId)
+    {
+        _manager.FollowingSubjects.unFollow(userId, subjectId);
     }
 }
