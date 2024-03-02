@@ -186,7 +186,9 @@ public class CommentController : Controller
         var user = _userManager
             .Users
             .Where(s => s.UserName.Equals(User.Identity.Name))
-            .Select(s => new {  UserId = s.Id })
+            .Select(s => new {  UserId = s.Id,
+                username=s.UserName,
+                userimage=s.Image })
             .FirstOrDefault();
         
         if (user is null)
@@ -244,6 +246,16 @@ public class CommentController : Controller
                 .Where(s => s.SubjectId.Equals(SubjectId))
                 .ToList();
 
+            // 3 tur kontrol
+            var commentId = _manager
+                .CommentService
+                .getAllComments(false)
+                .OrderBy(s => s.CreatedAt)
+                .Where(s => s.Text.Equals(Text) &&
+                            s.SubjectId.Equals(SubjectId) && s.UserId.Equals(user.UserId))
+                .Select(s => s.CommentId)
+                .FirstOrDefault();
+            
             if (subjectnot != null)
             {
                 foreach (var item in subjectnot)
@@ -253,7 +265,8 @@ public class CommentController : Controller
                         NotificationDto dto = new NotificationDto()
                         {
                             UserId = item.UserId,
-                            SubjectId = SubjectId
+                            SubjectId = SubjectId,
+                            CommentId = commentId
                         };
 
                         _manager.NotificationService.CreateNotification(dto);

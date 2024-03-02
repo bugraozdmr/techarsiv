@@ -11,7 +11,7 @@ public class Notification
     public int SubjectId { get; set; }
     public Subject Subject { get; set; } = null!;
     
-    // gerek yok şu anlık
-    //public int CommentId { get; set; }
-    //public Comment Comment { get; set; } = null!;
+    
+    public int CommentId { get; set; }
+    public Comment Comment { get; set; } = null!;
 }
