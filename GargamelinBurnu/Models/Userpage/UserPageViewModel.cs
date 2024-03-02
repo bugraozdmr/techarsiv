@@ -10,5 +10,6 @@ public class UserPageViewModel
     public int BanCount { get; set; }
     public User User { get; set; }
     public List<TitleViewModel> Comments { get; set; }
+    public List<UserAwardsTab> AwardsTab { get; set; }
     public List<TitleViewModel> Subjects { get; set; }
 }

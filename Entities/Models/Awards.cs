@@ -6,6 +6,4 @@ public class Awards
     public string Title { get; set; }
 
     public int point { get; set; }
-
-    public List<User> Users { get; set; }
 }

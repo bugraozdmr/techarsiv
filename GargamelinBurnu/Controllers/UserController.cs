@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Services.Contracts;
 using Services.Helpers;
 
@@ -101,12 +102,124 @@ public class UserController : Controller
                 Url = s.Url
             }).ToList();
 
+        // ban count
         model.BanCount = _manager
             .BanService
             .getAllBans(false)
             .Count(s => s.UserId.Equals(model.User.Id));
         
         
+        
+        // awardUser -- illa kullanıcının kendisi girsin dedim fazla sorgu olmasın diye
+        if (User.Identity.IsAuthenticated)
+        {
+            if (User.Identity.Name.Equals(username))
+            {
+                var commentCount = model.CommentCount;
+                var subjectCount = model.SubjectCount;
+                var year = model.User.CreatedAt;
+
+                // commentCount award check
+                if (commentCount > 10)
+                {
+                    var check = _manager
+                        .AwardUserService
+                        .AwardUsers
+                        .Where(s => s.UserId.Equals(model.User.Id) && s.AwardsId.Equals(1))
+                        .FirstOrDefault();
+                    if (check == null)
+                    {
+                        _manager.AwardUserService
+                            .GiveAward(new AwardUser()
+                            {
+                                AwardsId = 1,
+                                UserId = model.User.Id,
+                                CreatedAt = DateTime.Now
+                            });
+                    }
+                }
+                
+                // subjectcount award check
+                if (subjectCount > 10)
+                {
+                    var check = _manager
+                        .AwardUserService
+                        .AwardUsers
+                        .Where(s => s.UserId.Equals(model.User.Id) && s.AwardsId.Equals(2))
+                        .FirstOrDefault();
+                    
+                    if (check == null)
+                    {
+                        _manager.AwardUserService
+                            .GiveAward(new AwardUser()
+                            {
+                                AwardsId = 2,
+                                UserId = model.User.Id,
+                                CreatedAt = DateTime.Now
+                            });
+                    }
+                }
+                
+                // commentCount award check
+                if (DateTime.Now > year.AddYears(1))
+                {
+                    var check = _manager
+                        .AwardUserService
+                        .AwardUsers
+                        .Where(s => s.UserId.Equals(model.User.Id) && s.AwardsId.Equals(3))
+                        .FirstOrDefault();
+                    
+                    if (check == null)
+                    {
+                        _manager.AwardUserService
+                            .GiveAward(new AwardUser()
+                            {
+                                AwardsId = 3,
+                                UserId = model.User.Id,
+                                CreatedAt = DateTime.Now
+                            });
+                    }
+                }
+            }
+        }
+
+        
+        // awards tab -- include çalışmadı iki işlem yapıldı
+        List<UserAwardsTab> model2 = _manager
+            .AwardUserService
+            .AwardUsers
+            .Where(s => s.UserId.Equals(model.User.Id))
+            .Select(s => new UserAwardsTab()
+            {
+                createdAt = s.CreatedAt,
+                awardId = s.AwardsId
+            }).ToList();
+
+        foreach (var item in model2)
+        {
+            item.percentage =(int)
+                ((double)_manager
+                     .AwardUserService
+                     .AwardUsers
+                     .Count(s => s.AwardsId.Equals(item.awardId)) /
+                 (double)_userManager.Users.Count()*100);
+
+            item.awardPoint = _manager
+                .AwardService
+                .Awards
+                .Where(s => s.AwardsId.Equals(item.awardId))
+                .Select(s => s.point)
+                .FirstOrDefault();
+            
+            item.awardName = _manager
+                .AwardService
+                .Awards
+                .Where(s => s.AwardsId.Equals(item.awardId))
+                .Select(s => s.Title)
+                .FirstOrDefault();
+        }
+
+        model.AwardsTab = model2;
         
         return View(model);
     }

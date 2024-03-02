@@ -76,7 +76,8 @@ public static class ServiceExtensions
         services.AddScoped<ILikeDService, LikeDService>();
         services.AddScoped<ICommentLikeDService, CommentLikeDService>();
         services.AddScoped<IBanService, BanManager>();
-        
+        services.AddScoped<IAwardUserService, AwardUserManager>();
+        services.AddScoped<IAwardService, AwardManager>();
     }
 
 
