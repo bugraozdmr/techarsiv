@@ -25,7 +25,7 @@ public class UserController : Controller
     }
 
     [HttpGet("/biri/{username}")]
-    public IActionResult Index(string username)
+    public async Task<IActionResult> Index(string username)
     {
         UserPageViewModel model = new UserPageViewModel();
 
@@ -219,6 +219,45 @@ public class UserController : Controller
                 .FirstOrDefault();
         }
 
+        
+        // user points -- user kendi sayfasına bakıyor olmalı
+        if (User.Identity.IsAuthenticated)
+        {
+            if (User.Identity.Name.Equals(username))
+            {
+                int totalPoint = 0;
+                var awards = _manager
+                    .AwardUserService
+                    .AwardUsers
+                    .Where(aw => aw.UserId.Equals(model.User.Id))
+                    .Select(aw => aw.AwardsId)
+                    .ToList(); // * tolist
+
+                foreach (var ids in awards)
+                {
+                    var point = _manager
+                        .AwardService
+                        .Awards
+                        .Where(s => s.AwardsId.Equals(ids))
+                        .Select(s => s.point)
+                        .FirstOrDefault();
+
+                    totalPoint += point;
+                }
+                
+                model.User.Points = totalPoint +
+                    _manager.CommentService.getAllComments(false)
+                        .Count(s => s.UserId.Equals(model.User.Id)) +
+                    _manager.SubjectService.GetAllSubjects(false)
+                        .Count(s => s.UserId.Equals(model.User.Id)) * 6;
+
+                // user point update
+                var userChange = await _userManager.FindByNameAsync(model.User.UserName);
+                userChange.Points = model.User.Points;
+                await _userManager.UpdateAsync(userChange);
+            }
+        }
+        
         model.AwardsTab = model2;
         
         return View(model);

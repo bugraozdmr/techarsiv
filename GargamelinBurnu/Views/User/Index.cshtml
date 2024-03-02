@@ -22,6 +22,7 @@
                                 @TempData["profile_message"]
                             </div>
                         }
+                        <h5>Site puanı <span class="text-muted">@Model.User.Points</span></h5>
                         <img src="@Model.User.Image" alt="Admin" class="rounded-circle" style="width: 150px;height: 150px">
                         @if (User.Identity.IsAuthenticated)
                         {
@@ -286,7 +287,7 @@
                 {
                     @foreach (var item in Model.AwardsTab)
                     {
-                        <span class="badge badge-info">@item.awardPoint</span>
+                        <h5 class="text-success">@item.awardPoint</h5>
                         <p><strong>@item.awardName</strong></p>
                         <p><em>@item.createdAt.ToString("dd MMMM yyyy") tarihinde alındı </em></p>
                         <p>Kullanıcıların %@item.percentage kadarı bu ödüle sahip</p>

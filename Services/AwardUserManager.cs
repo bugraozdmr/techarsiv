@@ -35,6 +35,7 @@ public class AwardUserManager : IAwardUserService
         else
         {
             _context.AwardUsers.Add(model);
+            /* gerek kalmadı
             var user = await _userManager.FindByIdAsync(model.UserId);
 
             int point = _context
@@ -43,7 +44,7 @@ public class AwardUserManager : IAwardUserService
                 .Select(s => s.point)
                 .FirstOrDefault();
 
-            user.Points = user.Points + point;
+            user.Points = user.Points + point;*/
             
             
             _context.SaveChanges();
