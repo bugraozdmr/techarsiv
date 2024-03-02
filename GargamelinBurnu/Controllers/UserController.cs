@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Services.Contracts;
 using Services.Helpers;
 
@@ -16,6 +15,7 @@ public class UserController : Controller
 {
     private readonly UserManager<User> _userManager;
     private readonly IServiceManager _manager;
+    
 
     public UserController(UserManager<User> userManager,
         IServiceManager manager)
@@ -111,6 +111,7 @@ public class UserController : Controller
         
         
         // awardUser -- illa kullanıcının kendisi girsin dedim fazla sorgu olmasın diye
+        // bool değerler ile kontroller geçilebilir
         if (User.Identity.IsAuthenticated)
         {
             if (User.Identity.Name.Equals(username))
@@ -120,65 +121,51 @@ public class UserController : Controller
                 var year = model.User.CreatedAt;
 
                 // commentCount award check
-                if (commentCount > 10)
+                if (commentCount >= 10)
                 {
-                    var check = _manager
-                        .AwardUserService
-                        .AwardUsers
-                        .Where(s => s.UserId.Equals(model.User.Id) && s.AwardsId.Equals(1))
-                        .FirstOrDefault();
-                    if (check == null)
-                    {
-                        _manager.AwardUserService
-                            .GiveAward(new AwardUser()
-                            {
-                                AwardsId = 1,
-                                UserId = model.User.Id,
-                                CreatedAt = DateTime.Now
-                            });
-                    }
+                    awardCheck(model.User.Id, 1);
                 }
                 
                 // subjectcount award check
-                if (subjectCount > 10)
+                if (subjectCount >= 10)
                 {
-                    var check = _manager
-                        .AwardUserService
-                        .AwardUsers
-                        .Where(s => s.UserId.Equals(model.User.Id) && s.AwardsId.Equals(2))
-                        .FirstOrDefault();
-                    
-                    if (check == null)
-                    {
-                        _manager.AwardUserService
-                            .GiveAward(new AwardUser()
-                            {
-                                AwardsId = 2,
-                                UserId = model.User.Id,
-                                CreatedAt = DateTime.Now
-                            });
-                    }
+                    awardCheck(model.User.Id, 2);
                 }
                 
                 // commentCount award check
-                if (DateTime.Now > year.AddYears(1))
+                if (DateTime.Now >= year.AddYears(1))
                 {
-                    var check = _manager
-                        .AwardUserService
-                        .AwardUsers
-                        .Where(s => s.UserId.Equals(model.User.Id) && s.AwardsId.Equals(3))
-                        .FirstOrDefault();
-                    
-                    if (check == null)
-                    {
-                        _manager.AwardUserService
-                            .GiveAward(new AwardUser()
-                            {
-                                AwardsId = 3,
-                                UserId = model.User.Id,
-                                CreatedAt = DateTime.Now
-                            });
-                    }
+                    awardCheck(model.User.Id, 3);
+                }
+
+                if (DateTime.Now >= year.AddDays(7))
+                {
+                    awardCheck(model.User.Id, 4);
+                }
+                
+                if (DateTime.Now >= year.AddDays(30))
+                {
+                    awardCheck(model.User.Id, 5);
+                }
+
+                if (commentCount >= 50)
+                {
+                    awardCheck(model.User.Id, 6);
+                }
+
+                if (commentCount >= 100)
+                {
+                    awardCheck(model.User.Id, 7);
+                }
+                
+                if (commentCount >= 500)
+                {
+                    awardCheck(model.User.Id, 8);
+                }
+
+                if (subjectCount >= 50)
+                {
+                    awardCheck(model.User.Id, 9);
                 }
             }
         }
@@ -259,6 +246,12 @@ public class UserController : Controller
         }
         
         model.AwardsTab = model2;
+        
+        // tekrar aliyor useri
+        var usr = await _userManager.FindByNameAsync(model.User.UserName);
+        // roles
+        var roles = await _userManager.GetRolesAsync(usr);
+        model.Roles = roles.ToList();
         
         return View(model);
     }
@@ -420,6 +413,7 @@ public class UserController : Controller
         {
             if (User.Identity.Name == user.UserName)
             {
+                // dto olsa buna gerek kalmazdı
                 user.FullName = model.Fullname;
                 user.Gender = model.Gender;
                 user.signature = model.signature;
@@ -456,11 +450,33 @@ public class UserController : Controller
     }
 
 
+    // boşta bu
+    [Authorize]
     public async Task<IActionResult> Fallow()
     {
         return Json(new
         {
             success = 1
         });
+    }
+
+    private void awardCheck(string userId, int awardId)
+    {
+        var check = _manager
+            .AwardUserService
+            .AwardUsers
+            .Where(s => s.UserId.Equals(userId) && s.AwardsId.Equals(awardId))
+            .FirstOrDefault();
+                    
+        if (check == null)
+        {
+            _manager.AwardUserService
+                .GiveAward(new AwardUser()
+                {
+                    AwardsId = awardId,
+                    UserId = userId,
+                    CreatedAt = DateTime.Now
+                });
+        }
     }
 }

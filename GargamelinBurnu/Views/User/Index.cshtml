@@ -41,16 +41,36 @@
                     
                     
                     <div class="mt-3">
-                        <h4 class="text-center">@Model.User.UserName</h4>
+                        @if (Model.Roles.Contains("Admin"))
+                        {
+                            <h4 class="text-danger text-center">Site sahibi</h4>
+                        }
+                        else if (Model.Roles.Contains("Moderator"))
+                        {
+                            <h4 class="text-warning text-center">Yönetici</h4>
+                        }
+                        else if (Model.Roles.Contains("User"))
+                        {
+                            if (Model.User.CreatedAt.AddDays(7) > DateTime.Now)
+                            {
+                                <h4 class="text-center">Yeni üye</h4>
+                            }
+                            else
+                            {
+                                <h4 class="text-center">Üye</h4>
+                            }
+                        }
+                        
                         @if (Model.User.Job is not null)
                         {
                             <p class="text-secondary mb-1 text-center">@Model.User.Job</p>
                         }
                         @if (Model.User.Place is not null)
                         {
-                            <p class="text-secondary mb-1 text-center"><a href="https://www.google.com/maps/place/@Model.User.Place" target="_blank" style="text-decoration: none;color: #0f5132">
-                                @Model.User.Place
-                            </a></p>
+                            <p class="text-secondary mb-1 text-center">
+                                <a href="https://www.google.com/maps/place/@Model.User.Place" target="_blank" style="text-decoration: none;color: #0f5132">
+                                    @Model.User.Place
+                                </a></p>
                         }
                         @if (Model.User.About is not null)
                         {

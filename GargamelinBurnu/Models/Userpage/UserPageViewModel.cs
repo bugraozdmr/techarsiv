@@ -12,4 +12,5 @@ public class UserPageViewModel
     public List<TitleViewModel> Comments { get; set; }
     public List<UserAwardsTab> AwardsTab { get; set; }
     public List<TitleViewModel> Subjects { get; set; }
+    public List<string> Roles { get; set; }
 }
