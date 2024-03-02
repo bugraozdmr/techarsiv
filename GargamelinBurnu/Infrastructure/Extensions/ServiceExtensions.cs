@@ -65,6 +65,7 @@ public static class ServiceExtensions
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ICommentRepository, CommentRepository>();
         services.AddScoped<IBanRepository, BanRepository>();
+        services.AddScoped<INotificationRepository, NotificationRepository>();
     }
     
     public static void ConfigureServicesRegistration(this IServiceCollection services)
@@ -78,6 +79,7 @@ public static class ServiceExtensions
         services.AddScoped<IBanService, BanManager>();
         services.AddScoped<IAwardUserService, AwardUserManager>();
         services.AddScoped<IAwardService, AwardManager>();
+        services.AddScoped<INotificationService, NotificationManager>();
     }
 
 

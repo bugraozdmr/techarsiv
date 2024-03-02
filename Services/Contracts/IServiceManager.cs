@@ -9,6 +9,7 @@ public interface IServiceManager
     ICommentLikeDService CommentLikeDService { get; }
     IBanService BanService { get; }
     IAwardService AwardService { get; }
+    INotificationService NotificationService { get; }
     
     IAwardUserService AwardUserService { get; }
     

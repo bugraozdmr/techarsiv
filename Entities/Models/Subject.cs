@@ -31,4 +31,6 @@ public class Subject
     public int LikeCount { get; set; } = 0;
     public int HeartCount { get; set; } = 0;
     public int DislikeCount { get; set; } = 0;
+    
+    public List<Notification> Notifications { get; set; } = new List<Notification>();
 }

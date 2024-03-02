@@ -13,4 +13,6 @@ public class Comment
 
     public string UserId { get; set; }
     public User User { get; set; } = null!;
+    
+    public List<Notification> Notifications { get; set; } = new List<Notification>();
 }

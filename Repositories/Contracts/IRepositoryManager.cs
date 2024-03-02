@@ -6,6 +6,7 @@ public interface IRepositoryManager
     ICategoryRepository Categories { get; }
     ICommentRepository Comments { get; }
     IBanRepository Bans { get; }
+    INotificationRepository Notification { get; }
 
     Task SaveAsync();
 }
