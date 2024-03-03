@@ -30,6 +30,24 @@ public class NotificationManager : INotificationService
         
     }
 
+    public async Task deleteAllNotification(string UserId)
+    {
+        var not = _manager
+            .Notification
+            .getAllNotifications(false)
+            .Where(s => s.UserId.Equals(UserId))
+            .ToList();
+
+
+        foreach (var item in not)
+        {
+            _manager.Notification.deleteNotification(item);
+        }
+
+        // en son save
+        await _manager.SaveAsync();
+    }
+
     public void read(Notification not)
     {
         // bu kadar

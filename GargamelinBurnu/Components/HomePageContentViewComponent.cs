@@ -19,7 +19,7 @@ public class HomePageContentViewComponent : ViewComponent
         _likeDService = likeDService;
     }
 
-    public IViewComponentResult Invoke(string? CategoryUrl,SubjectRequestParameters? p,string action,string category)
+    public IViewComponentResult Invoke(string? CategoryUrl,CommonRequestParameters? p,string action,string category)
     {
         List<TitleViewModel> model;
         int total_count;

@@ -59,7 +59,7 @@ public class BanManager : IBanService
         }
         else if (ban.Cause.Equals("wrongSubject"))
         {
-            user.BanUntill = DateTime.Now.AddMinutes(1);
+            user.BanUntill = DateTime.Now.AddHours(1);
         }
         else if (ban.Cause.Equals("inappropriatePhoto"))
         {
@@ -116,7 +116,6 @@ public class BanManager : IBanService
                 // awaiti unutma amk
                 await _manager.SaveAsync();
             }
-            
         }
     }
 }

@@ -21,7 +21,7 @@ public class FollowedSubjectsViewComponent : ViewComponent
         _userManager = userManager;
     }
 
-    public IViewComponentResult Invoke(SubjectRequestParameters? p)
+    public IViewComponentResult Invoke(CommonRequestParameters? p)
     {
         List<TitleViewModel> model = new List<TitleViewModel>();
         int total_count;

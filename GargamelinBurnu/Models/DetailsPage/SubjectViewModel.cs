@@ -11,7 +11,7 @@ public class SubjectViewModel
 
     public bool IsFollowing { get; set; }
     
-    public SubjectRequestParameters p { get; set; }
+    public CommonRequestParameters p { get; set; }
     
     public UserSubjectLdhViewModel UserSubjectLdh { get; set; }
     public bool isMain { get; set; }

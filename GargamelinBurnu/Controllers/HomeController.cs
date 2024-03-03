@@ -29,7 +29,7 @@ public class HomeController : Controller
     }
     
     [HttpGet("/")]
-    public async Task<IActionResult> Index(SubjectRequestParameters? p)
+    public async Task<IActionResult> Index(CommonRequestParameters? p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
         p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
@@ -77,7 +77,7 @@ public class HomeController : Controller
     }
     
     [HttpGet("/son_mesajlar")]
-    public async Task<IActionResult> LastComments(SubjectRequestParameters p)
+    public async Task<IActionResult> LastComments(CommonRequestParameters p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
         p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
@@ -98,7 +98,7 @@ public class HomeController : Controller
     }
     
     [HttpGet("/konularim")]
-    public async Task<IActionResult> userSubjects(SubjectRequestParameters p)
+    public async Task<IActionResult> userSubjects(CommonRequestParameters p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
         p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
@@ -119,7 +119,7 @@ public class HomeController : Controller
     }
 
     [HttpGet("/takip")]
-    public async Task<IActionResult> followedSubjects(SubjectRequestParameters p)
+    public async Task<IActionResult> followedSubjects(CommonRequestParameters p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
         p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
@@ -141,7 +141,7 @@ public class HomeController : Controller
     
 
     [HttpGet("/bolum/{category}")]
-    public async Task<IActionResult> Tags(string? category,SubjectRequestParameters p)
+    public async Task<IActionResult> Tags(string? category,CommonRequestParameters p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
         p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;

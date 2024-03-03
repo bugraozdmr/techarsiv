@@ -15,7 +15,7 @@ public class LastCommentsContentViewComponent : ViewComponent
         _manager = manager;
     }
     
-    public IViewComponentResult Invoke(SubjectRequestParameters? p)
+    public IViewComponentResult Invoke(CommonRequestParameters? p)
     {
         List<TitleViewModel> model;
         int total_count;

@@ -14,4 +14,5 @@ public class NotificationRepository : RepositoryBase<Notification>,INotification
 
     public void CreateNotification(Notification notification) => Create(notification);
     public void UpdateNotification(Notification notification) => Update(notification);
+    public void deleteNotification(Notification notification) => Remove(notification);
 }

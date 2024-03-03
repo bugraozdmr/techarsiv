@@ -22,7 +22,7 @@ public class SubjectController : Controller
         _manager = manager;
     }
 
-    public IActionResult GetAllSubjects(SubjectRequestParameters? p)
+    public IActionResult GetAllSubjects(CommonRequestParameters? p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
         p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
@@ -69,7 +69,7 @@ public class SubjectController : Controller
         return View(realModel);
     }
 
-    public IActionResult waitingApproval(SubjectRequestParameters? p)
+    public IActionResult waitingApproval(CommonRequestParameters? p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
         p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;

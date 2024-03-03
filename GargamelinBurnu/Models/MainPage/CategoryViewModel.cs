@@ -8,5 +8,5 @@ public class CategoryViewModel
     public string CategoryName { get; set; }
     public string CategoryUrl { get; set; }
     public string CategoryDesc { get; set; }
-    public SubjectRequestParameters p { get; set; }
+    public CommonRequestParameters p { get; set; }
 }

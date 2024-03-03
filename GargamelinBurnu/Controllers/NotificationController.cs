@@ -1,4 +1,7 @@
 using Entities.Models;
+using Entities.RequestParameters;
+using GargamelinBurnu.Infrastructure;
+using GargamelinBurnu.Models;
 using GargamelinBurnu.Models.Notifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -26,7 +29,7 @@ public class NotificationController : Controller
     }
 
     [Authorize]
-    public async Task<IActionResult> notifications()
+    public async Task<IActionResult> notifications(CommonRequestParameters p)
     {
         // zaten giriş yapmazsa erişemez
 
@@ -42,6 +45,8 @@ public class NotificationController : Controller
             .ThenInclude(s => s.User)
             .Where(s => s.User.UserName.Equals(User.Identity.Name))
             .OrderByDescending(s => s.createdAt)
+            .Skip((p.PageNumber-1)*(p.Pagesize))
+            .Take(p.Pagesize)
             .Select(s => new NotificationViewModel()
             {
                 CreatedAt = s.createdAt,
@@ -67,6 +72,41 @@ public class NotificationController : Controller
         // save lazim burda
         await _context.SaveChangesAsync();
 
-        return View(model);
+        
+        // pagination
+        var realModel = new PaginationNotificationViewModel();
+        realModel.List = model;
+        
+        int total_count = _manager
+            .NotificationService
+            .GetAllNotification(false)
+            .Include(s => s.User)
+            .Count(s => s.User.UserName.Equals(User.Identity.Name));
+        
+        var pagination = new Pagination()
+        {
+            CurrentPage = p.PageNumber,
+            ItemsPerPage = p.Pagesize,
+            TotalItems = total_count
+        };
+        
+        realModel.Pagination = pagination;
+        
+        return View(realModel);
+    }
+
+    [Authorize]
+    public IActionResult removeAllNotifications()
+    {
+        string userid = _userManager
+            .Users
+            .Where(u => u.UserName.Equals(User.Identity.Name))
+            .Select(s => s.Id)
+            .FirstOrDefault();
+        
+        
+        _manager.NotificationService.deleteAllNotification(userid);
+
+        return RedirectToAction("notifications");
     }
 }

@@ -205,7 +205,7 @@ public class SubjectController : Controller
     }
 
     [HttpGet("/{url}")]
-    public async Task<IActionResult> Details([FromRoute] string url,SubjectRequestParameters? p)
+    public async Task<IActionResult> Details([FromRoute] string url,CommonRequestParameters? p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
         p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;

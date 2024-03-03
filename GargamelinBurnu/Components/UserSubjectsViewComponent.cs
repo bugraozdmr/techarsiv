@@ -23,7 +23,7 @@ public class UserSubjectsViewComponent : ViewComponent
         _likeDService = likeDService;
     }
     
-    public IViewComponentResult Invoke(SubjectRequestParameters? p)
+    public IViewComponentResult Invoke(CommonRequestParameters? p)
     {
         List<TitleViewModel> model;
         int total_count;

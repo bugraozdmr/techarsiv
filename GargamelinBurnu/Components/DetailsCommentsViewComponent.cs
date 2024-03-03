@@ -20,7 +20,7 @@ public class DetailsCommentsViewComponent : ViewComponent
         _userManager = userManager;
     }
 
-    public IViewComponentResult Invoke(int subjectId,SubjectRequestParameters? p)
+    public IViewComponentResult Invoke(int subjectId,CommonRequestParameters? p)
     {
         // Take'in yeri sonlarda olmalı yoksa önce alır sonra sorgular sorun çıkar
         List<CommentViewModel> model = _manager
