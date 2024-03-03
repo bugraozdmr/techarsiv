@@ -15,6 +15,8 @@ public class User : IdentityUser
     public string? Place { get; set; }
     public string? Job { get; set; }
     public string? About { get; set; }
+
+    public bool emailActive { get; set; } = false;
     //public DateTime? Birthday { get; set; }
     public DateTime? BanUntill { get; set; }
     public DateTime CreatedAt { get; set; }

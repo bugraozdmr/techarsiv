@@ -382,7 +382,8 @@ public class UserController : Controller
                 githubUrl = s.githubUrl,
                 youtubeUrl = s.youtubeUrl,
                 Job = s.Job,
-                Userid = s.Id
+                Userid = s.Id,
+                emailActive = s.emailActive
             })
             .FirstOrDefault();
         
@@ -394,6 +395,12 @@ public class UserController : Controller
     public async Task<IActionResult> editProfile(EditUserViewModel model)
     {
         // maxlenght için yapılcak tek şey burda doğrulamadır ancak gerek yok sorun olursa yapılır
+
+        if (!(model.emailActive.Equals(false) || model.emailActive.Equals(true)))
+        {
+            // hatali durum
+            return RedirectToAction("Index","Home");
+        }
         
         var gender = _userManager
             .Users
@@ -423,6 +430,7 @@ public class UserController : Controller
                 user.youtubeUrl = model.youtubeUrl;
                 user.Place = model.Place;
                 user.Job = model.Job;
+                user.emailActive = model.emailActive;
             
                 var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)

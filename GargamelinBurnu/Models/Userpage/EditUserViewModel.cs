@@ -23,4 +23,7 @@ public class EditUserViewModel
     [MaxLength(800)]
     public string? About { get; set; }
     //public DateTime? Birthday { get; set; }
+
+
+    public bool emailActive { get; set; }
 }

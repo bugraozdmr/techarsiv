@@ -33,4 +33,10 @@ public class SmtpEmailSender : IEmailSender
         return client.SendMailAsync(new MailMessage(_username ?? "", email, subject, message)
             { IsBodyHtml = true });
     }
+
+    public async Task SendMultipleEmailsAsync(IEnumerable<string> emails, string subject, string message)
+    {
+        var tasks = emails.Select(email => SendEmailAsync(email, subject, message));
+        await Task.WhenAll(tasks);
+    }
 }
