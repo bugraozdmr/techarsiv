@@ -30,6 +30,13 @@ public class NotificationManager : INotificationService
         
     }
 
+    public void read(Notification not)
+    {
+        // bu kadar
+        not.read = true;
+        _manager.Notification.UpdateNotification(not);
+    }
+
     public IQueryable<Notification> GetAllNotification(bool trackChanges)
     {
         return _manager.Notification.getAllNotifications(trackChanges);

@@ -13,4 +13,5 @@ public class NotificationRepository : RepositoryBase<Notification>,INotification
     public IQueryable<Notification> getAllNotifications(bool trackchanges) => FindAll(trackchanges);
 
     public void CreateNotification(Notification notification) => Create(notification);
+    public void UpdateNotification(Notification notification) => Update(notification);
 }

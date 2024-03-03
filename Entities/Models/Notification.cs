@@ -14,4 +14,6 @@ public class Notification
     
     public int CommentId { get; set; }
     public Comment Comment { get; set; } = null!;
+
+    public bool read { get; set; } = false;
 }

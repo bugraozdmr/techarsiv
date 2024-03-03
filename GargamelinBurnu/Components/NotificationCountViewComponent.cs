@@ -15,10 +15,12 @@ public class NotificationCountViewComponent : ViewComponent
 
     public string Invoke()
     {
-        return (_manager
+        int count = _manager
             .NotificationService
             .GetAllNotification(false)
             .Include(s => s.User)
-            .Count(s => s.User.UserName.Equals(User.Identity.Name))).ToString();
+            .Count(s => s.User.UserName.Equals(User.Identity.Name) && s.read.Equals(false));
+        
+        return count.ToString();
     }
 }
