@@ -1,13 +1,11 @@
 using Entities.Models;
 using Entities.RequestParameters;
-using GargamelinBurnu.Infrastructure;
 using GargamelinBurnu.Models;
 using GargamelinBurnu.Models.Notifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Repositories.Contracts;
 using Repositories.EF;
 using Services.Contracts;
 
@@ -96,7 +94,7 @@ public class NotificationController : Controller
     }
 
     [Authorize]
-    public IActionResult removeAllNotifications()
+    public async Task<IActionResult> removeAllNotifications()
     {
         string userid = _userManager
             .Users
@@ -105,7 +103,7 @@ public class NotificationController : Controller
             .FirstOrDefault();
         
         
-        _manager.NotificationService.deleteAllNotification(userid);
+        await _manager.NotificationService.deleteAllNotification(userid);
 
         return RedirectToAction("notifications");
     }

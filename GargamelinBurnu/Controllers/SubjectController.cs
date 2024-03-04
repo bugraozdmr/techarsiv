@@ -11,6 +11,7 @@ using Services.Contracts;
 
 using GargamelinBurnu.Models;
 using Microsoft.AspNetCore.Authorization;
+using Repositories.EF;
 using Services.Helpers;
 
 
@@ -21,13 +22,17 @@ public class SubjectController : Controller
     private readonly IServiceManager _manager;
     private readonly UserManager<User> _userManager;
     private readonly IWebHostEnvironment _env;
+    private readonly RepositoryContext _context;
 
     public SubjectController(IServiceManager manager
-        , UserManager<User> userManager, IWebHostEnvironment env)
+        , UserManager<User> userManager, 
+        IWebHostEnvironment env,
+        RepositoryContext context)
     {
         _manager = manager;
         _userManager = userManager;
         _env = env;
+        _context = context;
     }
 
     [Authorize]
@@ -221,6 +226,11 @@ public class SubjectController : Controller
         if (User.Identity.IsAuthenticated)
         {
             await _manager.BanService.checkBan(User.Identity.Name);
+
+            var userFF = await _userManager.FindByNameAsync(User.Identity.Name);
+            userFF.canTakeEmail = true;
+            // true islemi -- mail alamaz tekrar konu okuyana kadar
+            await _context.SaveChangesAsync();
         }
         
         // model started

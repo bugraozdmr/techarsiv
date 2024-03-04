@@ -17,6 +17,8 @@ public class User : IdentityUser
     public string? About { get; set; }
 
     public bool emailActive { get; set; } = false;
+
+    public bool canTakeEmail { get; set; } = false;
     //public DateTime? Birthday { get; set; }
     public DateTime? BanUntill { get; set; }
     public DateTime CreatedAt { get; set; }

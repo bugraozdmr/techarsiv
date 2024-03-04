@@ -135,6 +135,7 @@ public class AccountController : Controller
 
             user.Image = $"/images/user/samples/avatar_{randomSayi}.jpg";
             user.emailActive = false;
+            user.canTakeEmail = false;
             
             
             var result = await _userManager.CreateAsync(user, model.RegisterDto.Password);
