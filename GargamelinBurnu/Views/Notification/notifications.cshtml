@@ -1,5 +1,9 @@
 @model PaginationNotificationViewModel
 
+@{
+    ViewData["Title"] = "Bildirimler";
+}
+
 <div class="container justify-content-between d-flex  mt-4">
     <div class="display-6">Bildirimler</div>
     @if (Model.List.Count > 0)

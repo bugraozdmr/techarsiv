@@ -63,6 +63,14 @@
                         $("#DivError").empty();
                     }, 10000); 
                 }
+                if (yorum.success == -2){
+                    $("#DivError").append('Yorumunuzda yasaklı kelimeler bulunuyor LANGUAGE'+
+                        '<br>');
+
+                    setTimeout(function() {
+                        $("#DivError").empty();
+                    }, 10000);
+                }
                 else{
                     var date = new Date(yorum.createdAt);
                     var shortDate = date.toLocaleDateString('tr-TR');

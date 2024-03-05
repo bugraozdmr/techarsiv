@@ -171,4 +171,47 @@ public class HomeController : Controller
         
         return View(model);
     }
+
+    [HttpGet("/uyeler")]
+    public IActionResult Users()
+    {
+        var model = new UsersViewModel();
+
+        model.MostPoint = _userManager
+            .Users
+            .OrderByDescending(s => s.Points)
+            .Take(15)
+            .Select(s => new UserInfoViewModel()
+            {
+                Username = s.UserName,
+                Points = s.Points,
+                UserImage = s.Image
+            })
+            .ToList();
+        
+        model.LastUsers = _userManager
+            .Users
+            .OrderByDescending(s => s.CreatedAt)
+            .Take(15)
+            .Select(s => new UserInfoViewModel()
+            {
+                Username = s.UserName,
+                UserImage = s.Image
+            })
+            .ToList();
+
+        model.MostComments = _userManager
+            .Users
+            .OrderByDescending(s => s.commentCount)
+            .Select(s => new UserInfoViewModel()
+            {
+                Username = s.UserName,
+                CommentCount = s.commentCount,
+                UserImage = s.Image
+            })
+            .ToList();
+        
+        
+        return View(model);
+    }
 }

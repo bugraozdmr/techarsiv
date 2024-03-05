@@ -16,6 +16,8 @@ public class User : IdentityUser
     public string? Job { get; set; }
     public string? About { get; set; }
 
+    public int commentCount { get; set; } = 0; 
+
     public bool emailActive { get; set; } = false;
 
     public bool canTakeEmail { get; set; } = false;

@@ -292,7 +292,7 @@ public class UserController : Controller
 
         if (uzanti != ".jpg" && uzanti != ".png")
         {
-            TempData["profile_message"] = "sadece .jpg ve .png uzantılı dosyalar yüklenebilir";
+            TempData["profile_message"] = "sadece .jpg , .jpeg ve .png uzantılı dosyalar yüklenebilir";
             return Redirect($"/biri/{username}");
         }
 
@@ -422,7 +422,7 @@ public class UserController : Controller
             {
                 // dto olsa buna gerek kalmazdı
                 user.FullName = model.Fullname;
-                user.Gender = model.Gender;
+                user.Gender = model.Gender == "Cinsiyet" ? null : user.Gender;
                 user.signature = model.signature;
                 user.About = model.About;
                 user.instagramUrl = model.instagramUrl;

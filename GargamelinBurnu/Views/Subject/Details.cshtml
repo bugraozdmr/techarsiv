@@ -1,14 +1,17 @@
 @using Services.Helpers
 @model SubjectViewModel
 
+@{
+    ViewData["Title"] = Model.Subject.Title;
+}
+
+
+
 @section Head
 {
     <link asp-append-version="true" rel="stylesheet" href="css/style4.css"></link>
 }
 
-@{
-    // metod component oldu
-}
 
 <div class="headings d-flex justify-content-between align-items-center mb-3">
     <div>
@@ -196,7 +199,7 @@
                 }
                 else
                 {
-                    <h6 class="text-primary my-4 mb-lg-5">Yorum yazmak için <a asp-action="Login" asp-controller="Account" class="text-muted">giriş yap</a></h6>
+                    <h6 class="text-primary my-4 mb-lg-5">Yorum yazmak için <a asp-action="Login" asp-controller="Account" class="text-muted" style="text-decoration: none">giriş yap</a></h6>
                 }
             </div>
         </div>

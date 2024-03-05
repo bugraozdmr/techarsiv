@@ -213,7 +213,7 @@ public class CommentController : Controller
         {
             return Json(new
             {
-                success = -1
+                success = -2
             });
         }
         
@@ -291,6 +291,15 @@ public class CommentController : Controller
                         _manager.NotificationService.CreateNotification(dto);
                     }
                 }
+                
+                // commentCount update
+                var userup = await _userManager.FindByNameAsync(User.Identity.Name);
+                userup.commentCount = _manager
+                    .CommentService
+                    .getAllComments(false)
+                    .Count(s => s.UserId.Equals(userup.Id));
+                _context.Update(userup);
+                
                 // burda olmazsa tüm hepsi için kayıt almıyor atlıyor /*/*/
                 await _context.SaveChangesAsync();
 

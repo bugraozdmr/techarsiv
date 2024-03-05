@@ -1,0 +1,137 @@
+@model UsersViewModel
+
+@{
+    ViewData["Title"] = "Kullanıcılar";
+}
+
+@section Head
+{
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/userPage.css"></link>
+    
+}
+
+<div class="mt-3 text-center">
+    <div class="display-6">
+        Kullanıcılar
+    </div>
+</div>
+
+<div class="container mt-4 mb-5">
+    <div class="row">
+        <div class="col-md-6 mb-2">
+            <div class="card widget-signups">
+                <div class="card-body">
+                    <h4 class="card-title">En çok puana sahip olanlar</h4>
+                    <h6 class="card-subtitle">Sitemizin gurur kaynakları</h6>
+                    <div class="actions actions--inverse">
+                        <div class="actions__item">
+                            <i data-toggle="dropdown" class="zmdi zmdi-more-vert" aria-expanded="false"></i>
+                            <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(35px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <a href class="dropdown-item">Refresh</a>
+                                <a href class="dropdown-item">Manage Widgets</a>
+                                <a href class="dropdown-item">Settings</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-signups__list">
+                        @foreach (var item in Model.MostPoint)
+                        {
+                            <a data-toggle="tooltip" title asp-action="Index" asp-controller="User"
+                               asp-route-username="@item.Username"
+                               data-original-title="@item.Username"
+                               style="text-decoration: none; @if (item.Points >= 0 && item.Points < 30) { <text>color: gray;</text> }else if (item.Points >= 30 && item.Points < 100) { <text>color: blue;</text> }else if (item.Points >= 30 && item.Points < 100) { <text>color: orange;</text> }else if (item.Points > 100) { <text>color: red;</text> }">
+                                <div>
+                                    <img class="avatar-img" src="@item.UserImage" alt>
+                                </div>
+                                <div>@item.Points</div>
+                            </a>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6 mb-2">
+            <div class="card widget-signups">
+                <div class="card-body">
+                    <h4 class="card-title">En çok yoruma sahip kullanıcılar</h4>
+                    <h6 class="card-subtitle">Buralı olanlar</h6>
+                    <div class="actions actions--inverse">
+                        <div class="actions__item">
+                            <i data-toggle="dropdown" class="zmdi zmdi-more-vert" aria-expanded="false"></i>
+                            <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(35px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <a href class="dropdown-item">Refresh</a>
+                                <a href class="dropdown-item">Manage Widgets</a>
+                                <a href class="dropdown-item">Settings</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-signups__list">
+                        @foreach (var item in Model.MostComments)
+                        {
+                            <a data-toggle="tooltip" title asp-action="Index" asp-controller="User"
+                               asp-route-username="@item.Username"
+                               data-original-title="@item.Username"
+                               style="text-decoration: none; @if (item.CommentCount >= 0 && item.CommentCount < 30) { <text>color: gray;</text> }else if (item.CommentCount >= 30 && item.CommentCount < 100) { <text>color: blue;</text> }else if (item.CommentCount >= 30 && item.CommentCount < 100) { <text>color: orange;</text> }else if (item.CommentCount > 100) { <text>color: red;</text> }">
+
+                                <div>
+                                    <img class="avatar-img" src="@item.UserImage" alt>
+                                </div>
+                                <div>@item.CommentCount</div>
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-2">
+            <div class="card widget-signups">
+                <div class="card-body">
+                    <h4 class="card-title">Son üyeler</h4>
+                    <h6 class="card-subtitle">Hoş geldiniz !</h6>
+                    <div class="actions actions--inverse">
+                        <div class="actions__item">
+                            <i data-toggle="dropdown" class="zmdi zmdi-more-vert" aria-expanded="false"></i>
+                            <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(35px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <a href class="dropdown-item">Refresh</a>
+                                <a href class="dropdown-item">Manage Widgets</a>
+                                <a href class="dropdown-item">Settings</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-signups__list">
+                        @foreach (var item in Model.LastUsers)
+                        {
+                            <a data-toggle="tooltip" title asp-action="Index" asp-controller="User"
+                               asp-route-username="@item.Username"
+                               data-original-title="@item.Username"
+                               style="text-decoration: none;">
+
+                                <div>
+                                    <img class="avatar-img" src="@item.UserImage" alt>
+                                </div>
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript">
+    	$(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+    </script>
+}
