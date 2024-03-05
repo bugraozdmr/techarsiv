@@ -210,39 +210,19 @@
                 <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Hakkında</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" id="awards-tab" data-toggle="tab" href="#awards" role="tab" aria-controls="awards" aria-selected="false">Ödüller</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" id="subjects-tab" data-toggle="tab" href="#subjects" role="tab" aria-controls="subjects" aria-selected="false">Son konuları</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="comments-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false">Son yorumları</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" id="awards-tab" data-toggle="tab" href="#awards" role="tab" aria-controls="awards" aria-selected="false">Ödüller</a>
-            </li>
+
         </ul>
     
         <div class="tab-content profile-tab mt-2" id="myTabContent">
-            <div class="tab-pane fade mt-2 mx-1" id="comments" role="tabpanel" aria-labelledby="comments-tab">
-                @if (Model.Comments.Count != 0 && Model.Comments.Count != null)
-                {
-                    @foreach (var item in Model.Comments)
-                    {
-                        <a asp-action="Details" asp-controller="Subject" asp-route-url="@item.Url" target="_blank" style="text-decoration: none">@item.Title</a>
-                        <div>
-                            <small>@Html.Raw((item.Content.Length > 200 ? @item.Content.Substring(0, 200) + "..." : item.Content))</small>
-                        </div>
-                        <p>
-                            @item.Username -
-                            @await Component.InvokeAsync("ShowTime", @item.createdAt)
-                            - @item.CategoryName
-                        </p>
-                        <hr/>
-                    }
-                }
-                else
-                {
-                    <p>Son yorum yok</p>
-                }
-            </div>
+            
         
             <div class="tab-pane fade mt-2 show active mx-1" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="row mt-4">
@@ -336,11 +316,40 @@
                 }
             </div>
             
+            
+            <div class="tab-pane fade mt-2 mx-1" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+                @if (Model.Comments.Count != 0 && Model.Comments.Count != null)
+                {
+                    @foreach (var item in Model.Comments)
+                    {
+                        string content = item.Content;
+                        
+                        if (item.Content.Length > 350)
+                        {
+                            content = item.Content.Substring(0, 350);
+                            
+                            content += "... </i></a></strong></p></b></li></ul>";
+                        }
+                        
+                         <a asp-action="Details" asp-controller="Subject" asp-route-url="@item.Url" target="_blank" style="text-decoration: none">@item.Title</a>
+                        <div>
+                            <small>@Html.Raw(content)</small>
+                        </div>
+                        <p>
+                            @item.Username -
+                            @await Component.InvokeAsync("ShowTime", @item.createdAt)
+                            - @item.CategoryName
+                        </p>
+                        <hr/>
+                    }
+                }
+                else
+                {
+                    <p>Son yorum yok</p>
+                }
+            </div>
+            
         </div>
-        
-        
-        
-
     </div>
 </div>
 
