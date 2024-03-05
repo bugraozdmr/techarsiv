@@ -11,127 +11,108 @@
     
 }
 
-<div class="mt-3 text-center">
-    <div class="display-6">
-        Kullanıcılar
+
+<!-- most points kullanıcılar -->
+<div class="mt-3 mb-2 text-center">
+    <div class="display-6" style="font-weight: bold; font-size: 2rem; font-style: italic;">
+        En çok puana sahip kullanıcılar
     </div>
 </div>
 
-<div class="container mt-4 mb-5">
-    <div class="row">
-        <div class="col-md-6 mb-2">
-            <div class="card widget-signups">
-                <div class="card-body">
-                    <h4 class="card-title">En çok puana sahip olanlar</h4>
-                    <h6 class="card-subtitle">Sitemizin gurur kaynakları</h6>
-                    <div class="actions actions--inverse">
-                        <div class="actions__item">
-                            <i data-toggle="dropdown" class="zmdi zmdi-more-vert" aria-expanded="false"></i>
-                            <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(35px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                <a href class="dropdown-item">Refresh</a>
-                                <a href class="dropdown-item">Manage Widgets</a>
-                                <a href class="dropdown-item">Settings</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="widget-signups__list">
-                        @foreach (var item in Model.MostPoint)
-                        {
-                            <a data-toggle="tooltip" title asp-action="Index" asp-controller="User"
-                               asp-route-username="@item.Username"
-                               data-original-title="@item.Username"
+<div class="row">
+    @foreach (var item in Model.MostPoint)
+    {
+    <div class="col-xl-3 col-lg-6 mb-1">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <img
+                        src="@item.UserImage"
+                        alt=""
+                        style="width: 45px; height: 45px"
+                        class="rounded-circle"/>
+                    <div class="ms-3">
+                        <p class="fw-bold mb-1">
+                            <a asp-controller="User" asp-action="Index" asp-route-username="@item.Username"
                                style="text-decoration: none; @if (item.Points >= 0 && item.Points < 30) { <text>color: gray;</text> }else if (item.Points >= 30 && item.Points < 100) { <text>color: blue;</text> }else if (item.Points >= 30 && item.Points < 100) { <text>color: orange;</text> }else if (item.Points > 100) { <text>color: red;</text> }">
-                                <div>
-                                    <img class="avatar-img" src="@item.UserImage" alt>
-                                </div>
-                                <div>@item.Points</div>
+                            @item.Username
                             </a>
-                        }
-
+                        </p>
+                        <p class="text-muted mb-0">@item.Points</p>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    }
+</div>
 
-
-        <div class="col-md-6 mb-2">
-            <div class="card widget-signups">
-                <div class="card-body">
-                    <h4 class="card-title">En çok yoruma sahip kullanıcılar</h4>
-                    <h6 class="card-subtitle">Buralı olanlar</h6>
-                    <div class="actions actions--inverse">
-                        <div class="actions__item">
-                            <i data-toggle="dropdown" class="zmdi zmdi-more-vert" aria-expanded="false"></i>
-                            <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(35px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                <a href class="dropdown-item">Refresh</a>
-                                <a href class="dropdown-item">Manage Widgets</a>
-                                <a href class="dropdown-item">Settings</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="widget-signups__list">
-                        @foreach (var item in Model.MostComments)
-                        {
-                            <a data-toggle="tooltip" title asp-action="Index" asp-controller="User"
-                               asp-route-username="@item.Username"
-                               data-original-title="@item.Username"
-                               style="text-decoration: none; @if (item.CommentCount >= 0 && item.CommentCount < 30) { <text>color: gray;</text> }else if (item.CommentCount >= 30 && item.CommentCount < 100) { <text>color: blue;</text> }else if (item.CommentCount >= 30 && item.CommentCount < 100) { <text>color: orange;</text> }else if (item.CommentCount > 100) { <text>color: red;</text> }">
-
-                                <div>
-                                    <img class="avatar-img" src="@item.UserImage" alt>
-                                </div>
-                                <div>@item.CommentCount</div>
-                            </a>
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 mb-2">
-            <div class="card widget-signups">
-                <div class="card-body">
-                    <h4 class="card-title">Son üyeler</h4>
-                    <h6 class="card-subtitle">Hoş geldiniz !</h6>
-                    <div class="actions actions--inverse">
-                        <div class="actions__item">
-                            <i data-toggle="dropdown" class="zmdi zmdi-more-vert" aria-expanded="false"></i>
-                            <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(35px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                <a href class="dropdown-item">Refresh</a>
-                                <a href class="dropdown-item">Manage Widgets</a>
-                                <a href class="dropdown-item">Settings</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="widget-signups__list">
-                        @foreach (var item in Model.LastUsers)
-                        {
-                            <a data-toggle="tooltip" title asp-action="Index" asp-controller="User"
-                               asp-route-username="@item.Username"
-                               data-original-title="@item.Username"
-                               style="text-decoration: none;">
-
-                                <div>
-                                    <img class="avatar-img" src="@item.UserImage" alt>
-                                </div>
-                            </a>
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-
+<!-- most comment kullanıcılar -->
+<div class="mt-3 mb-2 text-center">
+    <div class="display-6" style="font-weight: bold; font-size: 2rem; font-style: italic;">
+        En çok yoruma sahip kullanıcılar
     </div>
 </div>
 
+<div class="row">
+    @foreach (var item in Model.MostComments)
+    {
+    <div class="col-xl-3 col-lg-6 mb-1">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <img
+                        src="@item.UserImage"
+                        alt=""
+                        style="width: 45px; height: 45px"
+                        class="rounded-circle"/>
+                    <div class="ms-3">
+                        <p class="fw-bold mb-1">
+                            <a asp-controller="User" asp-action="Index" asp-route-username="@item.Username"
+                               style="text-decoration: none; @if (item.Points >= 0 && item.Points < 30) { <text>color: gray;</text> }else if (item.Points >= 30 && item.Points < 100) { <text>color: blue;</text> }else if (item.Points >= 30 && item.Points < 100) { <text>color: orange;</text> }else if (item.Points > 100) { <text>color: red;</text> }">
+                                @item.Username
+                            </a>
+                        </p>
+                        <p class="text-muted mb-0">@item.CommentCount</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
 
-@section Scripts
-{
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript">
-    	$(function () {
-      $('[data-toggle="tooltip"]').tooltip()
-    })
-    </script>
-}
+
+<!-- son kullanıcılar -->
+<div class="mt-3 mb-2 text-center">
+    <div class="display-6" style="font-weight: bold; font-size: 2rem; font-style: italic;">
+        Son kayıt olan kullanıcılar
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var item in Model.MostComments)
+    {
+    <div class="col-xl-3 col-lg-6 mb-1">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <img
+                        src="@item.UserImage"
+                        alt=""
+                        style="width: 45px; height: 45px"
+                        class="rounded-circle"/>
+                    <div class="ms-3">
+                        <p class="fw-bold mb-1">
+                            <a asp-controller="User" asp-action="Index" asp-route-username="@item.Username"
+                               style="text-decoration: none;color: gray">
+                                @item.Username
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>

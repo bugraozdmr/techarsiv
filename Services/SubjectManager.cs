@@ -48,7 +48,6 @@ public class SubjectManager : ISubjectService
         
         productToGo.Title = productToGo.Title is not null ? productToGo.Title.Trim() : productToGo.Title;
         productToGo.Content = productToGo.Content is not null ? productToGo.Content.Trim() : productToGo.Content;
-        productToGo.Prefix = productToGo.Prefix is not null ? productToGo.Prefix.Trim() : productToGo.Prefix;
         
         var url =
             $"{SlugModifier.RemoveNonAlphanumericAndSpecialChars(SlugModifier.ReplaceTurkishCharacters(productToGo.Title.Replace(' ', '-').ToLower()))}";
@@ -87,35 +86,20 @@ public class SubjectManager : ISubjectService
         var entity = _mapper.Map<Subject>(subject);
         
         // boş gidemeyecek değerler var
-        entity.Url = _manager
+        var subjectTo = _manager
             .Subject
             .GetAllSubjects(false)
             .Where(s => s.SubjectId.Equals(subject.SubjectId))
-            .Select(s => s.Url)
             .FirstOrDefault();
+
+        // daha az güç daha hızlı
+        subjectTo.Content = entity.Content;
+        subjectTo.Title = entity.Title;
+        subjectTo.IsActive = entity.IsActive;
+
+        subjectTo.categoryId = entity.categoryId;
         
-        entity.UserId = _manager
-            .Subject
-            .GetAllSubjects(false)
-            .Where(s => s.SubjectId.Equals(subject.SubjectId))
-            .Select(s => s.UserId)
-            .FirstOrDefault();
-        
-        entity.categoryId = _manager
-            .Subject
-            .GetAllSubjects(false)
-            .Where(s => s.SubjectId.Equals(subject.SubjectId))
-            .Select(s => s.categoryId)
-            .FirstOrDefault();
-        
-        entity.CreatedAt = _manager
-            .Subject
-            .GetAllSubjects(false)
-            .Where(s => s.SubjectId.Equals(subject.SubjectId))
-            .Select(s => s.CreatedAt)
-            .FirstOrDefault();
-        
-        _manager.Subject.UpdateSubject(entity);
+        _manager.Subject.UpdateSubject(subjectTo);
         await _manager.SaveAsync();
     }
 

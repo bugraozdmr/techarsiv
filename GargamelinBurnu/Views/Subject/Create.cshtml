@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/style4.css"/>
 }
 
-<div class="container">
+<div class="container" style="height: 100%">
     <div class=" text-center mt-5 ">
         <h1>Konu Oluştur</h1>
     </div>
@@ -32,14 +32,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Ön ek</label>
-                                            <input class="form-control" asp-for="prefix">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
+                                <div class="row mt-2">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Konu Seçiniz *</label>
                                             <select class="form-control my-3"
@@ -59,7 +53,7 @@
                                                 <i class="fa fa-question text-warning"
                                                    data-toggle="tooltip"
                                                    data-popper-placement="top"
-                                                   title="(Video linki bırakacaklar youtube videoları maalesef çalışmamakta,konu seçimine dikkat edin etmeyenler cezalandırılır.)">
+                                                   title="(Video linki bırakacaklar youtube videoları için iframe çalışmamakta,konu seçimine dikkat edin etmeyenler cezalandırılır.)">
                                                 </i>
                                             </label>
                                             <textarea class="form-control" asp-for="Content"></textarea>
@@ -68,7 +62,7 @@
                                     </div>
 
 
-                                    <div class="col-md-12 text-center">
+                                    <div class="col-md-12 text-center mt-5">
                                         <button type="submit" class="btn btn-success btn-send pt-2 btn-block mt-2">Konu Oluştur</button>
                                     </div>
                                 </div>

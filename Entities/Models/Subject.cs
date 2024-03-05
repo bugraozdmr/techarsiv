@@ -9,8 +9,6 @@ public class Subject
     public string? Url { get; set; }
     public DateTime CreatedAt { get; set; }
     public bool IsActive { get; set; }
-
-    public string? Prefix { get; set; }
     
     public string? Title { get; set; }
     
@@ -20,7 +18,7 @@ public class Subject
     public string UserId { get; set; }
     public User User { get; set; } = null!;
     
-    public int? categoryId { get; set; }
+    public int categoryId { get; set; }
     public Category? Category { get; set; }
 
     public List<Comment> Comments { get; set; } = new List<Comment>();

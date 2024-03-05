@@ -71,14 +71,6 @@ public class SubjectController : Controller
         
         if (ModelState.IsValid)
         {
-            if (model.prefix != null)
-            {
-                if (model.prefix.Length > 20)
-                {
-                    ModelState.AddModelError("","Ön ek 20 karakterden uzun olamaz");
-                    return View(model);
-                }
-            }
             
             var user = await _userManager.FindByNameAsync(Name);
 
@@ -131,7 +123,7 @@ public class SubjectController : Controller
             var uzanti = Path.GetExtension(photo.FileName);
             if (uzanti != ".jpg" && uzanti != ".png" && uzanti != ".jpeg")
             {
-                TempData["create_message"] = "sadece .jpg ve .png uzantılı dosyalar yüklenebilir";
+                TempData["create_message"] = "sadece .jpg , .jpeg ve .png uzantılı dosyalar yüklenebilir";
                 return Json(new { Url = "fail" });
             }
             

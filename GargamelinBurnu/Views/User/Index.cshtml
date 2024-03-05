@@ -62,6 +62,8 @@
                             }
                         }
                         
+                        
+                        
                         <div class="text-center">@Model.User.UserName</div>
                         
                         
@@ -96,6 +98,14 @@
                                    asp-route-username="@Model.User.UserName"
                                    class="btn btn-outline-danger text-center mt-2">Ceza</a>
                             }   
+                            if (Model.hasBan)
+                            {
+                                <div class="text-danger">Cezası zaten var</div>
+                            }
+                            else
+                            {
+                                <div class="text-warning">Cezası yok</div>
+                            }
                         }
                         
                         if (User.Identity.Name.Equals(Model.User.UserName))

@@ -40,12 +40,14 @@
                         <label >Başlık</label>
                         <input type="text" class="form-control" asp-for="Title" value="@Model.Title">
                     </div>
-
+                    
+                    
+                    <!-- kategoriler -->
                     <div class="form-group">
-                        <label for="exampleInputPassword1">ön ek</label>
-                        <input type="text" class="form-control" asp-for="Prefix" value="@Model.Prefix">
+                        <label>Konu Seçiniz *</label>
+                        <select class="form-control my-3"
+                                asp-items="@ViewBag.Categories" asp-for="CategoryId"></select>
                     </div>
-
 
                     <div class="form-group">
                         <label for="exampleInputPassword1">içerik</label>

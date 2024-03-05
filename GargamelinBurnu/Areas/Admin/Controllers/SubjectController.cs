@@ -6,6 +6,7 @@ using GargamelinBurnu.Areas.Admin.Models.Tables;
 using GargamelinBurnu.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Services.Contracts;
 
@@ -135,14 +136,14 @@ public class SubjectController : Controller
                 CategoryName = s.Category.CategoryName,
                 Content = s.Content,
                 Title = s.Title,
-                Prefix = s.Prefix,
                 CreatedAt = s.CreatedAt,
                 SubjectOwner = s.User.UserName,
                 SubjectId = s.SubjectId,
+                CategoryId = s.categoryId
             })
             .FirstOrDefault();
 
-        
+        ViewBag.Categories = GetCategoriesSelectList();
         
         return View(subject);
     }
@@ -161,7 +162,7 @@ public class SubjectController : Controller
                 dto.Title = model.Title;
                 dto.IsActive = model.IsActive;
                 dto.Content = model.Content;
-                dto.Prefix = model.Prefix;    
+                dto.CategoryId = model.CategoryId;
                 
                 _manager.SubjectService.UpdateSubject(dto);
 
@@ -173,6 +174,15 @@ public class SubjectController : Controller
             }
         }
 
+        ViewBag.Categories = GetCategoriesSelectList();
+        
         return View(model);
+    }
+    
+    
+    private SelectList GetCategoriesSelectList()
+    {
+        return new SelectList(_manager.CategoryService.GetAllCategories(false)
+            , "CategoryId", "CategoryName", "1");
     }
 }

@@ -252,6 +252,16 @@ public class UserController : Controller
         // roles
         var roles = await _userManager.GetRolesAsync(usr);
         model.Roles = roles.ToList();
+
+        var checkData = _userManager
+            .Users
+            .Where(s => s.UserName.Equals(username) && s.BanUntill.Equals(null))
+            .FirstOrDefault();
+
+        if (checkData is not null)
+            model.hasBan = false;
+
+        else model.hasBan = true;
         
         return View(model);
     }
