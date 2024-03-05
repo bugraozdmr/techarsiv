@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "ISs6jW5sG4vpXTJwoxcXk9sMkeGwFbogq/wSjb4y9jeuSLtDEWe1slZpQYGYUtNPQPDHgLF76x4cYLO6sbyLpw==",
+  "dgSpecHash": "CiRZuXhE1IL4DaMQu2HH4daQLWu+HutCXiCAxSG6xBolEbdO/NSe0CIwwWcnNW2sVQl1kofrgCA+Wnc8VwDXxA==",
   "success": true,
   "projectFilePath": "/Users/bugra/Desktop/GargamelinBurnu/GargamelinBurnu/GargamelinBurnu.csproj",
   "expectedPackageFiles": [
+    "/Users/bugra/.nuget/packages/aspnetcoreratelimit/5.0.0/aspnetcoreratelimit.5.0.0.nupkg.sha512",
     "/Users/bugra/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/Users/bugra/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "/Users/bugra/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
@@ -62,6 +63,7 @@
     "/Users/bugra/.nuget/packages/microsoft.win32.registry/4.5.0/microsoft.win32.registry.4.5.0.nupkg.sha512",
     "/Users/bugra/.nuget/packages/mono.texttemplating/3.0.0-preview-0045-g9b6fc72764/mono.texttemplating.3.0.0-preview-0045-g9b6fc72764.nupkg.sha512",
     "/Users/bugra/.nuget/packages/mysqlconnector/2.3.5/mysqlconnector.2.3.5.nupkg.sha512",
+    "/Users/bugra/.nuget/packages/newtonsoft.json/13.0.2/newtonsoft.json.13.0.2.nupkg.sha512",
     "/Users/bugra/.nuget/packages/pomelo.entityframeworkcore.mysql/9.0.0-preview.1/pomelo.entityframeworkcore.mysql.9.0.0-preview.1.nupkg.sha512",
     "/Users/bugra/.nuget/packages/system.buffers/4.5.0/system.buffers.4.5.0.nupkg.sha512",
     "/Users/bugra/.nuget/packages/system.codedom/6.0.0/system.codedom.6.0.0.nupkg.sha512",

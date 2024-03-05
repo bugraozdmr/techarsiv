@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using Entities.Models;
 using GargamelinBurnu.Infrastructure.Helpers;
 using GargamelinBurnu.Infrastructure.Helpers.Contracts;
@@ -96,6 +97,16 @@ public static class ServiceExtensions
         ));
     }
 
-
-    
+    public static void ConfigureRateLimiting(this IServiceCollection services
+        , IConfiguration configuration)
+    {
+        // Rate limiting servisini ekleyin
+        services.AddMemoryCache();
+        services.Configure<IpRateLimitOptions>(configuration.GetSection("IpRateLimiting"));
+        services.Configure<IpRateLimitPolicies>(configuration.GetSection("IpRateLimitPolicies"));
+        services.AddInMemoryRateLimiting();
+        services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+        services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+        services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+    }
 }
