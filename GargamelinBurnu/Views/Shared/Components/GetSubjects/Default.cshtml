@@ -1,58 +1,82 @@
-@model List<CategoryDescViewModel>
+@model List<GetAllSubjectsViewModel>
+
+@{
+    List<string> list = ["Mobil", "Laptop", "Alışveriş", "Hobiler", "Taşıtlar", "Günlük Yaşam", "Oyunlar", "Yazılım", "Donanım", "Diğer"];
+    List<string> fa_fa = ["fa fa-mobile", "fa fa-laptop", "fa fa-money", "fa fa-magic", "fa fa-car", "fa fa-newspaper-o", "fa fa-gamepad", "fa fa-desktop", "fa fa-cog", "fa fa-font-awesome"];
+}
 
 <div class="row card mt-3 d-flex justify-content-center">
     <div class="card-header">Konular</div>
     <div class="card-body">
-        @foreach (var item in Model)
+        @for (int i = 0; i < 10; i++)
         {
-            <div class="row mt-2">
-                <div class="col-3 mt-2">
-                    <i class="@item.Icon" aria-hidden="true"></i>
-                    <a asp-action="Tags" asp-controller="Home" asp-route-category="@item.CategoryUrl"
-                       style="text-decoration: none;color: gray;">
-                        @item.CategoryName
-                    </a>
-                </div>
-                <div class="col-4">
-                    <div class="row">
-                        <div class="col-6">
-                            <div>Konu</div>
-                        </div>
-                        <div class="col-6">
-                            <div>Mesaj</div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div>&nbsp;&nbsp;&nbsp;@item.catSubCount</div>
-                        </div>
-                        <div class="col-6">
-                            <div>&nbsp;&nbsp;&nbsp;@item.catComCount</div>
-                        </div>
-                    </div>
-                </div>
+            <h4 class="mt-2 mb-2">
+                <i class="@fa_fa[i]"></i>
+                @list[i]
+            </h4>
+            foreach (var element in Model)
+            {
+                // sırayla aldığı için kırsın
+                if (element.Key == i+1)
+                {
+                    foreach (var item in element.List)
+                    {
+                        <div class="row mt-2">
+                            <div class="col-3 mt-2">
+                                <a asp-action="Tags" asp-controller="Home" asp-route-category="@item.CategoryUrl"
+                                   style="text-decoration: none;color: gray;">
+                                    @item.CategoryName
+                                </a>
+                            </div>
+                            <div class="col-4">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div>Konu</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div>Mesaj</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div>&nbsp;&nbsp;&nbsp;@item.catSubCount</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div>&nbsp;&nbsp;&nbsp;@item.catComCount</div>
+                                    </div>
+                                </div>
+                            </div>
 
-                <div class="col-5">
-                    @if (item.LastSubjectName is null || item.LastSubjectName == "")
-                    {
-                        <p class="mt-2">Şu anlık burası boş gibi</p>
-                    }
-                    else
-                    {
-                        <div>
-                            <a asp-controller="Subject" asp-action="Details" asp-route-url="@item.LastSubjectUrl"
-                               style="text-decoration: none;">
-                                @(item.LastSubjectName.Length > 30 ? item.LastSubjectName.Substring(0, 30) + "..." : item.LastSubjectName)
-                            </a>
+                            <div class="col-5">
+                                @if (item.LastSubjectName is null || item.LastSubjectName == "")
+                                {
+                                    <p class="mt-2">Şu anlık burası boş gibi</p>
+                                }
+                                else
+                                {
+                                    <div>
+                                        <a asp-controller="Subject" asp-action="Details" asp-route-url="@item.LastSubjectUrl"
+                                           style="text-decoration: none;">
+                                            @(item.LastSubjectName.Length > 30 ? item.LastSubjectName.Substring(0, 30) + "..." : item.LastSubjectName)
+                                        </a>
+                                    </div>
+                                    <div>
+                                        @await Component.InvokeAsync("ShowTime", @item.LastCreatedAt) -
+                                        <a asp-controller="User" asp-action="Index" asp-route-username="@item.LastSubjectUser"
+                                           style="text-decoration: none ;color: gray">
+                                            @item.LastSubjectUser
+                                        </a>
+                                    </div>
+                                }
+                            </div>
                         </div>
-                        <div>@await Component.InvokeAsync("ShowTime",@item.LastCreatedAt) - 
-                        <a asp-controller="User" asp-action="Index" asp-route-username="@item.LastSubjectUser"
-                           style="text-decoration: none ;color: gray">
-                            @item.LastSubjectUser
-                        </a></div>
                     }
-                </div>
-            </div>
+                }
+                else
+                {
+                    continue;
+                }
+            }
         }
     </div>
 </div>
