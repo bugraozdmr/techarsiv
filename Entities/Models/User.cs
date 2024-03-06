@@ -29,6 +29,7 @@ public class User : IdentityUser
     public List<Comment> Comments { get; set; } = new List<Comment>();
 
     public List<Ban> Bans { get; set; } = new List<Ban>();
+    public List<Report> Reports { get; set; } = new List<Report>();
     
 
     public List<SubjectLike> LikedSubjects { get; set; } = new List<SubjectLike>();

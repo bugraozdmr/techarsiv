@@ -85,6 +85,10 @@ public class BanManager : IBanService
         {
             user.BanUntill = DateTime.Now.AddHours(1);
         }
+        else if (ban.Cause.Equals("trash"))
+        {
+            user.BanUntill = DateTime.Now.AddHours(1);
+        }
         else
         {   // olurda biri değişirse giden val'ı
             user.BanUntill = DateTime.Now.AddHours(1);

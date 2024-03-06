@@ -1,3 +1,5 @@
+using Entities.Dtos.Ban;
+using Entities.Dtos.Report;
 using Entities.Models;
 using GargamelinBurnu.Models;
 using GargamelinBurnu.Models.Userpage;
@@ -300,7 +302,7 @@ public class UserController : Controller
         // file
         var uzanti = Path.GetExtension(file.FileName);
 
-        if (uzanti != ".jpg" && uzanti != ".png")
+        if (uzanti != ".jpg" && uzanti != ".png" && uzanti != ".jpeg")
         {
             TempData["profile_message"] = "sadece .jpg , .jpeg ve .png uzantılı dosyalar yüklenebilir";
             return Redirect($"/biri/{username}");
@@ -478,6 +480,45 @@ public class UserController : Controller
         });
     }
 
+    [Authorize]
+    [HttpGet("/report/{username}")]
+    public IActionResult report(string username)
+    {
+        CreateReportDto dto = new CreateReportDto()
+        {
+            username = username
+        };
+        
+        // burda giden username sayfada çıkar kim reporlancak
+        return View("report",dto);
+    }
+    
+    [Authorize]
+    [HttpPost("/report/{username}")]
+    public async Task<IActionResult> report([FromForm] CreateReportDto dto,string username)
+    {
+        // burda ise username rapor eden kişi
+        if (ModelState.IsValid)
+        {
+            dto.CreatedAt = DateTime.Now;
+            dto.username = User.Identity.Name;
+            dto.UserId = _userManager
+                .Users
+                .Where(s => s.UserName.Equals(username))
+                .Select(s => s.Id)
+                .FirstOrDefault();
+            
+            // birtek cause init edildi -- amk bu nasıl iştiki
+            await _manager.ReportService.CreateReport(dto);
+
+            return RedirectToAction("Index","Home");
+        }
+        
+        return View(dto);
+    }
+
+    
+    
     private void awardCheck(string userId, int awardId)
     {
         var check = _manager

@@ -13,5 +13,6 @@ public interface IServiceManager
     IFollowingSubjects FollowingSubjects { get; }
     
     IAwardUserService AwardUserService { get; }
+    IReportService ReportService { get; }
     
 }

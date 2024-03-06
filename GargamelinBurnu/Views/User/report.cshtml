@@ -1,16 +1,20 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model BanCauseDto
+@model CreateReportDto
 
-<div class="container-fluid">
+@{
+    ViewData["Title"] = "Raporla";
+}
+
+<div class="container-fluid mt-5">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">@Model.username cezalandırılma sebebi</h1>
+        <h1 class="h3 mb-0 text-gray-800">@Model.username Raporla</h1>
     </div>
 
     <div class="mt-3">
         <div class="card">
             <div class="card-body">
-                <form method="post" asp-action="Index" asp-route-username="@Model.username">
+                <form method="post" asp-action="report" asp-route-username="@Model.username">
                     <div class="text-danger" asp-validation-summary="All"></div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" value="swear" asp-for="Cause">
@@ -42,13 +46,14 @@
                             Başka dil kullanması
                         </label>
                     </div>
-
+                    
                     <div class="form-check">
                         <input class="form-check-input" type="radio" value="trash" asp-for="Cause">
                         <label class="form-check-label">
                             Gereksiz konuyla alakasız mesaj
                         </label>
                     </div>
+                    
 
                     <div class="text-center mt-2">
                         <button type="submit" class="btn btn-outline-dark">Gönder</button>
