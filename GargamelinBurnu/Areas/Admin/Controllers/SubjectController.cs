@@ -173,7 +173,8 @@ public class SubjectController : Controller
                 CreatedAt = s.CreatedAt,
                 SubjectOwner = s.User.UserName,
                 SubjectId = s.SubjectId,
-                CategoryId = s.categoryId
+                CategoryId = s.categoryId,
+                Url = s.Url
             })
             .FirstOrDefault();
 
@@ -212,6 +213,16 @@ public class SubjectController : Controller
         
         return View(model);
     }
+
+
+    [HttpGet("admin/delete/{url}")]
+    public async Task<IActionResult> DeleteSubject(string url)
+    {
+        await _manager.SubjectService.DeleteSubject(url);
+
+        return RedirectToAction("waitingApproval");
+    }
+    
     
     
     private SelectList GetCategoriesSelectList()

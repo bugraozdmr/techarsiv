@@ -119,6 +119,7 @@ public class HomeController : Controller
     }
 
     [HttpGet("/takip")]
+    [Authorize]
     public async Task<IActionResult> followedSubjects(CommonRequestParameters p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;

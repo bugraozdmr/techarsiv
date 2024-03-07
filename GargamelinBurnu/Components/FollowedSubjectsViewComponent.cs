@@ -67,13 +67,12 @@ public class FollowedSubjectsViewComponent : ViewComponent
                         SubjectId = s.SubjectId,
                         Url = s.Url,
                         ImageUrl = s.User.Image,
-                        CommentCount = s.Comments.Count,
-                        Content = s.Content
                     }).FirstOrDefault();
 
                 model.Add(subject);
             }
 
+            
             model = model.OrderByDescending(s => s.createdAt).ToList();
             
             

@@ -46,9 +46,12 @@ public class ReportManager : IReportService
             .getAllReports(false)
             .Where(s => s.ReportId.Equals(ReportId))
             .FirstOrDefault();
-        
-        _manager.ReportRepository.deleteReport(report);
-        await _manager.SaveAsync();
+
+        if (report is not null)
+        {
+            _manager.ReportRepository.deleteReport(report);
+            await _manager.SaveAsync();
+        }
     }
 
     public IQueryable<Report> GetAllReports(bool trackChanges)

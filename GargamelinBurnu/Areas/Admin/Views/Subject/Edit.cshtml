@@ -1,5 +1,10 @@
 @model EditSubjectViewModel
 
+
+@{
+    ViewData["Title"] = "Düzenle";
+}
+
 <div class="container-fluid">
 
     @if (Model is null)
@@ -16,7 +21,8 @@
         <div class="mt-4">
             <div class="row">
                 <div>
-                    <a asp-area="" asp-controller="User" asp-action="Index"
+                    <a class="mx-2"
+                        asp-area="" asp-controller="User" asp-action="Index"
                        asp-route-username="@Model.SubjectOwner" style="text-decoration: none">
                         @Model.SubjectOwner
                     </a>
@@ -63,8 +69,44 @@
                     </div>
 
 
-                    <div class="text-center">
+                    <div class="d-flex justify-content-between mt-4 mb-5">
                         <button type="submit" class="btn btn-outline-success">Gönder</button>
+                        
+                        
+                        
+                        
+                        
+                        
+                        <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal">
+                            <i class="fa fa-trash text-danger"></i>
+                        </button>
+                                                        
+                                                            <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <h4 class="modal-title" id="myModalLabel">Bildirimleri sil</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        Bu raporu silmek istediğine emin misin ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                                        <a asp-controller="Subject" asp-action="DeleteSubject" asp-area="Admin"
+                                           asp-route-url="@Model.Url"
+                                           class="btn btn-outline-danger">
+                                            Sil
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
                     </div>
                 </form>
             </div>
