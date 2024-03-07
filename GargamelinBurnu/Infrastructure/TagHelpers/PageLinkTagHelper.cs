@@ -20,6 +20,7 @@ public class PageLinkTagHelper : TagHelper
     public string? PageAction { get; set; }
     public string? goingTo { get; set; }
     public string? param { get; set; }
+    public string? area { get; set; }
 
     // isimlendirme değer alacaksa page-class diyorsak burdaki prop pageClass olmalı
     public bool PageClassesEnabled { get; set; }
@@ -84,8 +85,16 @@ public class PageLinkTagHelper : TagHelper
                 {
                     if (param is not null && param != "")
                     {
-                        // başka param gelirse o da if ile eklenir
-                        var url = $"/{PageAction}?PageNumber={i}&{param}";
+                        string url;
+                        if (area == null || area == "")
+                        {
+                             url = $"https://localhost:7056/{PageAction}?PageNumber={i}&{param}";    
+                        }
+                        else
+                        {
+                            // başka param gelirse o da if ile eklenir
+                            url = $"https://localhost:7056{area}/{PageAction}?PageNumber={i}&{param}";
+                        }
                         tag.Attributes["href"] = url;
                     }
                     else

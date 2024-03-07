@@ -16,7 +16,8 @@ public class UserSubjectsViewComponent : ViewComponent
     private readonly ILikeDService _likeDService;
 
     public UserSubjectsViewComponent(IServiceManager manager, 
-        UserManager<User> userManager, ILikeDService likeDService)
+        UserManager<User> userManager
+        , ILikeDService likeDService)
     {
         _manager = manager;
         _userManager = userManager;

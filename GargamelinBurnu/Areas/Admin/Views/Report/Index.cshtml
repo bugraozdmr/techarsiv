@@ -1,0 +1,141 @@
+@model PaginationReportViewModel
+
+@{
+    ViewData["Title"] = "Raporlar";
+}
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Tüm Raporlar</h1>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Raporlar</h6>
+            <small>Cezalandırılıcak kullanıcının profiline gidin ve son yorumları ya da diğer içeriklerine bakın ve aynı sayfadan cezalandırın.
+                <br/>Cezalı kullanıcıları tekrar cezalandırmayın.</small>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Rapor edilen</th>
+                        <th>Rapor eden</th>
+                        <th>Sebebi</th>
+                        <th>Oluşturma Zamanı</th>
+                        <th class="text-center">...</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.List)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-action="Index"
+                                   asp-controller="User"
+                                   asp-area="" asp-route-username="@item.ReportUsername"
+                                   target="_blank">
+                                    @item.ReportUsername
+                                </a>
+                            </td>
+                            <td>
+                                <a asp-area="" asp-action="Index"
+                                   asp-controller="User"
+                                   asp-route-username="@item.Username"
+                                   target="_blank">
+                                    @item.Username
+                                </a>
+                            </td>
+                            <td>
+                                @if (item.Cause.Equals("anotherLang"))
+                                {
+                                    <text>Başka dil kullanma</text>
+                                }
+                                else if (item.Cause.Equals("swear"))
+                                {
+                                    <text>Küfürlü yorum</text>
+                                }
+                                else if (item.Cause.Equals("inappropriatePhoto"))
+                                {
+                                    <text>Uygunsuz fotoğraf</text>
+                                }
+                                else if (item.Cause.Equals("wrongSubject"))
+                                {
+                                    <text>Yanlış konu</text>
+                                }
+                                else if (item.Cause.Equals("trash"))
+                                {
+                                    <text>Başka dil kullanma</text>
+                                }
+                                else if (item.Cause.Equals("inappropriateUsername"))
+                                {
+                                    <text>Uygunsuz kullanıcı ismi</text>
+                                }
+                                else
+                                {
+                                    <text>Uyuşmayan sebep</text>
+                                }
+                            </td>
+                            <td>@await Component.InvokeAsync("ShowTime",@item.CreatedAt)</td>
+                            <td>
+                                <div class="text-center">
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal">
+                                        <i class="fa fa-trash text-danger"></i>
+                                    </button>
+                                
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <h4 class="modal-title" id="myModalLabel">Bildirimleri sil</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Bu raporu silmek istediğine emin misin ?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                                                    <form method="post" id="confirm" asp-action="removeReport" asp-route-reportId="@item.reportId">
+                                                        <button type="submit" style="text-decoration: none;font-size: 16px">
+                                                            Evet
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div page-model="@Model.Pagination" page-action="Index"
+             page-class="btn"
+             page-class-normal="btn-outline-dark"
+             page-class-selected="btn-primary"
+             page-classes-enabled="true"
+             class="btn group mt-3">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(() => {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    
+
+</script>
+

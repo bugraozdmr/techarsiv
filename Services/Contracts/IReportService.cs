@@ -6,7 +6,7 @@ namespace Services.Contracts;
 public interface IReportService
 {
     Task CreateReport(CreateReportDto dto);
-    Task deleteAllReport(string userId);
-    Task deleteOneReport(string userId);
+    Task deleteAllReport(int ReportId);
+    Task deleteOneReport(int ReportId);
     IQueryable<Report> GetAllReports(bool trackChanges);
 }

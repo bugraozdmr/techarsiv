@@ -38,7 +38,8 @@ public class SubjectController : Controller
             .Include(s => s.Category)
             .Where(s => s.IsActive.Equals(true))
             .OrderByDescending(s => s.CreatedAt)
-            .Take(10)
+            .Skip((p.PageNumber-1)*p.Pagesize)
+            .Take(p.Pagesize)
             .Select(s => new TableSubjectViewModel()
             {
                 Username = s.User.UserName,
@@ -85,7 +86,8 @@ public class SubjectController : Controller
             .Include(s => s.Category)
             .Where(s => s.IsActive.Equals(false))
             .OrderByDescending(s => s.CreatedAt)
-            .Take(10)
+            .Skip((p.PageNumber-1)*p.Pagesize)
+            .Take(p.Pagesize)
             .Select(s => new TableSubjectViewModel()
             {
                 Username = s.User.UserName,

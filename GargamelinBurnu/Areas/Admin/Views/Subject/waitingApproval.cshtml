@@ -1,5 +1,9 @@
 @model PaginationSubjectListViewModel
 
+@{
+    ViewData["Title"] = "Onay bekleyen konular";
+}
+
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -63,7 +67,7 @@
         </div>
     </div>
     <div>
-        <div page-model="@Model.Pagination" page-action="GetAllSubjects"
+        <div page-model="@Model.Pagination" page-action="waitingApproval"
              page-class="btn"
              page-class-normal="btn-outline-dark"
              page-class-selected="btn-primary"

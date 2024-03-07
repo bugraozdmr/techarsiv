@@ -1,0 +1,100 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using GargamelinBurnu.Infrastructure.TagHelpers
+@model PaginationUserViewModel
+
+
+@{
+    ViewData["Title"] = "Tüm kullanıcılar";
+}
+
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Tüm Kullanıcılar</h1>
+    </div>
+    
+    
+    <div class="card mb-4 mt-2">
+        <div class="card-header">Kullanıcı bul</div>
+        <div class="card-body">
+            <form method="get" asp-controller="User" asp-action="allUsers" asp-area="Admin">
+                <div class="input-group">
+                    <input class="form-control" type="text" name="SearchTerm" placeholder="Aranacak kullanıcı" />
+                    <button class="btn btn-primary" type="submit">Ara</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Kullanıcılar</h6>
+            <small>Cezalandırılıcak kullanıcının profiline gidin ve son yorumları ya da diğer içeriklerine bakın ve aynı sayfadan cezalandırın.
+                <br/>Cezalı kullanıcıları tekrar cezalandırmayın.
+                <br/>Kullanıcıları daha rahat bulmak için arama yapabilirsiniz.</small>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Kullanıcı ismi</th>
+                        <th>Katılma tarihi</th>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <th class="text-center">Role ver</th>
+                        }
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.List)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-action="Index"
+                                   asp-controller="User"
+                                   asp-area="" asp-route-username="@item.Username"
+                                   target="_blank">
+                                    @item.Username
+                                </a>
+                            </td>
+                            <td>
+                                @item.CreatedAt.ToString("d")
+                            </td>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <td>
+                                    <a href="#" style="text-decoration: none;color: #0f6848">
+                                        <i class="fa fa-tasks" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            }
+                        </tr>
+                    }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div page-model="@Model.Pagination" page-action="allUsers"
+             param="@(Model.Param is not null ? Model.Param : "")"
+             area="@(Model.area is not null ? Model.area : "")"
+             page-class="btn"
+             page-class-normal="btn-outline-dark"
+             page-class-selected="btn-primary"
+             page-classes-enabled="true"
+             class="btn group mt-3">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(() => {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    
+
+</script>

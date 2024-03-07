@@ -27,24 +27,24 @@ public class ReportManager : IReportService
         await _manager.SaveAsync();
     }
 
-    public async Task deleteAllReport(string userId)
+    public async Task deleteAllReport(int ReportId)
     {
         var report = _manager
             .ReportRepository
             .getAllReports(false)
-            .Where(s => s.UserId.Equals(userId))
+            .Where(s => s.ReportId.Equals(ReportId))
             .FirstOrDefault();
         
         _manager.ReportRepository.deleteReport(report);
         await _manager.SaveAsync();
     }
 
-    public async Task deleteOneReport(string userId)
+    public async Task deleteOneReport(int ReportId)
     {
         var report = _manager
             .ReportRepository
             .getAllReports(false)
-            .Where(s => s.UserId.Equals(userId))
+            .Where(s => s.ReportId.Equals(ReportId))
             .FirstOrDefault();
         
         _manager.ReportRepository.deleteReport(report);

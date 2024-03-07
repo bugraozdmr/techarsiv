@@ -1,0 +1,58 @@
+<!-- Divider -->
+<hr class="sidebar-divider">
+
+<!-- Heading -->
+<div class="sidebar-heading">
+    Konu Yöneticisi
+</div>
+
+<!-- Nav Item - Pages Collapse Menu -->
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+        aria-expanded="true" aria-controls="collapseTwo">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Konular</span>
+    </a>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">işlemler</h6>
+            <a class="collapse-item" asp-controller="Subject" asp-action="GetAllSubjects" 
+               asp-area="Admin">Tüm konular</a>
+            <a class="collapse-item" asp-controller="Subject" asp-action="waitingApproval"
+               asp-area="Admin">
+                Onay Bekleyen Konular
+            </a>
+            <!--- <a class="collapse-item" href="cards.html">Cards</a> --->
+        </div>
+    </div>
+</li>
+
+<!-- Divider -->
+<hr class="sidebar-divider">
+
+<!-- Heading -->
+<div class="sidebar-heading">
+    Kullanıcı Yöneticisi
+</div>
+
+<!-- Nav Item - Pages Collapse Menu -->
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+        aria-expanded="true" aria-controls="collapsePages">
+        <i class="fas fa-fw fa-folder"></i>
+        <span>Kullanıcılar</span>
+    </a>
+    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Kullanıcı işlemleri:</h6>
+            <a class="collapse-item" asp-controller="User" asp-action="allUsers" asp-area="Admin">Tüm kullanıcılar</a>
+            <div class="collapse-divider"></div>
+            <h6 class="collapse-header">Rapor Yönetimi:</h6>
+            <a class="collapse-item" asp-controller="Report" asp-action="Index" asp-area="Admin">Raporlar</a>
+        </div>
+    </div>
+</li>
+
+
+<!-- Divider -->
+<hr class="sidebar-divider">
