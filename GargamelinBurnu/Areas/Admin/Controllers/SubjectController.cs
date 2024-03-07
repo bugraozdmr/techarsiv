@@ -29,30 +29,65 @@ public class SubjectController : Controller
         p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
 
         p.Pagesize = p.Pagesize > 15 ? 15 : p.Pagesize;
-        
-        
-        var model = _manager
-            .SubjectService
-            .GetAllSubjects(false)
-            .Include(s => s.User)
-            .Include(s => s.Category)
-            .Where(s => s.IsActive.Equals(true))
-            .OrderByDescending(s => s.CreatedAt)
-            .Skip((p.PageNumber-1)*p.Pagesize)
-            .Take(p.Pagesize)
-            .Select(s => new TableSubjectViewModel()
-            {
-                Username = s.User.UserName,
-                CreatedAt = s.CreatedAt,
-                categoryName = s.Category.CategoryName,
-                SubjectUrl = s.Url,
-                Title = s.Title
-            }).ToList();
 
-        int total_count = _manager
-            .SubjectService
-            .GetAllSubjects(false)
-            .Count();
+        List<TableSubjectViewModel> model = new List<TableSubjectViewModel>();
+        PaginationSubjectListViewModel RealModel = new PaginationSubjectListViewModel(); 
+        int total_count;
+
+        if (p.SearchTerm == null || p.SearchTerm == "")
+        {
+            model = _manager
+                .SubjectService
+                .GetAllSubjects(false)
+                .Include(s => s.User)
+                .Include(s => s.Category)
+                .Where(s => s.IsActive.Equals(true))
+                .OrderByDescending(s => s.CreatedAt)
+                .Skip((p.PageNumber-1)*p.Pagesize)
+                .Take(p.Pagesize)
+                .Select(s => new TableSubjectViewModel()
+                {
+                    Username = s.User.UserName,
+                    CreatedAt = s.CreatedAt,
+                    categoryName = s.Category.CategoryName,
+                    SubjectUrl = s.Url,
+                    Title = s.Title
+                }).ToList();
+
+            total_count = _manager
+                .SubjectService
+                .GetAllSubjects(false)
+                .Count();
+        }
+        else
+        {
+            model = _manager
+                .SubjectService
+                .GetAllSubjects(false)
+                .Include(s => s.User)
+                .Include(s => s.Category)
+                .Where(s => s.IsActive.Equals(true) && s.Title.Contains(p.SearchTerm.ToLower()))
+                .OrderByDescending(s => s.CreatedAt)
+                .Skip((p.PageNumber-1)*p.Pagesize)
+                .Take(p.Pagesize)
+                .Select(s => new TableSubjectViewModel()
+                {
+                    Username = s.User.UserName,
+                    CreatedAt = s.CreatedAt,
+                    categoryName = s.Category.CategoryName,
+                    SubjectUrl = s.Url,
+                    Title = s.Title
+                }).ToList();
+
+            total_count = _manager
+                .SubjectService
+                .GetAllSubjects(false)
+                .Count(s => s.Title.Contains(p.SearchTerm.ToLower()));
+            
+            RealModel.Param = $"SearchTerm={p.SearchTerm}";
+            RealModel.area = $"/Admin/Subject";
+        }
+        
         
         var pagination = new Pagination()
         {
@@ -61,14 +96,11 @@ public class SubjectController : Controller
             TotalItems = total_count
         };
 
-        var realModel = new PaginationSubjectListViewModel()
-        {
-            List = model,
-            Pagination = pagination
-        };
+        RealModel.List = model;
+        RealModel.Pagination = pagination;
         
         
-        return View(realModel);
+        return View(RealModel);
     }
 
     public IActionResult waitingApproval(CommonRequestParameters? p)

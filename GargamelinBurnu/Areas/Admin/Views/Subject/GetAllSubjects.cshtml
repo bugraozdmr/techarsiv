@@ -10,9 +10,26 @@
         <h1 class="h3 mb-0 text-gray-800">Tüm Konular</h1>
     </div>
 
+    <div class="card mb-4 mt-2">
+        <div class="card-header">Konu bul</div>
+        <div class="card-body">
+            <form method="get" asp-controller="Subject" asp-action="GetAllSubjects" asp-area="Admin">
+                <div class="input-group">
+                    <input class="form-control" type="text" name="SearchTerm" placeholder="Aranacak konu başlığı" />
+                    <button class="btn btn-primary" type="submit">Ara</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    
+    
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Tüm konular</h6>
+            <h6 class="m-0 font-weight-bold text-primary">
+                Tüm konular
+            </h6>
+            <small>Konu arayıp ya da direkt bulup konuyu düzenleyebilirsiniz.</small>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -69,6 +86,8 @@
     </div>
     <div>
         <div page-model="@Model.Pagination" page-action="GetAllSubjects"
+             param="@(Model.Param is not null ? Model.Param : "")"
+             area="@(Model.area is not null ? Model.area : "")"
              page-class="btn"
              page-class-normal="btn-outline-dark"
              page-class-selected="btn-primary"

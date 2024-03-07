@@ -88,7 +88,8 @@ public class PageLinkTagHelper : TagHelper
                         string url;
                         if (area == null || area == "")
                         {
-                             url = $"https://localhost:7056/{PageAction}?PageNumber={i}&{param}";    
+                            // bu index için ana sayfa
+                             url = $"https://localhost:7056/?PageNumber={i}&{param}";    
                         }
                         else
                         {
