@@ -46,7 +46,7 @@
                     {
                         
                         // düzeltilmeli
-                        if (User.IsInRole("Admin"))
+                        if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link active"

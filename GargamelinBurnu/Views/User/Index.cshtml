@@ -90,7 +90,7 @@
                     </div>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        if (User.IsInRole("Admin"))
+                        if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
                         {
                             if (Model.User.UserName != "Admin")
                             {

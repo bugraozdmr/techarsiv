@@ -13,7 +13,7 @@ using Services.Contracts;
 namespace GargamelinBurnu.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin, Moderator")]
 public class SubjectController : Controller
 {
     private readonly IServiceManager _manager;

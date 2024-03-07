@@ -65,8 +65,10 @@
                             @if (User.IsInRole("Admin"))
                             {
                                 <td>
-                                    <a href="#" style="text-decoration: none;color: #0f6848">
-                                        <i class="fa fa-tasks" aria-hidden="true"></i>
+                                    <a asp-action="giveRole" asp-controller="User" asp-area="Admin" 
+                                       asp-route-username="@item.Username"
+                                       style="text-decoration: none;color: #0f6848">
+                                        <i class="fa fa-tasks" style="font-size: 22px" aria-hidden="true"></i>
                                     </a>
                                 </td>
                             }

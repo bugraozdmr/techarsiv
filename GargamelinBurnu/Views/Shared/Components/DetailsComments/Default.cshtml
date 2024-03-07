@@ -119,7 +119,7 @@ else
                             </div>
                             
                         </div>
-                        @if (User.IsInRole("Admin"))
+                        @if (User.IsInRole("Admin") || User.IsInRole("Moderator") && item.CommentUserName != "Admin" || item.CommentUserName != "grant")
                         {
                             // gereksiz belki sil eklenir
                             <div class="row">

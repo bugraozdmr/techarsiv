@@ -1,0 +1,122 @@
+@model UserRoleUpdateViewModel
+
+
+@section Head{
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+}
+
+@{
+    ViewData["Title"] = "Role ver";
+}
+
+
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Tüm Kullanıcılar</h1>
+    </div>
+    
+    
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary text-center">Role ver</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                
+                
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-offset-4 col-sm-4 text-center mx-auto">
+                            <div class="checkbox-list">
+                                <form method="post" asp-action="giveRole" asp-area="Admin">
+                                    @foreach (var item in Model.Roles)
+                                    {
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="Roles" value="@item" id="@item"
+                                                   checked="@(Model.UserRoles.Contains(item))"/>
+                                            <label for="@item">@item</label>
+                                        </div>
+                                    }
+                                    
+                                    <div class="text-center mt-2">
+                                        <button class="btn btn-outline-success" type="submit">Gönder</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- zaten kimse erişemiyor -->
+<style>
+    .checkbox-list{
+        color: #fff;
+        background: linear-gradient(#3a7bd5, #3a6073);
+        padding: 25px;
+        border-radius: 10px;
+    }
+    .checkbox{
+        border-bottom: 1px dashed rgba(255,255,255,0.5);
+        padding: 5px 5px 9px 5px;
+        margin: 0 0 10px;
+        display: block;
+    }
+    .checkbox input[type=checkbox]{
+        margin: 0;
+        visibility: hidden;
+        left: 1px;
+        top: 1px;
+    }
+    .checkbox label{
+        font-size: 20px;
+        line-height: 26px;
+        padding-left: 35px;
+        margin: 0;
+        display: block;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.3s ease 0s;
+    }
+    .checkbox label:before,
+    .checkbox label:after{
+        content: "";
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255,255,255,0.5);
+        border-radius: 4px;
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        transition: all 0.25s;
+    }
+    .checkbox label:after{
+        height: 10px;
+        width: 16px;
+        border-radius: 0 0 0 4px;
+        border: 5px solid #fff;
+        border-top: none;
+        border-right: none;
+        opacity: 0;
+        transform: rotate(-45deg);
+        top: 15px;
+        left: 6px;
+    }
+    .checkbox input[type=checkbox]:checked+label{ font-weight: 600; }
+    .checkbox input[type=checkbox]:checked+label:before{
+        opacity: 0;
+        top: -10px;
+    }
+    .checkbox input[type=checkbox]:checked+label:after{
+        opacity: 1;
+        top: 6px;
+    }
+    @@media only screen and (max-width:767px){
+        .checkbox{ margin: 0 0 20px; }
+    }
+</style>

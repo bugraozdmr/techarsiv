@@ -30,4 +30,11 @@
       <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0-preview.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\startbootstrap-sb-admin-2-gh-pages\vendor\chart.js\Chart.bundle.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\startbootstrap-sb-admin-2-gh-pages\vendor\chart.js\Chart.bundle.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\startbootstrap-sb-admin-2-gh-pages\vendor\chart.js\Chart.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\startbootstrap-sb-admin-2-gh-pages\vendor\chart.js\Chart.min.js" />
+    </ItemGroup>
+
 </Project>
