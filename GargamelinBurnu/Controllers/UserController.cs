@@ -271,7 +271,7 @@ public class UserController : Controller
     [Authorize]
     [HttpPost("/biri/{username}")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> UploadImage(string username,IFormFile file)
+    public async Task<IActionResult> UploadImage(string username,IFormFile file,List<IFormFile> Files)
     {
         if (username is null)
         {

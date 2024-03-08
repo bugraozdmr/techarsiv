@@ -685,6 +685,10 @@ var deleteComment = function (no){
             else{
                 var elementToRemove = document.getElementById(`comment_${no}-311`)
                 elementToRemove.remove();
+
+
+                var adet = parseInt($("#commentCount").text());
+                $("#commentCount").text(adet - 1);
             }
         },
         error: function(xhr, status, error) {
