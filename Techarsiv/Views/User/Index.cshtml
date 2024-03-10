@@ -1,0 +1,376 @@
+@model UserPageViewModel
+
+@{
+    ViewData["Title"] = Model.User.UserName;
+}
+
+@section Head
+{
+    <link rel="stylesheet" href="/css/style4.css"></link>
+    <link rel="icon" type="image/x-icon" href="fav.png">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+}
+
+
+<div class="row gutters-sm mt-4">
+    <div class="col-md-4 mb-3">
+        <div class="card-profile">
+            <div class="card-body-profile">
+                <div class="d-flex flex-column align-items-center">
+                    <div class="text-center">
+                        @if (TempData["profile_message"] != null)
+                        {
+                            <div class="text-warning">
+                                @TempData["profile_message"]
+                            </div>
+                        }
+                        <h5>Site puanı <span class="text-muted">@Model.User.Points</span></h5>
+                        <a data-fancybox="gallery" href="@Model.User.Image">
+                            <img src="@Model.User.Image" alt="Admin" class="rounded-circle" style="width: 150px;height: 150px"/>
+                        </a>
+                        
+                        
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (User.Identity.Name.Equals(Model.User.UserName))
+                            {
+                                <form asp-action="UploadImage" asp-route-username="@Model.User.UserName" method="post" enctype="multipart/form-data">
+                                    <div>
+                                        <label class="form-label">Resim seç</label>
+                                        <input id="formFileSm" class="form-control form-control-sm" name="file" type="file" onchange="showButton()"/>
+                                        <button id="submitButton" class="btn btn-outline-success mt-1" type="submit" style="display: none">Yükle</button>
+                                    </div>
+                                </form>
+                            }
+                        }
+                    </div>
+                    
+                    
+                    <div class="mt-3">
+                        @if (Model.Roles.Contains("Admin"))
+                        {
+                            <h4 class="text-danger text-center">Site sahibi</h4>
+                        }
+                        else if (Model.Roles.Contains("Moderator"))
+                        {
+                            <h4 class="text-warning text-center">Yönetici</h4>
+                        }
+                        else if (Model.Roles.Contains("User"))
+                        {
+                            if (Model.User.CreatedAt.AddDays(7) > DateTime.Now)
+                            {
+                                <h4 class="text-center">Yeni üye</h4>
+                            }
+                            else
+                            {
+                                <h4 class="text-center">Üye</h4>
+                            }
+                        }
+                        
+                        
+                        
+                        <div class="text-center">@Model.User.UserName</div>
+                        
+                        
+                        @if (Model.User.Job is not null)
+                        {
+                            <p class="text-secondary mb-1 text-center">@Model.User.Job</p>
+                        }
+                        @if (Model.User.Place is not null)
+                        {
+                            <p class="text-secondary mb-1 text-center">
+                                <a href="https://www.google.com/maps/place/@Model.User.Place" target="_blank" style="text-decoration: none;color: #0f5132">
+                                    @Model.User.Place
+                                </a></p>
+                        }
+                        @if (Model.User.About is not null)
+                        {
+                            <div class="card">
+                                <div class="card-body">
+                                    <p>@Model.User.About</p>
+                                </div>
+                            </div>
+                        }
+                        <!-- beklemede -->
+                    </div>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                        {
+                            if (Model.User.UserName != "Admin")
+                            {
+                                <a asp-action="Index" asp-controller="Ban" asp-area="Admin"
+                                   asp-route-username="@Model.User.UserName"
+                                   class="btn btn-outline-danger text-center mt-2">Ceza</a>
+                            }   
+                            if (Model.hasBan)
+                            {
+                                <div class="text-danger">Cezası zaten var</div>
+                            }
+                            else
+                            {
+                                <div class="text-warning">Cezası yok</div>
+                            }
+                        }
+                        
+                        if (User.Identity.Name.Equals(Model.User.UserName))
+                        {
+                            <a asp-action="Edit" class="btn btn-outline-primary text-center mt-2">Düzenle</a>    
+                        }
+                        else
+                        {
+                            <button
+                                id="fallowBtn"
+                                class="btn btn-outline-primary text-center mt-2">Takip Et</button>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="card-profile mt-3 text-center">
+            <ul class="list-group list-group-flush">
+                @if (Model.User.instagramUrl is not null && Model.User.instagramUrl.ToLower().Contains("instagram"))
+                {
+                    <h6 class="mb-0 mt-2 mb-2">
+                        <a href="@Model.User.instagramUrl" style="text-decoration: none;color: black;">
+                            <i class="fa fa-instagram" style="color:orange;font-size: 24px"></i> Instagram
+                        </a>
+                    </h6>
+                    <hr/>
+                }
+                @if (Model.User.githubUrl is not null && Model.User.githubUrl.ToLower().Contains("github"))
+                {
+                    <h6 class="mb-0 mt-2 mb-2">
+                        <a href="@Model.User.githubUrl" style="text-decoration: none;color: black;">
+                            <i class="fa fa-github" style="color:black;font-size: 24px"></i> Github
+                        </a>
+                    </h6>
+                    <hr/>
+
+                }
+                @if (Model.User.youtubeUrl is not null && Model.User.youtubeUrl.ToLower().Contains("youtube"))
+                {
+                    <h6 class="mb-0 mt-2 mb-2">
+                        <a href="@Model.User.youtubeUrl" style="text-decoration: none;color: black;">
+                            <i class="fa fa-youtube" style="color:red;font-size: 24px"></i> Youtube
+                        </a>
+                    </h6>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card-profile mb-3">
+            <div class="card-body-profile">
+                <!-- Statistic -->
+                <div class="card mt-2 mb-3">
+                    <div class="card-header">@Model.User.UserName istatislikeri</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-8">
+                                <ul class="list-unstyled mb-0">
+                                    <li>
+                                        Konu Sayısı
+                                    </li>
+                                    <li>
+                                        Mesaj Sayısı
+                                    </li>
+                                    <li>
+                                        Bıraktığı Beğeni Sayısı 
+                                    </li>
+                                    <li>
+                                        Yasaklanma sayısı 
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-4">
+                                <ul class="list-unstyled mb-0">
+                                    <li>
+                                        @Model.SubjectCount
+                                    </li>
+                                    <li>
+                                        @Model.CommentCount
+                                    </li>
+                                    <li>
+                                        @Model.LikeCount
+                                    </li>
+                                    <li>
+                                        @Model.BanCount
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- card end -->
+                
+                
+            </div>
+        </div>
+
+        
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Hakkında</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="awards-tab" data-toggle="tab" href="#awards" role="tab" aria-controls="awards" aria-selected="false">Ödüller</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="subjects-tab" data-toggle="tab" href="#subjects" role="tab" aria-controls="subjects" aria-selected="false">Son konuları</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="comments-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false">Son yorumları</a>
+            </li>
+
+        </ul>
+    
+        <div class="tab-content profile-tab mt-2" id="myTabContent">
+            
+        
+            <div class="tab-pane fade mt-2 show active mx-1" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="row mt-4">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Tam Isim</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        @Model.User.FullName
+                    </div>
+                </div>
+                <hr>
+                <div class="row mt-4">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Katılma Tarihi</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        @Model.User.CreatedAt.ToString("d")
+                    </div>
+                </div>
+                <hr>
+                
+
+                @if (Model.User.signature is not null)
+                {
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Imza</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            @Model.User.signature
+                        </div>
+                    </div>
+                    <hr>
+                }
+
+                @if (Model.User.Gender is not null)
+                {
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Cinsiyet</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            @Model.User.Gender
+                        </div>
+                    </div>
+                    <hr>
+                }
+                
+            </div>
+            
+            <div class="tab-pane fade mt-2 mx-1" id="subjects" role="tabpanel" aria-labelledby="subjects-tab">
+                @if (Model.Subjects.Count != 0 && Model.Subjects.Count != null)
+                {
+                    @foreach (var item in Model.Subjects)
+                    {
+                        <a asp-action="Details" asp-controller="Subject" asp-route-url="@item.Url" target="_blank" style="text-decoration: none">
+                            @(item.Title.Length > 100 ? @item.Title.Substring(0, 100) + "..." : item.Title)
+                        </a>
+                        <p>
+                            @item.Username -
+                            @await Component.InvokeAsync("ShowTime", @item.createdAt)
+                            - @item.CategoryName
+                        </p>
+                        <hr/>
+                    }
+                }
+                else
+                {
+                    <p>Son konu yok</p>
+                }
+            </div>
+            
+            <div class="tab-pane fade mt-2 mx-1" id="awards" role="tabpanel" aria-labelledby="awards-tab">
+                @if (Model.AwardsTab.Count != 0 && Model.AwardsTab.Count != null)
+                {
+                    @foreach (var item in Model.AwardsTab)
+                    {
+                        <h5 class="text-success">@item.awardPoint</h5>
+                        <p><strong>@item.awardName</strong></p>
+                        <p><em>@item.createdAt.ToString("dd MMMM yyyy") tarihinde alındı </em></p>
+                        <p>Kullanıcıların %@item.percentage kadarı bu ödüle sahip</p>
+                        <div class="progress">
+                          <div class="progress-bar bg-warning" role="progressbar" style="width: @item.percentage%" aria-valuenow="@item.percentage" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <hr/>
+                    }
+                }
+                else
+                {
+                    <p>Kazanılmış herhangi bir ödül yok</p>
+                }
+            </div>
+            
+            
+            <div class="tab-pane fade mt-2 mx-1" id="comments" role="tabpanel" aria-labelledby="comments-tab">
+                @if (Model.Comments.Count != 0 && Model.Comments.Count != null)
+                {
+                    @foreach (var item in Model.Comments)
+                    {
+                        string content = item.Content;
+                        
+                        if (item.Content.Length > 350)
+                        {
+                            content = item.Content.Substring(0, 350);
+                            
+                            content += "... </i></a></strong></p></b></li></ul>";
+                        }
+                        
+                         <a asp-action="Details" asp-controller="Subject" asp-route-url="@item.Url" target="_blank" style="text-decoration: none">@item.Title</a>
+                        <div>
+                            <small>@Html.Raw(content)</small>
+                        </div>
+                        <p>
+                            @item.Username -
+                            @await Component.InvokeAsync("ShowTime", @item.createdAt)
+                            - @item.CategoryName
+                        </p>
+                        <hr/>
+                    }
+                }
+                else
+                {
+                    <p>Son yorum yok</p>
+                }
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript">
+            $(document).ready(function(){$(".nav-tabs a").click(function(){$(this).tab("show")})});
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+
+    
+    <script type="text/javascript">
+    function showButton() {var fileInput = document.getElementById('formFileSm');var submitButton = document.getElementById('submitButton');if (fileInput.files.length > 0) {submitButton.style.display = 'block';} else {submitButton.style.display = 'none';}}
+    </script>
+}
