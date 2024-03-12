@@ -53,19 +53,19 @@ public class PageLinkTagHelper : TagHelper
                     // details for every each subject with this if condition
                     if (PageAction is null)
                     {
-                        string url = $"/{goingTo}?PageNumber={i}";
+                        string url = $"/forum/{goingTo}?PageNumber={i}";
                         tag.Attributes["href"] = url;
                     }
                     else
                     {
-                        string url = $"/{PageAction}/{goingTo}?PageNumber={i}";
+                        string url = $"/forum/{PageAction}/{goingTo}?PageNumber={i}";
                         tag.Attributes["href"] = url;
                     }
                     
                     if (PageModel.CurrentPage >= 5 && flag != 1)
                     {
                         TagBuilder tag_first = new TagBuilder("a");
-                        tag_first.Attributes["href"] = $"/{PageAction}/{goingTo}?PageNumber=1";
+                        tag_first.Attributes["href"] = $"/forum/{PageAction}/{goingTo}?PageNumber=1";
                         tag_first.AddCssClass(PageClass);
                         tag_first.AddCssClass(PageClassNormal);
                         tag_first.InnerHtml.Append("1");
@@ -89,7 +89,7 @@ public class PageLinkTagHelper : TagHelper
                         if (area == null || area == "")
                         {
                             // bu index için ana sayfa
-                             url = $"https://localhost:7056/?PageNumber={i}&{param}";    
+                             url = $"https://localhost:7056/forum?PageNumber={i}&{param}";    
                         }
                         else
                         {

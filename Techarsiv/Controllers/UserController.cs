@@ -26,7 +26,7 @@ public class UserController : Controller
         _manager = manager;
     }
 
-    [HttpGet("/biri/{username}")]
+    [HttpGet("/forum/biri/{username}")]
     public async Task<IActionResult> Index(string username)
     {
         UserPageViewModel model = new UserPageViewModel();
@@ -269,7 +269,7 @@ public class UserController : Controller
     }
 
     [Authorize]
-    [HttpPost("/biri/{username}")]
+    [HttpPost("/forum/biri/{username}")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> UploadImage(string username,IFormFile file)
     {
@@ -481,7 +481,7 @@ public class UserController : Controller
     }
 
     [Authorize]
-    [HttpGet("/report/{username}")]
+    [HttpGet("/forum/report/{username}")]
     public IActionResult report(string username)
     {
         CreateReportDto dto = new CreateReportDto()
@@ -494,7 +494,7 @@ public class UserController : Controller
     }
     
     [Authorize]
-    [HttpPost("/report/{username}")]
+    [HttpPost("/forum/report/{username}")]
     public async Task<IActionResult> report([FromForm] CreateReportDto dto,string username)
     {
         // burda ise username rapor eden kişi

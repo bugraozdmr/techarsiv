@@ -28,7 +28,7 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
     
-    [HttpGet("/")]
+    [HttpGet("/forum")]
     public async Task<IActionResult> Index(CommonRequestParameters? p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
@@ -76,7 +76,7 @@ public class HomeController : Controller
         return View("Index",model);
     }
     
-    [HttpGet("/son_mesajlar")]
+    [HttpGet("/forum/son_mesajlar")]
     public async Task<IActionResult> LastComments(CommonRequestParameters p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
@@ -97,7 +97,7 @@ public class HomeController : Controller
         return View("Index",model);
     }
     
-    [HttpGet("/konularim")]
+    [HttpGet("/forum/konularim")]
     public async Task<IActionResult> userSubjects(CommonRequestParameters p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
@@ -118,7 +118,7 @@ public class HomeController : Controller
         return View("Index",model);
     }
 
-    [HttpGet("/takip")]
+    [HttpGet("/forum/takip")]
     [Authorize]
     public async Task<IActionResult> followedSubjects(CommonRequestParameters p)
     {
@@ -141,7 +141,7 @@ public class HomeController : Controller
     }
     
 
-    [HttpGet("/bolum/{category}")]
+    [HttpGet("/forum/bolum/{category}")]
     public async Task<IActionResult> Tags(string? category,CommonRequestParameters p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
@@ -173,7 +173,7 @@ public class HomeController : Controller
         return View(model);
     }
 
-    [HttpGet("/uyeler")]
+    [HttpGet("/forum/uyeler")]
     public IActionResult Users()
     {
         var model = new UsersViewModel();

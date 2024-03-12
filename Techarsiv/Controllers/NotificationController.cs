@@ -27,6 +27,7 @@ public class NotificationController : Controller
     }
 
     [Authorize]
+    [HttpGet("/forum/bildirimler")]
     public async Task<IActionResult> notifications(CommonRequestParameters p)
     {
         // zaten giriş yapmazsa erişemez

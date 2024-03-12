@@ -1,14 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700');
-*{
-    border-radius: 0px !important;
-    border: 0px !important;
-}
 
-body{
-    margin: 0px;
-    font-family: "Poppins", sans-serif !important;
-    background: #FED18C !important;
-}
+
 
 .height-vh{
     height: 100vh;

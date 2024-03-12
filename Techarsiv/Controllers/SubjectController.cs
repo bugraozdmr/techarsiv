@@ -201,7 +201,7 @@ public class SubjectController : Controller
         return View(model);
     }
 
-    [HttpGet("/{url}")]
+    [HttpGet("/forum/{url}")]
     public async Task<IActionResult> Details([FromRoute] string url,CommonRequestParameters? p)
     {
         p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
