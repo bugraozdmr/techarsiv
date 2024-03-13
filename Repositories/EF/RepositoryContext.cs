@@ -53,6 +53,9 @@ public class RepositoryContext : IdentityDbContext<User>
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
     
+    public DbSet<Article> Articles { get; set; }
+    public DbSet<Tag> Tags { get; set; }
+    
     public DbSet<Subject> Subjects { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Comment> Comments { get; set; }

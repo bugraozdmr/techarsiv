@@ -8,6 +8,7 @@ public interface IRepositoryManager
     IBanRepository Bans { get; }
     INotificationRepository Notification { get; }
     IReportRepository ReportRepository { get; }
+    IArticleRepository Article { get; }
 
     Task SaveAsync();
 }

@@ -1,3 +1,5 @@
+@model SideBarViewModel
+
 @{
     ViewData["Title"] = "Lamı Cimi Yok";
 }
@@ -195,7 +197,7 @@
 		</div>
 		<div class="col-lg-2">
 			<div class="container py-4">
-				<partial name="_sidebar"/>
+				@await Component.InvokeAsync("Sidebar")
 			</div>
 		</div>
 	</div>

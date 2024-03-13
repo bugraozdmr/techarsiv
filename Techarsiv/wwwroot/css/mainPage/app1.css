@@ -8164,8 +8164,6 @@ button:hover, button:focus {
     width: 100%; }
 
 #sidebar {
-    min-width: 270px;
-    max-width: 270px;
     color: #fff;
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;

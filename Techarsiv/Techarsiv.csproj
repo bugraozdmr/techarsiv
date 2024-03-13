@@ -14,9 +14,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Areas\Main\Components\" />
-      <Folder Include="Areas\Main\Models\" />
-      <Folder Include="Areas\Main\Views\Shared\Components\" />
       <Folder Include="wwwroot\images\subjects\" />
       <Folder Include="wwwroot\images\user\" />
     </ItemGroup>
