@@ -1,0 +1,63 @@
+@model CreateArticleDto
+
+
+@{
+    ViewData["Title"] = "Ana sayfa yazı yaz";
+}
+
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Ana sayfa için makale yaz</h1>
+    </div>
+    
+    <form method="post" asp-action="#" enctype="multipart/form-data">
+        
+        <div class="mb-3">
+          <label for="formFile" class="form-label">Resim seç</label>
+          <input class="form-control" type="file" id="formFile">
+        </div>
+        
+        <div class="form-group">
+            <label>Konu</label>
+            <select class="form-control"
+                    asp-items="@ViewBag.Categories" asp-for="tagId"></select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Başlık</label>
+            <input class="form-control" id="exampleFormControlInput1" placeholder="Başlık">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Alt başlık</label>
+            <input class="form-control" placeholder="Alt başlık">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">içerik</label>
+            <textarea class="form-control" asp-for="Content"></textarea>
+        </div>
+
+        <div class="text-center">
+            <button class="btn btn-outline-secondary">Gönder</button>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts
+{
+    <script asp-append-version="true" src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+    
+    <script>
+    
+        ClassicEditor.create( document.querySelector('#Content'),{
+                    extraPlugins: [ MyCustomUploadAdapterPlugin ]
+        })
+        .then(editor => {
+            
+          })
+         .catch(error => {
+             console.error(error);
+         });
+        
+    </script>
+}

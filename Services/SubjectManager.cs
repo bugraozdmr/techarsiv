@@ -52,6 +52,12 @@ public class SubjectManager : ISubjectService
         var url =
             $"{SlugModifier.RemoveNonAlphanumericAndSpecialChars(SlugModifier.ReplaceTurkishCharacters(productToGo.Title.Replace(' ', '-').ToLower()))}";
 
+        if (url[url.Length - 1] == '-')
+        {
+            url = url.Substring(0, url.Length - 1);
+        }
+
+        
         if ((await getOneSubject(url, false)) is not null)
         {
             url = url+$".{SlugModifier.GenerateUniqueHash()}";

@@ -14,5 +14,6 @@ public interface IServiceManager
     
     IAwardUserService AwardUserService { get; }
     IReportService ReportService { get; }
+    IArticleService ArticleService { get; }
     
 }

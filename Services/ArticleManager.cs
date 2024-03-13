@@ -3,6 +3,7 @@ using Entities.Dtos.Article;
 using Entities.Models;
 using Repositories.Contracts;
 using Services.Contracts;
+using Services.Helpers;
 
 namespace Services;
 
@@ -41,6 +42,11 @@ public class ArticleManager : IArticleService
         var articlee = _mapper.Map<Article>(Article);
         
         articlee.CreatedAt = DateTime.Now;
+        articlee.Url = $"{SlugModifier.RemoveNonAlphanumericAndSpecialChars(SlugModifier.ReplaceTurkishCharacters(articlee.Title.Replace(' ', '-').ToLower()))}";
+        if (articlee.Url[articlee.Url.Length - 1] == '-')
+        {
+            articlee.Url = articlee.Url.Substring(0, articlee.Url.Length - 1);
+        }
         
         _manager.Article.CreateArticle(articlee);
         await _manager.SaveAsync();
