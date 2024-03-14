@@ -1,4 +1,8 @@
+using Entities.RequestParameters;
+using GargamelinBurnu.Areas.Main.Models.MainPage;
+using GargamelinBurnu.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Services.Contracts;
 
 namespace GargamelinBurnu.Areas.Main.Controllers;
@@ -14,10 +18,88 @@ public class HomeController : Controller
     }
 
     [HttpGet("/")]
-    public IActionResult Home()
+    public IActionResult Home(CommonRequestParameters p)
     {
+        p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
+        p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
+        
+        p.Pagesize = p.Pagesize > 15 ? 15 : p.Pagesize;
+
+        PaginationMainPageViewModel realModel = new PaginationMainPageViewModel();
         
         
-        return View();
+        List<MainPageViewModel> model = new List<MainPageViewModel>();
+
+        int total_count;
+
+        if (p.SearchTerm == null || p.SearchTerm == "")
+        {
+            model = _manager
+                .ArticleService
+                .GetAllArticles(false)
+                .OrderByDescending(s => s.CreatedAt)
+                .Skip((p.PageNumber-1)*p.Pagesize)
+                .Take(p.Pagesize)
+                .Select(s => new MainPageViewModel()
+                {
+                    Image = s.image,
+                    Title = s.Title,
+                    SubTitle = s.SubTitle,
+                    TagName = s.Tag.TagName,
+                    CreatedAt = s.CreatedAt,
+                    Username = s.User.UserName
+                }).ToList();
+            
+            
+            total_count = _manager
+                .ArticleService
+                .GetAllArticles(false)
+                .Count();
+        }
+        else
+        {
+            model = _manager
+                .ArticleService
+                .GetAllArticles(false)
+                .Include(s => s.Tag)
+                .Include(s => s.User)
+                .Where(s => s.Title.Contains(p.SearchTerm.ToLower()))
+                .OrderByDescending(s => s.CreatedAt)
+                .Skip((p.PageNumber-1)*p.Pagesize)
+                .Take(p.Pagesize)
+                .Select(s => new MainPageViewModel()
+                {
+                    Image = s.image,
+                    Title = s.Title,
+                    SubTitle = s.SubTitle,
+                    TagName = s.Tag.TagName,
+                    CreatedAt = s.CreatedAt,
+                    Username = s.User.UserName
+                }).ToList();
+            
+            realModel.Param = $"SearchTerm={p.SearchTerm}";
+            
+            total_count = _manager
+                .ArticleService
+                .GetAllArticles(false)
+                .Count(s => s.Title.Contains(p.SearchTerm.ToLower()));
+        }
+        
+        
+        var pagination = new Pagination()
+        {
+            CurrentPage = p.PageNumber,
+            ItemsPerPage = p.Pagesize,
+            TotalItems = total_count
+        };
+
+        realModel.List = model;
+        realModel.Pagination = pagination;
+
+
+        
+        
+        
+        return View(realModel);
     }
 }

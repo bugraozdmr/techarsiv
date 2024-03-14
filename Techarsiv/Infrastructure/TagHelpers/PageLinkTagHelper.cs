@@ -88,8 +88,15 @@ public class PageLinkTagHelper : TagHelper
                         string url;
                         if (area == null || area == "")
                         {
-                            // bu index için ana sayfa
-                             url = $"https://localhost:7056/forum?PageNumber={i}&{param}";    
+                            if (PageAction == "Home")
+                            {
+                                url = $"https://localhost:7056/?PageNumber={i}&{param}";   
+                            }
+                            else
+                            {
+                                // bu index için ana sayfa
+                                url = $"https://localhost:7056/forum?PageNumber={i}&{param}";
+                            }    
                         }
                         else
                         {
