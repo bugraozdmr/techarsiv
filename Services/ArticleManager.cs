@@ -2,6 +2,7 @@ using AutoMapper;
 using Entities.Dtos.Article;
 using Entities.Models;
 using Repositories.Contracts;
+using Repositories.EF;
 using Services.Contracts;
 using Services.Helpers;
 
@@ -11,6 +12,7 @@ public class ArticleManager : IArticleService
 {
     private readonly IRepositoryManager _manager;
     private readonly IMapper _mapper;
+    
     
     public ArticleManager(IRepositoryManager manager, 
         IMapper mapper)
@@ -42,11 +44,26 @@ public class ArticleManager : IArticleService
         var articlee = _mapper.Map<Article>(Article);
         
         articlee.CreatedAt = DateTime.Now;
-        articlee.Url = $"{SlugModifier.RemoveNonAlphanumericAndSpecialChars(SlugModifier.ReplaceTurkishCharacters(articlee.Title.Replace(' ', '-').ToLower()))}";
-        if (articlee.Url[articlee.Url.Length - 1] == '-')
+        var url = $"{SlugModifier.RemoveNonAlphanumericAndSpecialChars(SlugModifier.ReplaceTurkishCharacters(articlee.Title.Replace(' ', '-').ToLower()))}";
+
+        var check = _manager
+            .Article
+            .GetAllArticles(false)
+            .Where(s => s.Url.Equals(url))
+            .FirstOrDefault();
+
+        
+        if (url[url.Length - 1] == '-')
         {
-            articlee.Url = articlee.Url.Substring(0, articlee.Url.Length - 1);
+            url = url.Substring(0, url.Length - 1);
         }
+        
+        if (check is not null)
+        {
+            url = url + SlugModifier.GenerateUniqueHash();
+        }
+
+        articlee.Url = url;
         
         _manager.Article.CreateArticle(articlee);
         await _manager.SaveAsync();

@@ -1,9 +1,10 @@
 @model List<ArticleViewModel>
 
-<div class="card">
-    <b style="font-size: 24px;line-height: 1.5rem;color: orange" class="text-center mb-3 mt-2">Son eklenenler</b>
+<div class="card mt-4">
+    <b style="font-size: 24px;line-height: 1.5rem;color: orange" class="text-center mb-2 mt-3">Son eklenenler</b>
     @foreach (var item in Model)
     {
+        <hr/>
         <div class="p-2">
             <div>
                 <a asp-area="Main" asp-controller="Home" asp-action="ArticlePage"
@@ -21,6 +22,6 @@
                 @await Component.InvokeAsync("ShowTime", @item.createdAt)
             </div>
         </div>
-        <hr/>
+        
     }
 </div>

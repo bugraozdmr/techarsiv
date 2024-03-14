@@ -40,6 +40,7 @@ public class ArticleController : Controller
     }
     
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Index(CreateArticleDto dto,IFormFile file)
     {
         if (ModelState.IsValid)
@@ -91,10 +92,11 @@ public class ArticleController : Controller
                 .Select(s => s.Id)
                 .FirstOrDefault();
 
-            _manager.ArticleService.CreateArticle(dto);
+            // await !
+            await _manager.ArticleService.CreateArticle(dto);
 
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("getAllArticles","Article");
         }
         
         ViewBag.Categories = GetTagsSelectList();
@@ -265,7 +267,7 @@ public class ArticleController : Controller
                 }
                 
                 
-                _manager.ArticleService.UpdateArticle(dto);
+                await _manager.ArticleService.UpdateArticle(dto);
 
                 return RedirectToAction("getAllArticles");
             }
