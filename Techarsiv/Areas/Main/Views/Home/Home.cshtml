@@ -20,61 +20,46 @@
 		<div class="col-lg-9">
 			<div class="container py-4">
 				<!--<h1 class="h1 text-center" id="pageHeaderTitle">Son yazılar</h1>-->
-            
-				<article class="postcard dark blue">
-					<a class="postcard__img_link" href="#">
-						<img class="postcard__img" src="https://picsum.photos/1000/1000" alt="Image Title" />
-					</a>
-					<div class="postcard__text">
-						<h1 class="postcard__title blue"><a href="#">Podcast Title</a></h1>
-						<div class="postcard__subtitle small">
-							<time datetime="2020-05-25 12:00:00">
-								<i class="fas fa-calendar-alt mr-2"></i>Mon, May 25th 2020
-							</time>
-						</div>
-						<div class="postcard__bar"></div>
-						<div class="postcard__preview-txt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, fugiat asperiores inventore beatae accusamus odit minima enim, commodi quia, doloribus eius! Ducimus nemo accusantium maiores velit corrupti tempora reiciendis molestiae repellat vero. Eveniet ipsam adipisci illo iusto quibusdam, sunt neque nulla unde ipsum dolores nobis enim quidem excepturi, illum quos!</div>
-						<ul class="postcard__tagbox">
-							<li class="tag__item"><i class="fas fa-tag mr-2"></i>Podcast</li>
-							<li class="tag__item"><i class="fas fa-clock mr-2"></i>55 mins.</li>
-							<li class="tag__item play blue">
-								<a href="#"><i class="fas fa-play mr-2"></i>Okumaya başla</a>
-							</li>
-						</ul>
-					</div>
-				</article>
-				@foreach (var item in Model.List)
+				@if (Model.List.Count != 0)
 				{
-					<article class="postcard @(count % 2 == 0 ? "dark" : "light") @(list[count % 3])">
-						<a class="postcard__img_link" href="#">
-							<img class="postcard__img" src="@item.Image" alt="Image Title" />
-						</a>
-						<div class="postcard__text">
-							<h1 class="postcard__title blue"><a href="#">@item.Title</a></h1>
-							<div class="postcard__subtitle small">
-								<time datetime="2020-05-25 12:00:00">
-									<i class="fas fa-calendar-alt mr-2"></i>
-									@await Component.InvokeAsync("ShowTime",@item.CreatedAt)
-								</time>
+					@foreach (var item in Model.List)
+					{
+						<article class="postcard @(count % 2 == 0 ? "dark" : "light") @(list[count % 3])">
+							<a class="postcard__img_link" href="#">
+								<img class="postcard__img" src="@item.Image" alt="Image Title" />
+							</a>
+							<div class="postcard__text">
+								<h1 class="postcard__title blue"><a href="#">@item.Title</a></h1>
+								<div class="postcard__subtitle small">
+									<time datetime="2020-05-25 12:00:00">
+										<i class="fas fa-calendar-alt mr-2"></i>
+										@await Component.InvokeAsync("ShowTime",@item.CreatedAt)
+									</time>
+								</div>
+								<div class="postcard__bar"></div>
+								<div class="postcard__preview-txt">@item.SubTitle</div>
+								<ul class="postcard__tagbox">
+									<li class="tag__item"><i class="fas fa-tag mr-2"></i>@item.TagName</li>
+									<li class="tag__item">
+										<a asp-area="" asp-controller="User" asp-action="Index" asp-route-username="@item.Username">
+											<i class="fas fa-user mr-2"></i>@item.Username
+										</a>
+									</li>
+									<li class="tag__item play @(list[count % 3])">
+										<a href="#"><i class="fas fa-play mr-2"></i>Okumaya başla</a>
+									</li>
+								</ul>
 							</div>
-							<div class="postcard__bar"></div>
-							<div class="postcard__preview-txt">@item.SubTitle</div>
-							<ul class="postcard__tagbox">
-								<li class="tag__item"><i class="fas fa-tag mr-2"></i>@item.TagName</li>
-								<li class="tag__item">
-									<a asp-area="" asp-controller="User" asp-action="Index" asp-route-username="@item.Username">
-										<i class="fas fa-user mr-2"></i>@item.Username
-									</a>
-								</li>
-								<li class="tag__item play @(list[count % 3])">
-									<a href="#"><i class="fas fa-play mr-2"></i>Okumaya başla</a>
-								</li>
-							</ul>
-						</div>
-					</article>
+						</article>
 
-					count++;
+						count++;
+					}
 				}
+				else
+				{
+					<p>Burası boş gibi.</p>
+				}
+				
 				<div class="text-center">
 					<div page-model="@Model.Pagination" page-action="Home"
 					     param="@(Model.Param is not null ? Model.Param : "")"
@@ -99,6 +84,6 @@
 
 @section Scripts
 {
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script  asp-append-version="true" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script  asp-append-version="true" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 }
