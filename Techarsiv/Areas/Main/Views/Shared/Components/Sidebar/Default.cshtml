@@ -8,7 +8,8 @@
                 <div class="tagcloud">
                     @foreach (var item in Model)
                     {
-                        <a href="/@item.Tagurl" class="tag-cloud-link">@item.Tagname</a>
+                        <a asp-controller="Home" asp-action="tag" asp-area="Main" asp-route-tagUrl="@item.Tagurl"
+                            class="tag-cloud-link">@item.Tagname</a>
                     }
                 </div>
             </div>

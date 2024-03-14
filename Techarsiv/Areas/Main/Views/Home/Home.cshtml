@@ -29,7 +29,14 @@
 								<img class="postcard__img" src="@item.Image" alt="Image Title" />
 							</a>
 							<div class="postcard__text">
-								<h1 class="postcard__title blue"><a href="#">@item.Title</a></h1>
+								<h1 class="postcard__title blue">
+									<a asp-area="Main"
+										asp-action="ArticlePage"
+									   asp-controller="Home"
+									   asp-route-url="@item.url">
+										@item.Title
+										</a>
+								</h1>
 								<div class="postcard__subtitle small">
 									<time datetime="2020-05-25 12:00:00">
 										<i class="fas fa-calendar-alt mr-2"></i>
@@ -39,14 +46,24 @@
 								<div class="postcard__bar"></div>
 								<div class="postcard__preview-txt">@item.SubTitle</div>
 								<ul class="postcard__tagbox">
-									<li class="tag__item"><i class="fas fa-tag mr-2"></i>@item.TagName</li>
+									<li class="tag__item">
+										<a asp-controller="Home" asp-action="tag" asp-area="Main" asp-route-tagUrl="@item.TagUrl"
+										   class="tag-cloud-link">
+											<i class="fas fa-tag mr-2"></i>@item.TagName
+										</a>
+										
+										
+									</li>
 									<li class="tag__item">
 										<a asp-area="" asp-controller="User" asp-action="Index" asp-route-username="@item.Username">
 											<i class="fas fa-user mr-2"></i>@item.Username
 										</a>
 									</li>
 									<li class="tag__item play @(list[count % 3])">
-										<a href="#"><i class="fas fa-play mr-2"></i>Okumaya başla</a>
+										<a asp-area="Main"
+										   asp-controller="Home"
+										   asp-action="ArticlePage"
+										   asp-route-url="@item.url"><i class="fas fa-play mr-2"></i>Okumaya başla</a>
 									</li>
 								</ul>
 							</div>

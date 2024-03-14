@@ -1,0 +1,45 @@
+@model ArticlePageViewModel
+
+@{
+    ViewData["Title"] = @Model.Title;
+}
+
+<div class="row mt-3">
+    <div class="col-lg-9">
+        <a asp-area="Main"
+           asp-controller="Home"
+           asp-action="tag"
+           asp-route-tagUrl="@Model.TagUrl">
+            <span class="mb-2 badge badge-secondary">
+                @Model.TagName
+            </span>
+        </a>
+        <h2>@Model.Title</h2>
+        <p class="text-muted">Yazan
+            <a asp-area=""
+               asp-controller="User"
+               asp-action="Index"
+               asp-route-username="@Model.Username"
+               style="text-decoration: none;color: burlywood">@Model.Username</a>
+            - @await Component.InvokeAsync("ShowTime", @Model.CreatedAt)
+        </p>
+
+        @Html.Raw(@Model.Content)
+        
+        <br/>
+        <hr/>
+        @await Component.InvokeAsync("Similar",new {tagId = @Model.TagId,articleId = @Model.ArticleId})
+    </div>
+    <div class="col-lg-3">
+        @await Component.InvokeAsync("LastUploded",@Model.ArticleId)
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script asp-append-version="true" src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){$("figure.image img").each(function(){$(this).width(),$(this).height(),$(this).css("max-width","100%"),$(this).css("height","auto"),$(this).css("display","block"),$(this).css("margin-left","auto"),$(this).css("margin-right","auto")})});
+    </script>
+}

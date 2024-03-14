@@ -1,0 +1,26 @@
+@model List<ArticleViewModel>
+
+<div class="card">
+    <b style="font-size: 24px;line-height: 1.5rem;color: orange" class="text-center mb-3 mt-2">Son eklenenler</b>
+    @foreach (var item in Model)
+    {
+        <div class="p-2">
+            <div>
+                <a asp-area="Main" asp-controller="Home" asp-action="ArticlePage"
+                   asp-route-url="@item.Url" style="text-decoration: none;color: black">
+                    <b>@item.Title</b>
+                </a>
+            </div>
+            
+            <div class="text-muted">
+                <a asp-area="" asp-controller="User" asp-action="Index" asp-route-username="@item.username"
+                   style="text-decoration: none;color: darkcyan">@item.username</a> -
+                <a asp-area="Main" asp-controller="Home" asp-action="tag"
+                   asp-route-tagUrl="@item.TagUrl"
+                   style="text-decoration: none;color: sandybrown">@item.tagName</a> -
+                @await Component.InvokeAsync("ShowTime", @item.createdAt)
+            </div>
+        </div>
+        <hr/>
+    }
+</div>
