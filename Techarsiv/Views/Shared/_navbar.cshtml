@@ -68,12 +68,11 @@
                                asp-controller="Notification"
                                asp-action="notifications"
                                aria-current="page">
-                                <i class="fa fa-envelope" aria-hidden="true">
-                                    <span class="text-danger" style="font-size: 22px">( 
-                                        @await Component.InvokeAsync("NotificationCount")
-                                        )</span>
-                                    
-                                </i>
+
+                                <i class="fa fa-envelope"></i>
+                                <span class="badge rounded-pill badge-notification bg-danger">
+                                    @await Component.InvokeAsync("NotificationCount")
+                                </span>
                             </a>
                         </li>
                         <li class="nav-item">
