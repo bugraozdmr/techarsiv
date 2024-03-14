@@ -1,0 +1,67 @@
+@model EditArticleViewModel
+
+
+@{
+    ViewData["Title"] = @Model.Title + "düzenle";
+}
+
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Düzenle</h1>
+    </div>
+    
+    <form method="post" asp-action="Edit" asp-controller="Article" asp-area="Admin" enctype="multipart/form-data">
+        <div class="text-danger" asp-validation-summary="All"></div>
+        <input type="hidden" asp-for="ArticleId" value="@Model.ArticleId"/>
+        
+        <div class="mb-3">
+          <label for="formFile" class="form-label">Resim seç</label>
+          <input class="form-control" type="file" id="formFile" name="file">
+        </div>
+        
+        <div class="form-group">
+            <label>Konu</label>
+            <select class="form-control"
+                    asp-items="@ViewBag.Categories" asp-for="TagId"></select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Başlık</label>
+            <input class="form-control" id="exampleFormControlInput1" placeholder="Başlık" asp-for="Title">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Alt başlık</label>
+            <input class="form-control" placeholder="Alt başlık" asp-for="SubTitle">
+        </div>
+        <div class="mb-3">
+            <label>içerik</label>
+            <textarea class="form-control" asp-for="Content"></textarea>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-outline-secondary">Gönder</button>
+        </div>
+    </form>
+</div>
+
+<!--- // bu site.js olmadan bulamıyor customu ---->
+@section Scripts
+{
+    
+    <script asp-append-version="true" src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+    <script asp-append-version="true" src="~/js/site.js"></script>
+    
+    <script>
+    
+        ClassicEditor.create( document.querySelector('#Content'),{
+                    extraPlugins: [ MyCustomUploadAdapterPlugin ]
+        })
+        .then(editor => {
+            
+          })
+         .catch(error => {
+             console.error(error);
+         });
+        
+    </script>
+}

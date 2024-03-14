@@ -54,7 +54,25 @@ public class ArticleManager : IArticleService
 
     public async Task UpdateArticle(UpdateArticleDto Article)
     {
-        var entity = _mapper.Map<Article>(Article);
+        var entity1 = _mapper.Map<Article>(Article);
+
+        var entity = _manager
+            .Article
+            .GetAllArticles(false)
+            .Where(s => s.ArticleId.Equals(entity1.ArticleId))
+            .FirstOrDefault();
+
+        // hata durumu
+        if (entity is null)
+        {
+            return;   
+        }
+
+        entity.Title = entity1.Title;
+        entity.SubTitle = entity1.SubTitle;
+        entity.Content = entity1.Content;
+        entity.image = entity1.image ?? entity.image;
+        entity.TagId = entity1.TagId;
         
         _manager.Article.UpdateArticle(entity);
         await _manager.SaveAsync();

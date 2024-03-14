@@ -1,0 +1,99 @@
+@model PaginationArticleViewModel
+
+@{
+    ViewData["Title"] = "Tüm Makaleler";
+}
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Tüm Makaleler</h1>
+    </div>
+
+    <div class="card mb-4 mt-2">
+        <div class="card-header">Makale bul</div>
+        <div class="card-body">
+            <form method="get" asp-controller="Article" asp-action="getAllArticles" asp-area="Admin">
+                <div class="input-group">
+                    <input class="form-control" type="text" name="SearchTerm" placeholder="Aranacak makale başlığı" />
+                    <button class="btn btn-primary" type="submit">Ara</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    
+    
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">
+                Tüm Makaleler
+            </h6>
+            <small>Makale arayıp ya da direkt bulup konuyu düzenleyebilirsiniz.</small>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Başlık</th>
+                        <th>Sahibi</th>
+                        <th>Kategori</th>
+                        <th>Oluşturma Zamanı</th>
+                        <th>işlemler</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.List)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-action="Details"
+                                   asp-controller="Subject"
+                                   asp-area="" asp-route-url="@item.Url"
+                                   target="_blank">
+                                    @item.Title
+                                </a>
+                            </td>
+                            <td>
+                                <a asp-area="" asp-action="Index"
+                                   asp-controller="User"
+                                   asp-route-username="@item.username">
+                                    @item.username
+                                </a>
+                            </td>
+                            <td>@item.tagName</td>
+                            <td>@await Component.InvokeAsync("ShowTime",@item.createdAt)</td>
+                            <td class="text-center">
+                                <!--- check ---->
+                                <a asp-area="Admin"
+                                   asp-controller="Article"
+                                   asp-action="Edit"
+                                   asp-route-url="@item.Url"
+                                   data-toggle="tooltip"
+                                   data-popper-placement="top"
+                                   title="Düzenle"
+                                   style="font-size: 22px;text-decoration: none">
+                                    <i class="fa fa-edit text-warning" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div page-model="@Model.Pagination" page-action="getAllArticles"
+             param="@(Model.Param is not null ? Model.Param : "")"
+             area="@(Model.area is not null ? Model.area : "")"
+             page-class="btn"
+             page-class-normal="btn-outline-dark"
+             page-class-selected="btn-primary"
+             page-classes-enabled="true"
+             class="btn group mt-3">
+        </div>
+    </div>
+</div>
