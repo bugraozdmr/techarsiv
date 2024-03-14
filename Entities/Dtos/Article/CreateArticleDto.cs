@@ -21,10 +21,11 @@ public record CreateArticleDto
     
     [Required(ErrorMessage = "Başlık alanı doldurulmalı")]
     [DataType(DataType.Text)]
-    [MaxLength(150,ErrorMessage = "Başlık 60 karakterden fazla olamaz")]
+    [MaxLength(250,ErrorMessage = "Başlık 60 karakterden fazla olamaz")]
     [MinLength(10,ErrorMessage = "Başlık 10 karakterden uzun olmalı")]
     public string SubTitle { get; init; }
-    
+
+    public string? image { get; set; }
     
     public int tagId { get; init; }
 }

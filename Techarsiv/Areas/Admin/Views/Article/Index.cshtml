@@ -10,11 +10,12 @@
         <h1 class="h3 mb-0 text-gray-800">Ana sayfa için makale yaz</h1>
     </div>
     
-    <form method="post" asp-action="#" enctype="multipart/form-data">
+    <form method="post" asp-action="Index" asp-controller="Article" asp-area="Admin" enctype="multipart/form-data">
+        <div class="text-danger" asp-validation-summary="All"></div>
         
         <div class="mb-3">
           <label for="formFile" class="form-label">Resim seç</label>
-          <input class="form-control" type="file" id="formFile">
+          <input class="form-control" type="file" id="formFile" name="file">
         </div>
         
         <div class="form-group">
@@ -25,27 +26,29 @@
         
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Başlık</label>
-            <input class="form-control" id="exampleFormControlInput1" placeholder="Başlık">
+            <input class="form-control" id="exampleFormControlInput1" placeholder="Başlık" asp-for="Title">
         </div>
         <div class="mb-3">
             <label class="form-label">Alt başlık</label>
-            <input class="form-control" placeholder="Alt başlık">
+            <input class="form-control" placeholder="Alt başlık" asp-for="SubTitle">
         </div>
         <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">içerik</label>
+            <label>içerik</label>
             <textarea class="form-control" asp-for="Content"></textarea>
         </div>
 
         <div class="text-center">
-            <button class="btn btn-outline-secondary">Gönder</button>
+            <button type="submit" class="btn btn-outline-secondary">Gönder</button>
         </div>
     </form>
 </div>
 
-
+<!--- // bu site.js olmadan bulamıyor customu ---->
 @section Scripts
 {
+    
     <script asp-append-version="true" src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+    <script asp-append-version="true" src="~/js/site.js"></script>
     
     <script>
     

@@ -1,4 +1,5 @@
 using AutoMapper;
+using Entities.Dtos.Article;
 using Entities.Dtos.Ban;
 using Entities.Dtos.Comment;
 using Entities.Dtos.Notification;
@@ -18,6 +19,8 @@ public class MappingProfile : Profile
         CreateMap<Subject, UpdateSubjectDto>().ReverseMap();
         CreateMap<Report, CreateReportDto>().ReverseMap();
         CreateMap<Notification, NotificationDto>().ReverseMap();
+        CreateMap<Article, CreateArticleDto>().ReverseMap();
+        CreateMap<Article, UpdateArticleDto>().ReverseMap();
         CreateMap<Ban, BanCauseDto>().ReverseMap();
     }
 }

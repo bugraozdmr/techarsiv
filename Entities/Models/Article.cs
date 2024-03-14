@@ -12,4 +12,6 @@ public class Article
     
     public string UserId { get; set; }
     public User User { get; set; } = null!;
+
+    public string image { get; set; }
 }

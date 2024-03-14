@@ -287,7 +287,7 @@ public class UserController : Controller
         if (file is null)
         {
             TempData["profile_message"] = "resim boş olamaz";
-            return Redirect($"/biri/{username}");
+            return Redirect($"/forum/biri/{username}");
         }
         
         var user = _userManager.Users.Where(s => s.UserName.Equals(username)).FirstOrDefault();
@@ -295,7 +295,7 @@ public class UserController : Controller
         if (user is null)
         {
             TempData["profile_message"] = "bir şeyler ters gitti";
-            return Redirect($"/biri/{username}");
+            return Redirect($"/forum/biri/{username}");
         }
         
         
@@ -305,7 +305,7 @@ public class UserController : Controller
         if (uzanti != ".jpg" && uzanti != ".png" && uzanti != ".jpeg")
         {
             TempData["profile_message"] = "sadece .jpg , .jpeg ve .png uzantılı dosyalar yüklenebilir";
-            return Redirect($"/biri/{username}");
+            return Redirect($"/forum/biri/{username}");
         }
 
         var maxFileLength = 1 * 1024 * 1024;
@@ -313,7 +313,7 @@ public class UserController : Controller
         if (file.Length > maxFileLength)
         {
             TempData["profile_message"] = "Dosya 1 MB'dan büyük olamaz";
-            return Redirect($"/biri/{username}");
+            return Redirect($"/forum/biri/{username}");
         }
         
         
