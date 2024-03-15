@@ -69,10 +69,9 @@
             <div class="card-header">En çok kalplenen konular</div>
             @await Component.InvokeAsync("MostHeart")
         </div>
-        <!-- Online count widget -->
         <div class="card mb-4">
-            <div class="card-header">Aktif Kullanıcı Sayısı</div>
-            <div class="card-body"><i class="fa fa-user text-success"></i> <span id="usersOnline">0</span></div>
+            <div class="card-header">En çok yorumlanan</div>
+            @await Component.InvokeAsync("MostComments")
         </div>
         <!-- Social Medias widget-->
         <div class="card mb-4">
@@ -95,7 +94,6 @@
     
 @section Scripts
 {
-    <script asp-append-version="true" src="~/js/UserOnline.js"></script>
 
     <script type="text/javascript">
         Online();

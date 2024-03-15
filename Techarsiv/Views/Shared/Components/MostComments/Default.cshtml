@@ -1,0 +1,24 @@
+@model List<MostHeartViewModel>
+
+<div class="card-body">
+    @foreach (var item in Model)
+    {
+        <h5 class="card-title"><a asp-action="Details" asp-controller="Subject"
+                                  asp-route-url="@item.Url"
+                                  style="text-decoration: none">@item.Title</a></h5>
+        <p class="card-text">
+            <img src="@item.OwnerImage" class="rounded mb-1" style="width: 20px;height: 20px"/>
+            <a asp-controller="User" asp-action="Index" asp-route-username="@item.owner"
+               style="text-decoration: none;color: gray">
+                @item.owner
+            </a>
+            - @await Component.InvokeAsync("ShowTime", @item.CreatedAt)
+            - <a asp-controller="Home" asp-action="Tags" asp-route-category="@item.CategoryUrl"
+                 style="text-decoration: none;color: gray;">
+                @item.CategoryName
+            </a>
+            - Mesaj: @item.MessageCount
+        </p>
+    
+    }            
+</div>
