@@ -98,19 +98,22 @@
                     {
                         if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
                         {
-                            if (Model.User.UserName != "Admin")
+                            if (!User.Identity.Name.Equals(Model.User.UserName))
                             {
-                                <a asp-action="Index" asp-controller="Ban" asp-area="Admin"
-                                   asp-route-username="@Model.User.UserName"
-                                   class="btn btn-outline-danger text-center mt-2">Ceza</a>
-                            }   
-                            if (Model.hasBan)
-                            {
-                                <div class="text-danger">Cezası zaten var</div>
-                            }
-                            else
-                            {
-                                <div class="text-warning">Cezası yok</div>
+                                if (Model.User.UserName != "Admin")
+                                {
+                                    <a asp-action="Index" asp-controller="Ban" asp-area="Admin"
+                                       asp-route-username="@Model.User.UserName"
+                                       class="btn btn-outline-danger text-center mt-2">Ceza</a>
+                                }   
+                                if (Model.hasBan)
+                                {
+                                    <div class="text-danger">Cezası zaten var</div>
+                                }
+                                else
+                                {
+                                    <div class="text-warning">Cezası yok</div>
+                                }
                             }
                         }
                         
@@ -120,9 +123,6 @@
                         }
                         else
                         {
-                            <button
-                                id="fallowBtn"
-                                class="btn btn-outline-primary text-center mt-2">Takip Et</button>
                         }
                     }
                 </div>

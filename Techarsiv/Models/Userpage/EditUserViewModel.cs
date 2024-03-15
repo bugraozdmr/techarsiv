@@ -7,6 +7,8 @@ public class EditUserViewModel
     public string Userid { get; set; }
     [MaxLength(25)]
     public string? Fullname { get; set; }
+    [MaxLength(35)]
+    public string? Username { get; set; }
     [MaxLength(300)]
     public string? signature { get; set; }
     [MaxLength(100)]

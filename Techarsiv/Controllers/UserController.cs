@@ -17,13 +17,16 @@ public class UserController : Controller
 {
     private readonly UserManager<User> _userManager;
     private readonly IServiceManager _manager;
+    private readonly SignInManager<User> _signInManager;
     
 
     public UserController(UserManager<User> userManager,
-        IServiceManager manager)
+        IServiceManager manager,
+        SignInManager<User> signInManager)
     {
         _userManager = userManager;
         _manager = manager;
+        _signInManager = signInManager;
     }
 
     [HttpGet("/forum/biri/{username}")]
@@ -432,6 +435,8 @@ public class UserController : Controller
         {
             if (User.Identity.Name == user.UserName)
             {
+                var usercheck = user.UserName;
+                
                 // dto olsa buna gerek kalmazdı
                 user.FullName = model.Fullname;
                 user.Gender = model.Gender == "Cinsiyet" ? null : user.Gender;
@@ -443,15 +448,25 @@ public class UserController : Controller
                 user.Place = model.Place;
                 user.Job = model.Job;
                 user.emailActive = model.emailActive;
+                user.UserName = model.Username;
             
                 var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Edit");
+                    if (!usercheck.Equals(model.Username))
+                    {
+                        await _signInManager.SignOutAsync();
+                        return RedirectToAction("Index","Home");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Edit");    
+                    }
+                    
                 }
                 else
                 {
-                    ModelState.AddModelError("","güncelleme sırasında bir hata meydana geldi.");
+                    ModelState.AddModelError("","güncelleme sırasında bir hata meydana geldi.Bu kullanıcı adı alınmış.");
                 }
             }
             else

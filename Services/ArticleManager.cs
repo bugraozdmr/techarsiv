@@ -85,6 +85,30 @@ public class ArticleManager : IArticleService
             return;   
         }
 
+        if (entity1.Title != entity.Title)
+        {
+            var url = $"{SlugModifier.RemoveNonAlphanumericAndSpecialChars(SlugModifier.ReplaceTurkishCharacters(entity1.Title.Replace(' ', '-').ToLower()))}";
+
+            var check = _manager
+                .Article
+                .GetAllArticles(false)
+                .Where(s => s.Url.Equals(url))
+                .FirstOrDefault();
+
+        
+            if (url[url.Length - 1] == '-')
+            {
+                url = url.Substring(0, url.Length - 1);
+            }
+        
+            if (check is not null)
+            {
+                url = url + SlugModifier.GenerateUniqueHash();
+            }
+
+            entity.Url = url;
+        }
+        
         entity.Title = entity1.Title;
         entity.SubTitle = entity1.SubTitle;
         entity.Content = entity1.Content;

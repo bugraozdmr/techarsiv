@@ -48,7 +48,17 @@ public class AccountController : Controller
         
         if (ModelState.IsValid)
         {
-            User user = await _userManager.FindByNameAsync(model.LoginModel.Username);
+            User user;
+            // username eposta'da olabilir
+            if (model.LoginModel.Username.Contains("@") && model.LoginModel.Username.Contains(".com"))
+            {
+                user = await _userManager.FindByEmailAsync(model.LoginModel.Username);
+            }
+            else
+            {
+                user = await _userManager.FindByNameAsync(model.LoginModel.Username);    
+            }
+            
 
             if (user is not null)
             {
@@ -78,7 +88,7 @@ public class AccountController : Controller
 
                     if (!passwordCorrect)
                     {
-                        ModelState.AddModelError("", $"Kullanıcı adı ya da şifre hatalı.");
+                        ModelState.AddModelError("", $"Girilen bilgiler hatalı.");
                         return View("LoginRegister",model);
                     }
                     
@@ -89,12 +99,12 @@ public class AccountController : Controller
                     }
 
                     
-                    ModelState.AddModelError("",$"Parolanız hatalı.");    
+                    ModelState.AddModelError("",$"Girdiğiniz bilgiler hatalı.");    
                 }
             }
             else
             {
-                ModelState.AddModelError("", $"Kullanıcı adı ya da şifre hatalı.");
+                ModelState.AddModelError("", $"Girilen bilgiler hatalı");
             }
         }
     
