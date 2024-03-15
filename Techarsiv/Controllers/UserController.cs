@@ -484,6 +484,41 @@ public class UserController : Controller
         return View(model);
     }
 
+    [Authorize]
+    public IActionResult resetPassword()
+    {
+        return View();
+    }
+    
+    // edit password
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> resetPassword([FromForm] ResetEditPassword model,string currentPass)
+    {
+        if (ModelState.IsValid)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+            
+            var result = await _userManager.ChangePasswordAsync(user,currentPass,model.Password);
+
+            if (result.Succeeded)
+            {
+                return Redirect($"/editProfile/{User.Identity.Name}");
+            }
+            else
+            {
+                ModelState.AddModelError("","Mevcut şifre hatalı");
+            }
+        }
+        
+        
+        return View(model);
+    }
 
     // boşta bu
     [Authorize]

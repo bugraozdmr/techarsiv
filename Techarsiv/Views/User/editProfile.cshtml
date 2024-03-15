@@ -92,14 +92,21 @@
                 {
                     <input class="form-check-input" type="checkbox" value="true" id="flexCheckDefault" asp-for="emailActive">
                 }
-              <label class="form-check-label" for="flexCheckDefault">
-                Mail bildirimi almak istiyorum
-              </label>
+                <label class="form-check-label" for="flexCheckDefault">
+                    Mail bildirimi almak istiyorum
+                </label>
             </div>
             <div class="text-center mt-3">
                 <button class="btn btn-outline-success" type="submit">Kaydet</button>
             </div>
         </form>
+        <div class="text-center mt-4">
+            <a asp-area=""
+               asp-controller="User"
+               asp-action="resetPassword"
+                class="btn btn-outline-danger">Şifremi değiştirmek istiyorum</a>
+        </div>
+
     </div>
 </div>
 
