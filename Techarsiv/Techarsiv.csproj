@@ -30,7 +30,7 @@
       </PackageReference>
       <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0-preview.1" />
     </ItemGroup>
-
+  
     <ItemGroup>
       <_ContentIncludedByDefault Remove="wwwroot\startbootstrap-sb-admin-2-gh-pages\vendor\chart.js\Chart.bundle.js" />
       <_ContentIncludedByDefault Remove="wwwroot\startbootstrap-sb-admin-2-gh-pages\vendor\chart.js\Chart.bundle.min.js" />
@@ -138,6 +138,7 @@
       <_ContentIncludedByDefault Remove="wwwroot\css\scss\bootstrap\_utilities.scss" />
       <_ContentIncludedByDefault Remove="wwwroot\css\scss\bootstrap\_variables.scss" />
       <_ContentIncludedByDefault Remove="wwwroot\css\scss\style.scss" />
+      <_ContentIncludedByDefault Remove="Views\Error\PageNotFound.cshtml" />
     </ItemGroup>
 
 </Project>
