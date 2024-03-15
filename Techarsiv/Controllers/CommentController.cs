@@ -243,10 +243,8 @@ public class CommentController : Controller
         {
             // Notification islemleri
             // sadece ilgilenleri alcak onlara göndercek... baya yavaşlatcak
-            
-            var subjectnot = _manager
-                .FollowingSubjects
-                .FSubjects
+            var subjectnot = _context.FollowingSubjects.AsNoTracking()
+                .Include(s => s.User)
                 .Where(s => s.SubjectId.Equals(SubjectId))
                 .ToList();
 
@@ -281,14 +279,25 @@ public class CommentController : Controller
                 {
                     if (!(item.UserId.Equals(user.UserId)))
                     {
-                        NotificationDto dto = new NotificationDto()
+                        var count = _manager
+                            .NotificationService
+                            .GetAllNotification(false)
+                            .Include(s => s.User)
+                            .Count(s => s.User.Id.Equals(item.UserId) && s.read.Equals(false));
+                        
+                        
+                        if (count <= 30)
                         {
-                            UserId = item.UserId,
-                            SubjectId = SubjectId,
-                            CommentId = commentId
-                        };
+                            NotificationDto dto = new NotificationDto()
+                            {
+                                UserId = item.UserId,
+                                SubjectId = SubjectId,
+                                CommentId = commentId
+                            };
 
-                        _manager.NotificationService.CreateNotification(dto);
+                        
+                            _manager.NotificationService.CreateNotification(dto);    
+                        }
                     }
                 }
                 

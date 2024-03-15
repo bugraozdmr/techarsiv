@@ -23,6 +23,13 @@
 
 @await RenderSectionAsync("Header", false)
 
+@if (TempData["temp"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["temp"]
+    </div>
+}
+
 <div class="container">
     <main role="main" class="pb-3">
         <div class="col-11 mx-auto">

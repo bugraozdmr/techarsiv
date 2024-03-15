@@ -13,7 +13,7 @@ public class NotificationCountViewComponent : ViewComponent
         _manager = manager;
     }
 
-    public string Invoke()
+    public async Task<string> InvokeAsync()
     {
         int count = _manager
             .NotificationService

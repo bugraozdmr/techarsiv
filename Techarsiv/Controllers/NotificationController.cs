@@ -31,7 +31,8 @@ public class NotificationController : Controller
     public async Task<IActionResult> notifications(CommonRequestParameters p)
     {
         // zaten giriş yapmazsa erişemez
-
+        
+        
         List<NotificationViewModel> model;
         
         model = _manager
