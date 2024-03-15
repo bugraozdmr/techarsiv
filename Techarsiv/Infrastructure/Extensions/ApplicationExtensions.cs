@@ -9,7 +9,7 @@ public static class ApplicationExtensions
     public static async void ConfigureDefaultAdminUser(this IApplicationBuilder app)
     {
         const string adminUser = "Admin";
-        const string adminPassword = "bugra123";
+        const string adminPassword = "gr4nt13";
         
         // User Manager
         UserManager<User> userManager = app
@@ -31,8 +31,8 @@ public static class ApplicationExtensions
         {
             user = new User()
             {
-                FullName = "Grant Wick",
-                Email = "bugra.ozdemir@gmail.com",
+                FullName = "admin user",
+                Email = "111111@gmail.com",
                 UserName = adminUser,
                 CreatedAt = DateTime.Now,
                 EmailConfirmed = true,

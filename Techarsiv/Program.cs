@@ -1,8 +1,7 @@
-using System.Threading.RateLimiting;
+
 using AspNetCoreRateLimit;
 using GargamelinBurnu.Hubs;
 using GargamelinBurnu.Infrastructure.Extensions;
-using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -19,6 +19,7 @@ public class GetSubjectsViewComponent : ViewComponent
         var groupedCategories = _manager
             .CategoryService
             .GetAllCategories(false)
+            .AsEnumerable()
             .GroupBy(c => c.CommonFilter) // CommonFilter'a göre grupla
             .ToDictionary(
                 group => group.Key, // Anahtar olarak CommonFilter kullan
