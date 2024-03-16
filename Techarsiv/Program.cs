@@ -1,6 +1,6 @@
 
-using AspNetCoreRateLimit;
-using GargamelinBurnu.Hubs;
+
+//using GargamelinBurnu.Hubs;
 using GargamelinBurnu.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +18,6 @@ builder.Services.ConfigureRepositoryRegistration();
 builder.Services.ConfigureServicesRegistration();
 builder.Services.AddSignalR();
 // çalışmıyor
-builder.Services.ConfigureRateLimiting(builder.Configuration);
 
 
 // automapper
@@ -72,8 +71,7 @@ app.UseEndpoints(endpoints =>
 
 app.ConfigureDefaultRoles();
 app.ConfigureDefaultAdminUser();
-app.MapHub<UsersOnlineHub>("/UsersOnlineHub");
+//app.MapHub<UsersOnlineHub>("/UsersOnlineHub");
 
-app.UseIpRateLimiting();
 
 app.Run();

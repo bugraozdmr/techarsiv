@@ -149,7 +149,7 @@ public class SubjectController : Controller
                 await photo.CopyToAsync(stream);
             }
 
-            filepath = "https://localhost:7056/" + "images/subjects/" + filename;
+            filepath = "https://techarsiv.com/" + "images/subjects/" + filename;
         }
 
         return Json(new { Url = filepath });

@@ -45,7 +45,12 @@ public class SubjectManager : ISubjectService
     public async Task CreateSubject(CreateSubjectDto subject)
     {
         var productToGo = _mapper.Map<Subject>(subject);
-        
+
+        if (!(productToGo.categoryId >= 1 && productToGo.categoryId <= 25))
+        {
+            productToGo.categoryId = 1;
+        }
+
         productToGo.Title = productToGo.Title is not null ? productToGo.Title.Trim() : productToGo.Title;
         productToGo.Content = productToGo.Content is not null ? productToGo.Content.Trim() : productToGo.Content;
         

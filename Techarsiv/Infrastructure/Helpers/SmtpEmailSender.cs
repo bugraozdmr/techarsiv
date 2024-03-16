@@ -1,6 +1,8 @@
 using System.Net;
 using System.Net.Mail;
 using GargamelinBurnu.Infrastructure.Helpers.Contracts;
+using MailKit.Security;
+using MimeKit;
 
 namespace GargamelinBurnu.Infrastructure.Helpers;
 
@@ -22,17 +24,27 @@ public class SmtpEmailSender : IEmailSender
         _password = password;
     }
 
-    public Task SendEmailAsync(string email, string subject, string message)
+    public async Task SendEmailAsync(string email, string subject, string message)
     {
-        var client = new SmtpClient(_host, _port)
-        {
-            Credentials = new NetworkCredential(_username, _password),
-            EnableSsl = _enableSSL
-        };
+        var mimeMessage = new MimeMessage();
+        mimeMessage.From.Add(MailboxAddress.Parse(_username ?? ""));
+        mimeMessage.To.Add(MailboxAddress.Parse(email));
+        mimeMessage.Subject = subject;
 
-        return client.SendMailAsync(new MailMessage(_username ?? "", email, subject, message)
-            { IsBodyHtml = true });
+        var bodyBuilder = new BodyBuilder();
+        bodyBuilder.HtmlBody = message;
+
+        mimeMessage.Body = bodyBuilder.ToMessageBody();
+
+        using (var client = new MailKit.Net.Smtp.SmtpClient())
+        {
+            await client.ConnectAsync ("neptune.odeaweb.com", 587, SecureSocketOptions.StartTls);
+            await client.AuthenticateAsync(_username, _password);
+            await client.SendAsync(mimeMessage);
+            await client.DisconnectAsync(true);
+        }
     }
+
 
     public async Task SendMultipleEmailsAsync(IEnumerable<string> emails, string subject, string message)
     {

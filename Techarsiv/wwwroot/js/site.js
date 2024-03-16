@@ -96,7 +96,7 @@
                                     <img src="${yorum.userImage}" style="width: 40px;height: 40px" class="rounded-circle mt-2">
                                     <div class="d-flex flex-column justify-content-start ml-2 mx-3">
                                         <span class="d-block font-weight-bold name"><a
-                                         href="https://localhost:7056/forum/biri/${yorum.username}"
+                                         href="https://techarsiv.com/forum/biri/${yorum.username}"
                                          style="text-decoration: none">${yorum.username}</a></span>
                                         <span class="date text-black-50">Katılma Tarihi : ${shortDate}</span>
                                         <span class="date text-black-50">Mesaj Sayısı : ${yorum.messageCount}</span>
@@ -610,7 +610,7 @@ var editComment = function (no,textValue){
                                     <img src="${yorum.userImage}" style="width: 40px;height: 40px" class="rounded-circle mt-2">
                                     <div class="d-flex flex-column justify-content-start ml-2 mx-3">
                                         <span class="d-block font-weight-bold name"><a
-                                         href="https://localhost:7056/biri/${yorum.username}"
+                                         href="https://techarsiv.com/biri/${yorum.username}"
                                          style="text-decoration: none">${yorum.username}</a></span>
                                         <span class="date text-black-50">Mesaj Sayısı : ${yorum.messageCount}</span>
                                     </div>

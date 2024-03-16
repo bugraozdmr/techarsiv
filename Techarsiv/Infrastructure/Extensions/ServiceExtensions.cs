@@ -1,4 +1,4 @@
-using AspNetCoreRateLimit;
+
 using Entities.Models;
 using GargamelinBurnu.Infrastructure.Helpers;
 using GargamelinBurnu.Infrastructure.Helpers.Contracts;
@@ -54,7 +54,7 @@ public static class ServiceExtensions
             options.LoginPath = "/Account/Login";
             options.AccessDeniedPath = "/Account/AccessDenied";
             options.SlidingExpiration = true;
-            options.ExpireTimeSpan = TimeSpan.FromHours(1);
+            options.ExpireTimeSpan = TimeSpan.FromHours(6);
         });
     }
     
@@ -98,18 +98,5 @@ public static class ServiceExtensions
             configuration["EmailSender:Username"],
             configuration["EmailSender:Password"]
         ));
-    }
-
-    public static void ConfigureRateLimiting(this IServiceCollection services
-        , IConfiguration configuration)
-    {
-        // Rate limiting servisini ekleyin
-        services.AddMemoryCache();
-        services.Configure<IpRateLimitOptions>(configuration.GetSection("IpRateLimiting"));
-        services.Configure<IpRateLimitPolicies>(configuration.GetSection("IpRateLimitPolicies"));
-        services.AddInMemoryRateLimiting();
-        services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
-        services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
-        services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
     }
 }

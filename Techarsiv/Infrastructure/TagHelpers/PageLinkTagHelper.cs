@@ -90,18 +90,18 @@ public class PageLinkTagHelper : TagHelper
                         {
                             if (PageAction == "Home")
                             {
-                                url = $"https://localhost:7056/?PageNumber={i}&{param}";   
+                                url = $"https://techarsiv.com/?PageNumber={i}&{param}";   
                             }
                             else
                             {
                                 // bu index için ana sayfa
-                                url = $"https://localhost:7056/forum?PageNumber={i}&{param}";
+                                url = $"https://techarsiv.com/forum?PageNumber={i}&{param}";
                             }    
                         }
                         else
                         {
                             // başka param gelirse o da if ile eklenir
-                            url = $"https://localhost:7056{area}/{PageAction}?PageNumber={i}&{param}";
+                            url = $"https://techarsiv.com{area}/{PageAction}?PageNumber={i}&{param}";
                         }
                         tag.Attributes["href"] = url;
                     }
