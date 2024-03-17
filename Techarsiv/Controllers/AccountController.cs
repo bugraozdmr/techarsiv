@@ -75,8 +75,8 @@ public class AccountController : Controller
                 
                 if (result.Succeeded)
                 {
-                    await _userManager.ResetAccessFailedCountAsync(user);
-                    await _userManager.SetLockoutEndDateAsync(user, null);
+                    //await _userManager.ResetAccessFailedCountAsync(user);
+                    //await _userManager.SetLockoutEndDateAsync(user, null);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -99,11 +99,12 @@ public class AccountController : Controller
                         return View("LoginRegister",model);
                     }
                     
-                    if (!await _userManager.IsEmailConfirmedAsync(user))
+                    // mail onay kaldırıldı
+                    /*if (!await _userManager.IsEmailConfirmedAsync(user))
                     {
                         ModelState.AddModelError("", "Hesabınızı onaylayınız.");
                         return View("LoginRegister",model);
-                    }
+                    }*/
 
                     
                     ModelState.AddModelError("",$"Girdiğiniz bilgiler hatalı.");    
@@ -153,6 +154,7 @@ public class AccountController : Controller
             user.emailActive = false;
             user.canTakeEmail = false;
             
+            /*
             // mail
             
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -164,42 +166,36 @@ public class AccountController : Controller
             // email
 
             int result2 = await _emailSender.SendEmailAsync(user.Email, "Hesap onayı",
-                $"<h3 style=\"text-align: center;margin-bottom: 20px; \">Teşekkürler</h3>\n    <p style=\"color:orange\">Merhaba {user.UserName},</p>\n    <p>Katılımınızı onayladığınız için teşekkür eder sizleri aramızda görmek için sabırsızlıkla bekliyoruz.</p>\n    <p>Sorun ve şikayetleriniz için <a href=\"mailto:support@techarsiv.com\" style=\"text-decoration: none;\">support@techariv.com</a></p>    <div style=\"text-align: center;\">\n        <a href=\"https://techarsiv.com{url}\" style=\"display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none;margin-top:10px;border-radius:5px\">Tıkla</a>\n    </div>"
+                $"<h3 style=\"text-align: center;margin-bottom: 20px; \">Teşekkürler</h3>\n    <p style=\"color:orange\">Merhaba {user.UserName},</p>\n    <p>Katılımınızı onayladığınız için teşekkür ediyoruz sizleri aramızda görmek için sabırsızlıkla bekliyoruz.</p>\n    <p>Sorun ve şikayetleriniz için <a href=\"mailto:support@techarsiv.com\" style=\"text-decoration: none;\">support@techariv.com</a></p>    <div style=\"text-align: center;\">\n        <a href=\"https://techarsiv.com{url}\" style=\"display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none;margin-top:10px;border-radius:5px\">Tıkla</a>\n    </div>"
                 );
-
-            if (result2 == 1)
-            {
-                var result = await _userManager.CreateAsync(user, model.RegisterDto.Password);
+            */
             
-                if (result.Succeeded)
-                {
-                    var roleResult = await _userManager
-                        .AddToRoleAsync(user, "User");
+            var result = await _userManager.CreateAsync(user, model.RegisterDto.Password);
+            
+            if (result.Succeeded)
+            {
+                var roleResult = await _userManager
+                    .AddToRoleAsync(user, "User");
 
-                    if (roleResult.Succeeded)
-                    {
-                        TempData["message_login"] = "email hesabınızdaki onay mailine tıklayın,maili göremiyorsanız spamı kontrol etmeyi unutmayın.";
+                if (roleResult.Succeeded)
+                {
+                    //TempData["message_login"] = "email hesabınızdaki onay mailine tıklayın,maili göremiyorsanız spamı kontrol etmeyi unutmayın.";
                     
-                        return RedirectToAction("Login");
-                    }
+                    return RedirectToAction("Login");
+                }
                     
                 
-                    foreach (var error in roleResult.Errors)
-                    {
-                        ModelState.AddModelError("",error.Description);
-                    }
-                }
-                else
+                foreach (var error in roleResult.Errors)
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("",error.Description);
-                    }
+                    ModelState.AddModelError("",error.Description);
                 }
             }
             else
             {
-                ModelState.AddModelError("","Mail gönderirken bir sorun oluştu sonra yeniden deneyin");
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("",error.Description);
+                }
             }
         }
         return View("LoginRegister",model);
@@ -275,7 +271,7 @@ public class AccountController : Controller
         // email
 
         await _emailSender.SendEmailAsync(user.Email, "Parola Sıfırlama",
-            $"<h3 style=\"text-align: center;margin-bottom: 20px; \">Şifre Sıfırla</h3>\n    <p style=\"color:orange\">Merhaba {user.UserName},</p>\n    <p>Katılımınızı onayladığınız için teşekkür eder sizleri aramızda görmek için sabırsızlıkla bekliyoruz.</p>\n    <p>Sorun ve şikayetleriniz için <a href=\"mailto:support@techarsiv.com\" style=\"text-decoration: none;\">support@techariv.com</a></p>    <div style=\"text-align: center;\">\n        <a href=\"https://techarsiv.com{url}\" style=\"display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none;margin-top:10px;border-radius:5px\">Tıkla</a>\n    </div>");
+            $"<h3 style=\"text-align: center;margin-bottom: 20px; \">Şifre Sıfırla</h3>\n    <p style=\"color:orange\">Merhaba {user.UserName},</p>\n    <p>Şifrenizi sıfırlamak için linke tıklamanız gerekiyor.</p>\n    <p>Sorun ve şikayetleriniz için <a href=\"mailto:support@techarsiv.com\" style=\"text-decoration: none;\">support@techariv.com</a></p>    <div style=\"text-align: center;\">\n        <a href=\"https://techarsiv.com{url}\" style=\"display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none;margin-top:10px;border-radius:5px\">Tıkla</a>\n    </div>");
 
         TempData["message_reset"] = "eposta adresinize gönderilen link ile şifrenizi sıfırlayabilirsiniz ,maili göremiyorsanız spamı kontrol etmeyi unutmayın.";
         return View();
@@ -328,6 +324,55 @@ public class AccountController : Controller
         return View(model);
         
     }
+
+    public IActionResult resendMail()
+    {
+        // iptal
+        return RedirectToAction("Login");
+        
+        return View();
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> resendMail(string Email)
+    {
+        // iptal
+        return RedirectToAction("Login");
+        
+        
+        if (string.IsNullOrEmpty(Email))
+        {
+            return View();
+        }
+
+        var user = await _userManager.FindByEmailAsync(Email);
+
+        if (user is null)
+        {
+            ModelState.AddModelError("","Bu mail sistemde bulunmuyor.");
+            return View();
+        }
+
+        
+        
+        string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    
+        var encoded_token = HttpUtility.UrlEncode(token);
+            
+        var url = Url.Action("ConfirmEmail", "Account",new {id=user.Id,token=encoded_token});
+            
+        // email
+
+        int result2 = await _emailSender.SendEmailAsync(user.Email, "Hesap onayı",
+            $"<h3 style=\"text-align: center;margin-bottom: 20px; \">Özür dileriz</h3>\n    <p style=\"color:orange\">Merhaba {user.UserName},</p>\n    <p>Katılımınızı onayladığınız için teşekkür ediyoruz sizleri aramızda görmek için sabırsızlıkla bekliyoruz.</p>\n    <p>Sorun ve şikayetleriniz için <a href=\"mailto:support@techarsiv.com\" style=\"text-decoration: none;\">support@techariv.com</a></p>    <div style=\"text-align: center;\">\n        <a href=\"https://techarsiv.com{url}\" style=\"display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none;margin-top:10px;border-radius:5px\">Tıkla</a>\n    </div>"
+        );
+
+
+        TempData["message_login"] = "mailinizi kontrol edin";
+        return RedirectToAction("Login");
+
+    }
+    
 
     public IActionResult AccessDenied()
     {

@@ -32,13 +32,15 @@ public static class ServiceExtensions
         services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
+                
+                
                 options.Password.RequiredLength = 6;
                 options.Password.RequireDigit = true;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
              
-                options.SignIn.RequireConfirmedAccount = true;
+                options.SignIn.RequireConfirmedAccount = false;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 options.Lockout.MaxFailedAccessAttempts = 5;
             })
@@ -53,8 +55,9 @@ public static class ServiceExtensions
             options.Cookie.Name = "ta_cookie";
             options.LoginPath = "/Account/Login";
             options.AccessDeniedPath = "/Account/AccessDenied";
-            options.SlidingExpiration = true;
-            options.ExpireTimeSpan = TimeSpan.FromHours(8);
+            // güvenlik açığı olabilir atmaz ama kişiyi
+            options.SlidingExpiration = false;
+            options.ExpireTimeSpan = TimeSpan.FromHours(12);
         });
     }
     
