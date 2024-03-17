@@ -24,24 +24,33 @@ public class SmtpEmailSender : IEmailSender
         _password = password;
     }
 
-    public async Task SendEmailAsync(string email, string subject, string message)
+    public async Task<int> SendEmailAsync(string email, string subject, string message)
     {
-        var mimeMessage = new MimeMessage();
-        mimeMessage.From.Add(MailboxAddress.Parse(_username ?? ""));
-        mimeMessage.To.Add(MailboxAddress.Parse(email));
-        mimeMessage.Subject = subject;
-
-        var bodyBuilder = new BodyBuilder();
-        bodyBuilder.HtmlBody = message;
-
-        mimeMessage.Body = bodyBuilder.ToMessageBody();
-
-        using (var client = new MailKit.Net.Smtp.SmtpClient())
+        try
         {
-            await client.ConnectAsync ("neptune.odeaweb.com", 587, SecureSocketOptions.StartTls);
-            await client.AuthenticateAsync(_username, _password);
-            await client.SendAsync(mimeMessage);
-            await client.DisconnectAsync(true);
+            var mimeMessage = new MimeMessage();
+            mimeMessage.From.Add(MailboxAddress.Parse(_username ?? ""));
+            mimeMessage.To.Add(MailboxAddress.Parse(email));
+            mimeMessage.Subject = subject;
+
+            var bodyBuilder = new BodyBuilder();
+            bodyBuilder.HtmlBody = message;
+
+            mimeMessage.Body = bodyBuilder.ToMessageBody();
+
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
+            {
+                await client.ConnectAsync (_host, _port, SecureSocketOptions.StartTls);
+                await client.AuthenticateAsync(_username, _password);
+                await client.SendAsync(mimeMessage);
+                await client.DisconnectAsync(true);
+            }
+
+            return 1; // Başarılı oldu, 1 dön
+        }
+        catch (Exception ex)
+        {
+            return -1; // Başarısız oldu, -1 dön
         }
     }
 

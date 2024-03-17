@@ -36,7 +36,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseStatusCodePagesWithRedirects("/errors/{0}");
+//app.UseStatusCodePagesWithRedirects("/errors/{0}");
 
 app.UseRouting();
 

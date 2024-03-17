@@ -334,13 +334,6 @@ public class UserController : Controller
         using (var stream = new FileStream(path, FileMode.Create))
         {
             await file.CopyToAsync(stream);
-
-            string yol = $"/Users/bugra/Desktop/Techarsiv/Techarsiv/wwwroot{user.Image}";
-            
-            if (System.IO.File.Exists(yol) && !yol.Contains("/samples/"))
-            {
-                System.IO.File.Delete(yol);
-            }
         }
         
         
@@ -356,11 +349,11 @@ public class UserController : Controller
         if (!result.Succeeded)
         {
             TempData["profile_message"] = "bir şeyler ters gitti";
-            return Redirect($"/biri/{username}");
+            return Redirect($"/forum/biri/{username}");
         }
         
 
-        return Redirect($"/biri/{username}");
+        return Redirect($"/forum/biri/{username}");
     }
     
     [Authorize]
