@@ -50,11 +50,11 @@ public static class ServiceExtensions
     {
         services.ConfigureApplicationCookie(options =>
         {
-            options.Cookie.Name = "gb_cookie";
+            options.Cookie.Name = "ta_cookie";
             options.LoginPath = "/Account/Login";
             options.AccessDeniedPath = "/Account/AccessDenied";
             options.SlidingExpiration = true;
-            options.ExpireTimeSpan = TimeSpan.FromHours(6);
+            options.ExpireTimeSpan = TimeSpan.FromHours(8);
         });
     }
     

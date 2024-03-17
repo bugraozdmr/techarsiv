@@ -32,97 +32,135 @@
     }
 }
 
-<div class="mb-2">
-    @await Component.InvokeAsync("WaitingSubjects")
-</div>
-<div class="mb-2">
-    @await Component.InvokeAsync("BanWidget")
-</div>
-
-<div class="headings d-flex justify-content-between align-items-center mb-3 mt-4">
-    <h5>@(Model.section is not null ? Model.section : "Son konular")</h5>
-           
-    <div class="buttons">
-        <span class="badge bg-white d-flex flex-row align-items-center">
-            <div class="btn-group">
-                @if (User.Identity.IsAuthenticated && Model.banuntill.Equals(DateTime.MinValue))
-                {
-                    <a asp-controller="Subject" asp-action="Create" class="btn btn-warning mx-2">Konu Oluştur</a>
-                }
-                <a asp-action="LastComments" class="btn btn-primary">Son Mesajlar</a>
-            </div>
-        </span>
+<div class="mt-4">
+    <div class="mb-2">
+        @await Component.InvokeAsync("WaitingSubjects")
     </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-8">
-        <div class="row d-flex justify-content-center">
-            @if (Model.section != null && Model.section != "")
-            {
-                if (Model.section.Equals("Son mesajlar"))
-                {
-                    @await Component.InvokeAsync("LastCommentsContent",new {p=Model.p})    
-                }
-                else if (Model.section.Equals("Takip edilen konular"))
-                {
-                    @await Component.InvokeAsync("FollowedSubjects",new {p=Model.p})
-                }
-                if (Model.section.Equals("Kullanıcı konuları"))
-                {
-                    @await Component.InvokeAsync("UserSubjects",new {p=Model.p})    
-                }
-            }
-            else
-            {
-                // bunu kullanan tags.cshtml var o daha fazla eleman yollar
-                @await Component.InvokeAsync("HomePageContent",new {p=Model.p})
-            }
-        </div>
-        <!-- subjects -->
-        @await Component.InvokeAsync("GetSubjects")
+    <div class="mb-2">
+        @await Component.InvokeAsync("BanWidget")
     </div>
-    <div class="col-lg-4">
-        <!-- Search widget-->
-        <div class="card mb-4 mt-2">
-            <div class="card-header">Konu ara</div>
-            <div class="card-body">
-                <form method="get" asp-controller="Home" asp-action="Index">
-                    <div class="input-group">
-                        <input class="form-control" type="text" name="SearchTerm" placeholder="Aranacak konu" />
-                        <button class="btn btn-primary" type="submit">Ara</button>
-                    </div>
-                </form>
+    
+    <div class="headings d-flex justify-content-between align-items-center mb-3 mt-4">
+        <h5>@(Model.section is not null ? Model.section : "Son konular")</h5>
+               
+        <div class="buttons">
+            <span class="badge bg-white d-flex flex-row align-items-center">
+                <div class="btn-group">
+                    @if (User.Identity.IsAuthenticated && Model.banuntill.Equals(DateTime.MinValue))
+                    {
+                        <a asp-controller="Subject" asp-action="Create" class="btn btn-warning mx-2">Konu Oluştur</a>
+                    }
+                    <a asp-action="LastComments" class="btn btn-primary">Son Mesajlar</a>
+                </div>
+            </span>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="row d-flex justify-content-center">
+                @if (Model.section != null && Model.section != "")
+                {
+                    if (Model.section.Equals("Son mesajlar"))
+                    {
+                        @await Component.InvokeAsync("LastCommentsContent",new {p=Model.p})    
+                    }
+                    else if (Model.section.Equals("Takip edilen konular"))
+                    {
+                        @await Component.InvokeAsync("FollowedSubjects",new {p=Model.p})
+                    }
+                    if (Model.section.Equals("Kullanıcı konuları"))
+                    {
+                        @await Component.InvokeAsync("UserSubjects",new {p=Model.p})    
+                    }
+                }
+                else
+                {
+                    // bunu kullanan tags.cshtml var o daha fazla eleman yollar
+                    @await Component.InvokeAsync("HomePageContent",new {p=Model.p})
+                }
             </div>
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7737220317559128"
+                    crossorigin="anonymous"></script>
+            <!-- yatay wedget -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-7737220317559128"
+                 data-ad-slot="7673163155"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            <!-- subjects -->
+            @await Component.InvokeAsync("GetSubjects")
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7737220317559128"
+                    crossorigin="anonymous"></script>
+            <!-- yatay wedget -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-7737220317559128"
+                 data-ad-slot="7673163155"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
-        
-        <!-- Categories widget-->
-        <div class="card mb-4">
-            @await Component.InvokeAsync("SiteStatistics")
-        </div>
-        <!-- Most heart widget-->
-        <div class="card mb-4">
-            <div class="card-header">En çok kalplenen konular</div>
-            @await Component.InvokeAsync("MostHeart")
-        </div>
-        <div class="card mb-4">
-            <div class="card-header">En çok yorumlanan</div>
-            @await Component.InvokeAsync("MostComments")
-        </div>
-        <!-- Social Medias widget-->
-        <div class="card mb-4">
-            <div class="card-header">Sosyal medya hesapları</div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12 justify-content-between text-center">
-                        <!--<a href="#" target="_blank"><i class="fa fa-youtube mx-1" style="font-size:48px;color:red"></i></a>-->
-                        <a href="https://github.com/bugraozdmr" target="_blank"><i class="fa fa-github mx-1" style="font-size:48px;color:black"></i></a>
-                        <!--<a href="https://www.instagram.com/bugrao13/" target="_blank"><i class="fa fa-instagram mx-1" style="font-size:48px;color:orange"></i></a>-->
+        <div class="col-lg-4">
+            <!-- Search widget-->
+            <div class="card mb-4 mt-2">
+                <div class="card-header">Konu ara</div>
+                <div class="card-body">
+                    <form method="get" asp-controller="Home" asp-action="Index">
+                        <div class="input-group">
+                            <input class="form-control" type="text" name="SearchTerm" placeholder="Aranacak konu" />
+                            <button class="btn btn-primary" type="submit">Ara</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Categories widget-->
+            <div class="card mb-4">
+                @await Component.InvokeAsync("SiteStatistics")
+            </div>
+            <!-- Most heart widget-->
+            <div class="card mb-4">
+                <div class="card-header">En çok kalplenen konular</div>
+                @await Component.InvokeAsync("MostHeart")
+            </div>
+            <div class="card mb-4">
+                <div class="card-header">En çok yorumlanan</div>
+                @await Component.InvokeAsync("MostComments")
+            </div>
+            <!-- Social Medias widget-->
+            <div class="card mb-4">
+                <div class="card-header">Sosyal medya hesapları</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 justify-content-between text-center">
+                            <!--<a href="#" target="_blank"><i class="fa fa-youtube mx-1" style="font-size:48px;color:red"></i></a>-->
+                            <a href="https://github.com/bugraozdmr" target="_blank"><i class="fa fa-github mx-1" style="font-size:48px;color:black"></i></a>
+                            <!--<a href="https://www.instagram.com/bugrao13/" target="_blank"><i class="fa fa-instagram mx-1" style="font-size:48px;color:orange"></i></a>-->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7737220317559128"
+         crossorigin="anonymous"></script>
+    <!-- yatay wedget -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-7737220317559128"
+         data-ad-slot="7673163155"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 </div>
 
 

@@ -478,6 +478,22 @@ public class SubjectController : Controller
             });
         }
 
+        var check23 = _manager
+            .CommentService
+            .getAllComments(false)
+            .Where(s => s.CommentId.Equals(commentId))
+            .Select(s => s.UserId)
+            .FirstOrDefault();
+
+        if (!check23.Equals(user))
+        {
+            return Json(new
+            {
+                success = -1
+            }); 
+        }
+            
+        
         string[] yasakliKelimeler = { "amına koyayım", "siktiğim", "sikik","dalyarak","dalyarrak","yarrak","piç","siktirgit","siktir"};
         string pattern = string.Join("|", yasakliKelimeler);
 

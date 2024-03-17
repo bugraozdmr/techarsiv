@@ -6,6 +6,8 @@ using GargamelinBurnu.Models;
 using GargamelinBurnu.Models.Userpage;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
 using Services.Helpers;
 
 
@@ -16,15 +18,19 @@ public class AccountController : Controller
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
     private readonly IEmailSender _emailSender;
+    private readonly IDistributedCache _cache;
+
+
 
 
     public AccountController(UserManager<User> userManager,
         SignInManager<User> signInManager,
-        IEmailSender emailSender)
+        IEmailSender emailSender, IDistributedCache cache)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _emailSender = emailSender;
+        _cache = cache;
     }
 
     public IActionResult Login()
@@ -47,6 +53,8 @@ public class AccountController : Controller
         
         if (ModelState.IsValid)
         {
+            
+            
             User user;
             // username eposta'da olabilir
             if (model.LoginModel.Username.Contains("@") && model.LoginModel.Username.Contains(".com"))
