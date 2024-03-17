@@ -181,7 +181,7 @@ public class HomeController : Controller
         model.MostPoint = _userManager
             .Users
             .OrderByDescending(s => s.Points)
-            .Take(15)
+            .Take(10)
             .Select(s => new UserInfoViewModel()
             {
                 Username = s.UserName,
@@ -193,7 +193,7 @@ public class HomeController : Controller
         model.LastUsers = _userManager
             .Users
             .OrderByDescending(s => s.CreatedAt)
-            .Take(15)
+            .Take(10)
             .Select(s => new UserInfoViewModel()
             {
                 Username = s.UserName,
@@ -204,6 +204,7 @@ public class HomeController : Controller
         model.MostComments = _userManager
             .Users
             .OrderByDescending(s => s.commentCount)
+            .Take(10)
             .Select(s => new UserInfoViewModel()
             {
                 Username = s.UserName,

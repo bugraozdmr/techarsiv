@@ -313,7 +313,7 @@ public class CommentController : Controller
                 await _context.SaveChangesAsync();
 
                 
-                
+                /*
                 // mail sender
 
                 // include calismiyor
@@ -368,7 +368,9 @@ public class CommentController : Controller
                 }
                  
                  
-                // end of sending  
+                // end of sending
+                
+                */  
             }
             
             

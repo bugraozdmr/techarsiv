@@ -38,7 +38,6 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login([FromForm] RegisterLoginViewModel model)
     {
         if (User.Identity.IsAuthenticated)
@@ -122,7 +121,6 @@ public class AccountController : Controller
     }
     
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register([FromForm] RegisterLoginViewModel model)
     {
         if (User.Identity.IsAuthenticated)
@@ -158,7 +156,7 @@ public class AccountController : Controller
             // email
 
             int result2 = await _emailSender.SendEmailAsync(user.Email, "Hesap onayı",
-                $"<h3 style=\"text-align: center;margin-bottom: 20px; \">Teşekkürler</3>\n    <p style=\"color:orange\">Merhaba {user.UserName},</p>\n    <p>Katılımınızı onayladığınız için teşekkür eder sizleri aramızda görmek için sabırsızlıkla bekliyoruz.</p>\n    <p>Sorun ve şikayetleriniz için <a href=\"mailto:support@techarsiv.com\" style=\"text-decoration: none;\">support@techariv.com</a></p>    <div style=\"text-align: center;\">\n        <a href=\"https://techarsiv.com{url}\" style=\"display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none;margin-top:10px;border-radius:5px\">Tıkla</a>\n    </div>"
+                $"<h3 style=\"text-align: center;margin-bottom: 20px; \">Teşekkürler</h3>\n    <p style=\"color:orange\">Merhaba {user.UserName},</p>\n    <p>Katılımınızı onayladığınız için teşekkür eder sizleri aramızda görmek için sabırsızlıkla bekliyoruz.</p>\n    <p>Sorun ve şikayetleriniz için <a href=\"mailto:support@techarsiv.com\" style=\"text-decoration: none;\">support@techariv.com</a></p>    <div style=\"text-align: center;\">\n        <a href=\"https://techarsiv.com{url}\" style=\"display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none;margin-top:10px;border-radius:5px\">Tıkla</a>\n    </div>"
                 );
 
             if (result2 == 1)
@@ -243,7 +241,6 @@ public class AccountController : Controller
     
     
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> ForgotPassword([FromForm] string Email)
     {
         if (string.IsNullOrEmpty(Email))
@@ -270,7 +267,7 @@ public class AccountController : Controller
         // email
 
         await _emailSender.SendEmailAsync(user.Email, "Parola Sıfırlama",
-            $"<h3 style=\"text-align: center;margin-bottom: 20px; \">Şifre Sıfırla</3>\n    <p style=\"color:orange\">Merhaba {user.UserName},</p>\n    <p>Katılımınızı onayladığınız için teşekkür eder sizleri aramızda görmek için sabırsızlıkla bekliyoruz.</p>\n    <p>Sorun ve şikayetleriniz için <a href=\"mailto:support@techarsiv.com\" style=\"text-decoration: none;\">support@techariv.com</a></p>    <div style=\"text-align: center;\">\n        <a href=\"https://techarsiv.com{url}\" style=\"display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none;margin-top:10px;border-radius:5px\">Tıkla</a>\n    </div>");
+            $"<h3 style=\"text-align: center;margin-bottom: 20px; \">Şifre Sıfırla</h3>\n    <p style=\"color:orange\">Merhaba {user.UserName},</p>\n    <p>Katılımınızı onayladığınız için teşekkür eder sizleri aramızda görmek için sabırsızlıkla bekliyoruz.</p>\n    <p>Sorun ve şikayetleriniz için <a href=\"mailto:support@techarsiv.com\" style=\"text-decoration: none;\">support@techariv.com</a></p>    <div style=\"text-align: center;\">\n        <a href=\"https://techarsiv.com{url}\" style=\"display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none;margin-top:10px;border-radius:5px\">Tıkla</a>\n    </div>");
 
         TempData["message_reset"] = "eposta adresinize gönderilen link ile şifrenizi sıfırlayabilirsiniz ,maili göremiyorsanız spamı kontrol etmeyi unutmayın.";
         return View();
@@ -293,7 +290,6 @@ public class AccountController : Controller
     }
     
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordModel model)
     {
         if (ModelState.IsValid)

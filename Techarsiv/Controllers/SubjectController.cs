@@ -54,7 +54,6 @@ public class SubjectController : Controller
     }
     
     [HttpPost]
-    [ValidateAntiForgeryToken]
     [Authorize]
     public async Task<IActionResult> Create([FromForm] CreateSubjectDto model,string Name)
     {

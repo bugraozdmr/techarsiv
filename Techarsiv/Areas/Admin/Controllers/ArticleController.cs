@@ -40,7 +40,6 @@ public class ArticleController : Controller
     }
     
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Index(CreateArticleDto dto,IFormFile file)
     {
         if (ModelState.IsValid)
@@ -211,7 +210,6 @@ public class ArticleController : Controller
     }
     
     [HttpPost("admin/article/edit/{url}")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(EditArticleViewModel model,IFormFile? file,string url)
     {
         // çok salak saçma bir işlem -- modelden alıp dto doldurmak ...

@@ -273,7 +273,6 @@ public class UserController : Controller
 
     [Authorize]
     [HttpPost("/forum/biri/{username}")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> UploadImage(string username,IFormFile file)
     {
         if (username is null)

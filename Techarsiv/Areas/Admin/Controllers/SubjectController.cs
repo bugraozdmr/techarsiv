@@ -185,7 +185,6 @@ public class SubjectController : Controller
     }
     
     [HttpPost("admin/edit/{url}")]
-    [ValidateAntiForgeryToken]
     public IActionResult Edit(EditSubjectViewModel model)
     {
         if (ModelState.IsValid)
