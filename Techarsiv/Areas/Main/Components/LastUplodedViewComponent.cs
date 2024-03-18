@@ -22,7 +22,7 @@ public class LastUplodedViewComponent : ViewComponent
             .Include(s => s.User)
             .Include(s => s.Tag)
             .Where(s => s.ArticleId != articleId)
-            .Take(10)
+            .Take(6)
             .OrderByDescending(s => s.CreatedAt)
             .Select(s => new ArticleViewModel()
             {

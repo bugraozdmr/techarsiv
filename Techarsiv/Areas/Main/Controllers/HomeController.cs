@@ -21,10 +21,10 @@ public class HomeController : Controller
     [HttpGet("/")]
     public IActionResult Home(CommonRequestParameters p)
     {
-        p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 15 : p.Pagesize;
+        p.Pagesize = p.Pagesize <= 0 || p.Pagesize == null ? 10 : p.Pagesize;
         p.PageNumber = p.PageNumber <= 0 ? 1 : p.PageNumber;
         
-        p.Pagesize = p.Pagesize > 15 ? 15 : p.Pagesize;
+        p.Pagesize = p.Pagesize > 10 ? 10 : p.Pagesize;
 
         PaginationMainPageViewModel realModel = new PaginationMainPageViewModel();
         

@@ -23,7 +23,7 @@ public class SimilarViewComponent : ViewComponent
             .Include(s => s.User)
             .Where(s => s.Tag.TagId.Equals(tagId) && s.ArticleId != articleId)
             .OrderByDescending(s => s.CreatedAt)
-            .Take(10)
+            .Take(6)
             .Select(s => new ArticleViewModel()
             {
                 imageUrl = s.image,

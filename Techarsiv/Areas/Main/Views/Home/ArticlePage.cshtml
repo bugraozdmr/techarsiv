@@ -16,6 +16,23 @@
             text-decoration: none;
             color: #cc0000;
         }
+        blockquote {
+          margin: 0;
+        }
+        
+        blockquote p {
+          padding: 15px;
+          background: #eee;
+          border-radius: 5px;
+        }
+        
+        blockquote p::before {
+          content: '\201C';
+        }
+        
+        blockquote p::after {
+          content: '\201D';
+        }
     </style>
 }
 
@@ -79,4 +96,23 @@
         });
 
     </script>
+    <script>
+        window.onload = function() {
+            var divContainer = document.querySelector('.custom');
+            var paragraphs = divContainer.querySelectorAll('p');
+            paragraphs.forEach(function(paragraph) {
+                var content = paragraph.textContent.trim();
+                if (content.startsWith('<iframe')) {
+                    paragraph.classList.add('iframe-hidden');
+                    var iframeContainer = document.createElement('div');
+                    iframeContainer.innerHTML = content;
+                    var iframe = iframeContainer.firstChild;
+                    iframe.style.width = '100%'; // Genişliği %100 yap
+                    iframe.style.height = '315px'; // Yüksekliği otomatik ayarla
+                    paragraph.parentNode.replaceChild(iframe, paragraph);
+                }
+            });
+        };
+    </script>
+
 }
