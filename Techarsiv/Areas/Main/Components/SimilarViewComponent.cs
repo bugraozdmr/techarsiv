@@ -26,9 +26,7 @@ public class SimilarViewComponent : ViewComponent
             .Take(10)
             .Select(s => new ArticleViewModel()
             {
-                username = s.User.UserName,
-                tagName = s.Tag.TagName,
-                TagUrl = s.Tag.Url,
+                imageUrl = s.image,
                 Url = s.Url,
                 Title = s.Title,
                 createdAt = s.CreatedAt

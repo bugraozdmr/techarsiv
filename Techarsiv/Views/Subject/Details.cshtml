@@ -11,6 +11,19 @@
 {
     <link asp-append-version="true" rel="stylesheet" href="~/css/style4.css"/>
     <link rel="stylesheet" asp-append-version="true" href="~/css/style.css"/>
+    
+    <style>
+        .custom {
+            font-family: "Gill Sans", sans-serif;
+            font-size: 18px;
+            color: gray;
+        }
+        .custom a {
+            text-decoration: none;
+            color: #cc0000;
+        }
+                    
+    </style>
 }
 
 
@@ -53,9 +66,9 @@
                     </form>
                 </div>
             }
-            <div class="btn-group text-center mx-2">
+            <!--<div class="btn-group text-center mx-2">
                 <a href="" class="btn btn-outline-success" id="shareButton">Paylaş</a>
-            </div>
+            </div>-->
         </span>
     </div>
 </div>
@@ -75,7 +88,7 @@
                             <div class="d-flex flex-column justify-content-start ml-2 mx-3">
                                 <span class="d-block font-weight-bold name">
                                     <a asp-controller="User" asp-action="Index" asp-route-username="@Model.UserName"
-                                       style="text-decoration: none ">
+                                       style="text-decoration: none;color: #cc0000 ">
                                         @Model.UserName
                                     </a>
                                 </span>
@@ -84,7 +97,7 @@
                             </div>
                         </div>
                         <div class="mt-3">
-                            <p>@Html.Raw(@Model.Subject.Content)</p>
+                            <div class="custom">@Html.Raw(@Model.Subject.Content)</div>
                         </div>
                     </div>
                     <div class="bg-white">

@@ -82,10 +82,14 @@ public class CategoryConfig :  IEntityTypeConfiguration<Category>
             new Category() { CategoryId = 42, CategoryName = "Bilgisayar Toplama" ,Description = "Bilgisayar toplamaya dair açılmış konular",CategoryUrl = "bilgisayar-toplama",CommonFilter = 9},
             new Category() { CategoryId = 43, CategoryName = "Oyun ekipmanları" ,Description = "Oyuncu ekipmanları tavsiyeleri konuları",CategoryUrl = "oyun-ekipmanları",CommonFilter = 9},
             
+            // film dizi
+            new Category() { CategoryId = 44, CategoryName = "Film incelemeleri" ,Description = "Filmler hakkında incelemeler",CategoryUrl = "film-inceleme",CommonFilter = 10},
+            new Category() { CategoryId = 45, CategoryName = "Dizi incilemeleri" ,Description = "Diziler hakkında incelemeler",CategoryUrl = "dizi-inceleme",CommonFilter = 10},
+            new Category() { CategoryId = 46, CategoryName = "Film-dizi haberleri" ,Description = "Film ve dizi haberleri",CategoryUrl = "film-dizi-haber",CommonFilter = 10},
             
             // diger
-            new Category() { CategoryId = 44, CategoryName = "Okul öneri ve tavsiyeleri" ,Description = "Kullnıcılar tarafından okul öneri ve tavsiyeleri",CategoryUrl = "okul-tavsiyeleri",CommonFilter = 10},
-            new Category() { CategoryId = 45, CategoryName = "Diğer" ,Description = "Diğer",CategoryUrl = "diger",CommonFilter = 10}
+            new Category() { CategoryId = 47, CategoryName = "Okul öneri ve tavsiyeleri" ,Description = "Kullnıcılar tarafından okul öneri ve tavsiyeleri",CategoryUrl = "okul-tavsiyeleri",CommonFilter = 11},
+            new Category() { CategoryId = 48, CategoryName = "Diğer" ,Description = "Diğer",CategoryUrl = "diger",CommonFilter = 11}
         );
     }
 }

@@ -1,27 +1,38 @@
 @model List<ArticleViewModel>
 
-<div class="card mt-4">
-    <b style="font-size: 24px;line-height: 1.5rem;color: orange" class="text-center mb-2 mt-3">Aynı kategorideki farklı yazılar</b>
+
+
+
+@if (Model.Count != 0)
+{
+    
+    <div>
+        <p class="text-center" style="font-size: 1.2rem; font-weight: normal;">Aynı kategorideki farklı <span style="color: red;">yazılar</span></p>
+    </div>
+    
     @foreach (var item in Model)
     {
-        <hr/>
-        <div class="p-2">
-            <a asp-area="Main" asp-controller="Home" asp-action="ArticlePage"
-               asp-route-url="@item.Url" style="text-decoration: none;color: gray">
-                <b>@item.Title</b>
-            </a>
-            <div class="text-muted">
-                <a asp-area="" asp-controller="User" asp-action="Index" asp-route-username="@item.username"
-                   style="text-decoration: none;color: darkcyan">
-                    @item.username
-                </a> -
-                <a asp-area="Main" asp-controller="Home" asp-action="tag"
-                   asp-route-tagUrl="@item.TagUrl"
-                   style="text-decoration: none;color: sandybrown">
-                    @item.tagName
-                </a> -
-                @await Component.InvokeAsync("ShowTime", @item.createdAt)
+        <div style="display: flex; align-items: center;" class="mb-3 mt-1 mr-auto ml-auto col-lg-11">
+            <div style="width: 50%; margin-right: 13px;">
+                <a asp-area="Main" asp-controller="Home" asp-action="ArticlePage"
+                   asp-route-url="@item.Url">
+                    <img src="@item.imageUrl"
+                         style=" border-radius: 10px;width: 100%; height: auto;">
+                </a>
+            </div>
+            <div>
+                <span class="text-muted" style="font-size: 1.1rem">
+                    @await Component.InvokeAsync("ShowTime", @item.createdAt)
+                </span>
+                <br/>
+                <p style="font-weight: 650;font-size: 1.3rem">
+                    <a asp-area="Main" asp-controller="Home" asp-action="ArticlePage"
+                       asp-route-url="@item.Url"
+                        style="text-decoration: none ;color: #333">
+                        @item.Title
+                    </a>
+                </p>
             </div>
         </div>
     }
-</div>
+}

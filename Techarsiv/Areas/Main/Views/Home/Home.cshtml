@@ -25,7 +25,7 @@
 					@foreach (var item in Model.List)
 					{
 						<article class="postcard @(count % 2 == 0 ? "dark" : "light") @(list[count % 3])">
-							<a class="postcard__img_link" href="#">
+							<a class="postcard__img_link" href="@item.url">
 								<img class="postcard__img" src="@item.Image" alt="Image Title" />
 							</a>
 							<div class="postcard__text">

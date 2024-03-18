@@ -17,7 +17,7 @@ else
                         <div class="d-flex flex-column justify-content-start ml-2 mx-2">
                             <span class="d-block font-weight-bold name">
                                 <a asp-controller="User" asp-action="Index" asp-route-username="@item.CommentUserName"
-                                   style="text-decoration: none">
+                                   style="text-decoration: none;color: #cc0000;">
                                     @item.CommentUserName
                                 </a>
                             </span>
@@ -26,7 +26,7 @@ else
                         </div>
                     </div>
                     <div class="mt-3">
-                        <div id="@item.CommentId-111-comment">@Html.Raw(@item.Content)</div>
+                        <div id="@item.CommentId-111-comment" class="custom">@Html.Raw(@item.Content)</div>
                     </div>
                 </div>
                 <div class="bg-white">

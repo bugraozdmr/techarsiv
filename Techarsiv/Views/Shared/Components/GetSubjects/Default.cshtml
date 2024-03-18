@@ -1,14 +1,14 @@
 @model List<GetAllSubjectsViewModel>
 
 @{
-    List<string> list = ["Mobil", "Laptop", "Alışveriş", "Hobiler", "Taşıtlar", "Günlük Yaşam", "Oyunlar", "Yazılım", "Donanım", "Diğer"];
-    List<string> fa_fa = ["fa fa-mobile", "fa fa-laptop", "fa fa-money", "fa fa-magic", "fa fa-car", "fa fa-newspaper-o", "fa fa-gamepad", "fa fa-desktop", "fa fa-cog", "fa fa-font-awesome"];
+    List<string> list = ["Mobil", "Laptop", "Alışveriş", "Hobiler", "Taşıtlar", "Günlük Yaşam", "Oyunlar", "Yazılım", "Donanım","Filmler ve Diziler", "Diğer"];
+    List<string> fa_fa = ["fa fa-mobile", "fa fa-laptop", "fa fa-money", "fa fa-magic", "fa fa-car", "fa fa-newspaper-o", "fa fa-gamepad", "fa fa-desktop", "fa fa-cog","fa fa-film" ,"fa fa-font-awesome"];
 }
 
 <div class="row card mt-3 d-flex justify-content-center">
     <div class="card-header">Konular</div>
     <div class="card-body">
-        @for (int i = 0; i < 10; i++)
+        @for (int i = 0; i < 11; i++)
         {
             <h4 class="mt-2 mb-2">
                 <i class="@fa_fa[i]"></i>

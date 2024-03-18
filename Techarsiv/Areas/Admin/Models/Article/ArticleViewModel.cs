@@ -7,5 +7,6 @@ public class ArticleViewModel
     public string tagName { get; set; }   
     public string TagUrl { get; set; }   
     public string Url { get; set; }   
+    public string imageUrl { get; set; }   
     public DateTime createdAt { get; set; }   
 }

@@ -485,7 +485,7 @@ public class SubjectController : Controller
             .Select(s => s.UserId)
             .FirstOrDefault();
 
-        if (!check23.Equals(user))
+        if (!check23.Equals(user.UserId))
         {
             return Json(new
             {
