@@ -1,43 +1,62 @@
 <!DOCTYPE html>
 <html lang="tr">
+@{
+    var isHomePage = ViewData["IsHomePage"] as bool? ?? false;
+}
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="author" content="Techarsiv">
     <meta name="publisher" content="Techarsiv">
+
+
+    @if (isHomePage)
+    {
+        <!-- twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="BugraOzdemir58">
+        <meta name="twitter:creator" content="BugraOzdemir58">
+        <meta name="twitter:title" content="Techarsiv: İlginizi Çekecek Haberler !">
+        <meta name="twitter:description" content="Techarsiv, güvenilir ve hızlı haberleriyle ilgi çekici olayları anında takip etmenin en doğru adresi.">
+        <meta name="twitter:image" content="https://techarsiv.com/images/subjects/logo-1b7f.png">
+
+        <!-- facebook -->
+        <meta property="og:locale" content="tr_TR"/>
+        <meta property="og:url" content="https://www.techarsiv.com">
+        <meta property="og:type" content="article">
+        <meta property="og:title" content="Haberler | Techarsiv.com">
+        <meta property="og:description" content="Techarsiv, güvenilir ve hızlı haberleriyle ilgi çekici olayları anında takip etmenin en doğru adresi.">
+        <meta property="og:image" content="https://techarsiv.com/images/subjects/logo-1b7f.png">
+        <meta property="og:site_name" content="Techarsiv">
+
+        <!-- google -->
+        <meta itemprop="name" content="Haberler | Techarsiv.com">
+        <meta itemprop="description" content="Techarsiv, güvenilir ve hızlı haberleriyle ilgi çekici olayları anında takip etmenin en doğru adresi.">
+        <meta itemprop="image" content="https://techarsiv.com/images/subjects/logo-1b7f.png">
+
+
+    }
     
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="https://x.com/BugraOzdemir58?t=OMRTVevaVqCrxbHfRPdHNA&s=09">
-    <meta name="twitter:title" content="Techarsiv: Gündeme Dair Her Şey!">
-    <meta name="twitter:description" content="Son dakika haberleri, güncel gelişmeler, ilgi çekici olaylar ve daha fazlası. Techarsiv'de en güvenilir ve hızlı haber kaynağı.">
-    <meta name="twitter:image" content="https://example.com/image.jpg">
-    
-    <meta property="og:locale" content="tr_TR" />
-    <meta property="og:url" content="https://www.techarsiv.com">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="Haberler | Techarsiv.com">
-    <meta property="og:description" content="ilgi çekici haberler.">
-    <meta property="og:image" content="https://techarsiv.com/images/articles/coverImages/steam-games-1c68.jpg">
-    <meta property="og:site_name" content="Techarsiv">
-    
+
+    <!-- rest -->
     <meta name="description" content="Son dakika haberleri, güncel gelişmeler, ilgi çekici olaylar ve daha fazlası. Techarsiv'de en güvenilir ve hızlı haber kaynağı.">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#ffffff">
     <meta name="google" content="notranslate">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    
+
     <link rel="canonical" href="https://techarsiv.com/">
-    
+
     <title>@ViewData["Title"] | TechArsiv</title>
 
     <link rel="icon" type="image/x-icon" href="~/favicon4.ico">
     @await RenderSectionAsync("Head", false)
     <link rel="stylesheet" asp-append-version="true" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7737220317559128"
             crossorigin="anonymous"></script>
-    
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WWL7D2CW46">
     </script>
@@ -51,54 +70,54 @@
 </head>
 
 <body>
-    @await RenderSectionAsync("Header", false)
-    <partial name="_navbar"/>
+@await RenderSectionAsync("Header", false)
+<partial name="_navbar"/>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            <div class="">
-                @RenderBody()
-            </div>
-        </main>
-    </div>
+<div class="container">
+    <main role="main" class="pb-3">
+        <div class="">
+            @RenderBody()
+        </div>
+    </main>
+</div>
 
 
-    <div class="footer">
-        <footer class="py-3 my-4">
-            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                <li class="nav-item">
-                    <a href="/" class="nav-link px-2 text-muted"
-                       title="ana sayfaya sayfasına gider">
-                        TechArsiv
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/forum" class="nav-link px-2 text-muted"
-                       title="forum sayfasına gider">
-                        Forum
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a asp-page="/About" aria-current="page" class="nav-link px-2 text-muted"
-                       title="hakkında sayfasına gider">
-                        Hakkında
-                    </a>
-                </li>
-            </ul>
-            <p class="text-center text-muted">&copy; @DateTime.Now.Year techarsiv</p>
-            <p class="text-center">
-                <a asp-page="/confidentiality" aria-current="page"
-                   style="text-decoration: none;color: gray;font-size: 12px"
-                   title="gizlilik sözleşmesine gider">
-                    Gizlilik sözleşmesi
+<div class="footer">
+    <footer class="py-3 my-4">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item">
+                <a href="/" class="nav-link px-2 text-muted"
+                   title="ana sayfaya sayfasına gider">
+                    TechArsiv
                 </a>
-            </p>
+            </li>
+            <li class="nav-item">
+                <a href="/forum" class="nav-link px-2 text-muted"
+                   title="forum sayfasına gider">
+                    Forum
+                </a>
+            </li>
 
-        </footer>
-    </div>
+            <li class="nav-item">
+                <a asp-page="/About" aria-current="page" class="nav-link px-2 text-muted"
+                   title="hakkında sayfasına gider">
+                    Hakkında
+                </a>
+            </li>
+        </ul>
+        <p class="text-center text-muted">&copy; @DateTime.Now.Year techarsiv</p>
+        <p class="text-center">
+            <a asp-page="/confidentiality" aria-current="page"
+               style="text-decoration: none;color: gray;font-size: 12px"
+               title="gizlilik sözleşmesine gider">
+                Gizlilik sözleşmesi
+            </a>
+        </p>
 
-    @await RenderSectionAsync("Scripts", required: false)
-    <script asp-append-version="true" src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    </footer>
+</div>
+
+@await RenderSectionAsync("Scripts", required: false)
+<script asp-append-version="true" src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

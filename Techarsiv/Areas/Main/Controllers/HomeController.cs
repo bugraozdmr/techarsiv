@@ -101,6 +101,10 @@ public class HomeController : Controller
         realModel.List = model;
         realModel.Pagination = pagination;
         
+        // ana sayfa mı
+        ViewData["IsHomePage"] = true;
+
+        
         return View(realModel);
     }
 
@@ -155,6 +159,10 @@ public class HomeController : Controller
         realModel.List = model;
         realModel.Pagination = pagination;
         
+        // ana sayfa mı
+        ViewData["IsHomePage"] = true;
+
+        
         return View("Home",realModel);
     }
 
@@ -178,6 +186,8 @@ public class HomeController : Controller
                 TagName = s.Tag.TagName,
                 TagUrl = s.Tag.Url,
                 TagId = s.TagId,
+                Url = s.Url,
+                image = s.image,
                 ArticleId = s.ArticleId
             })
             .FirstOrDefault();
@@ -186,6 +196,7 @@ public class HomeController : Controller
         {
             return NotFound();
         }
+        
         
         return View(article);
     }

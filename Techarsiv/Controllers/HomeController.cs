@@ -72,6 +72,10 @@ public class HomeController : Controller
                 p = p,
             };
         }
+
+        // ana sayfa mı
+        ViewData["IsHomePage"] = true;
+
         
         return View("Index",model);
     }
@@ -94,6 +98,11 @@ public class HomeController : Controller
             p = p,
             section = "Son mesajlar"
         };
+        
+        
+        // ana sayfa mı
+        ViewData["IsHomePage"] = true;
+        
         return View("Index",model);
     }
     
@@ -170,6 +179,10 @@ public class HomeController : Controller
 
         model.p = p;
         
+        
+        // ana sayfa mı
+        ViewData["IsHomePage"] = true;
+        
         return View(model);
     }
 
@@ -213,6 +226,9 @@ public class HomeController : Controller
             })
             .ToList();
         
+        
+        // ana sayfa mı
+        ViewData["IsHomePage"] = true;
         
         return View(model);
     }

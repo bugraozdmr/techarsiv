@@ -6,7 +6,22 @@
 @section Head
 {
 	<link rel="stylesheet" href="~/css/mainPage/app.css"/>
-	<link rel="stylesheet" href="~/css/mainPage/app1.css"/>
+	<style>
+		.tagcloud a {
+			text-transform: uppercase;
+			display: inline-block;
+			padding: 4px 10px;
+			margin-bottom: 7px;
+			margin-right: 4px;
+			border-radius: 4px;
+			color: #000;
+			border: 1px solid #ccc;
+			font-size: 11px; }
+		.tagcloud a:hover {
+			border-color: #fc7fb2;
+			background: #fc7fb2;
+			color: #fff; }
+	</style>
 }
 
 @{
@@ -41,7 +56,8 @@
 									   asp-action="ArticlePage"
 									   asp-controller="Home"
 									   asp-route-url="@item.url"
-									   title="konuya gider">
+									   title="konuya gider"
+									   style="text-decoration: none">
 										@item.Title
 									</a>
 								</h2>
@@ -57,7 +73,8 @@
 									<li class="tag__item">
 										<a asp-controller="Home" asp-action="tag" asp-area="Main" asp-route-tagUrl="@item.TagUrl"
 										   class="tag-cloud-link"
-										   title="bu konu hakkında daha fazla yazı">
+										   title="bu konu hakkında daha fazla yazı"
+										   style="text-decoration: none">
 											<i class="fas fa-tag mr-2"></i>@item.TagName
 										</a>
 
@@ -65,7 +82,8 @@
 									</li>
 									<li class="tag__item">
 										<a asp-area="" asp-controller="User" asp-action="Index" asp-route-username="@item.Username"
-										   title="kullanıcı profiline gider">
+										   title="kullanıcı profiline gider"
+										   style="text-decoration: none">
 											<i class="fas fa-user mr-2"></i>@item.Username
 										</a>
 									</li>
@@ -74,7 +92,8 @@
 										   asp-controller="Home"
 										   asp-action="ArticlePage"
 										   asp-route-url="@item.url"
-										   title="konuya gider">
+										   title="konuya gider"
+										   style="text-decoration: none">
 											<i class="fas fa-play mr-2"></i>Okumaya başla
 										</a>
 									</li>

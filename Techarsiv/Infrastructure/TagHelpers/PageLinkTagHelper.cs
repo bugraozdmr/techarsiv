@@ -65,6 +65,7 @@ public class PageLinkTagHelper : TagHelper
                     if (PageModel.CurrentPage >= 5 && flag != 1)
                     {
                         TagBuilder tag_first = new TagBuilder("a");
+                        tag_first.MergeAttribute("title", "sayfalama");
                         tag_first.Attributes["href"] = $"/forum/{PageAction}/{goingTo}?PageNumber=1";
                         tag_first.AddCssClass(PageClass);
                         tag_first.AddCssClass(PageClassNormal);
@@ -73,6 +74,7 @@ public class PageLinkTagHelper : TagHelper
 
                         // [...]
                         TagBuilder tag1 = new TagBuilder("a");
+                        tag1.MergeAttribute("title", "sayfalama");
                         tag1.AddCssClass(PageClass);
                         tag1.AddCssClass(PageClassNormal);
                         tag1.InnerHtml.Append("...");
@@ -113,6 +115,7 @@ public class PageLinkTagHelper : TagHelper
                     if (PageModel.CurrentPage >= 5 && flag != 1)
                     {
                         TagBuilder tag_first = new TagBuilder("a");
+                        tag_first.MergeAttribute("title", "sayfalama");
                         tag_first.Attributes["href"] = urlHelper.Action(PageAction,new {PageNumber = 1});;
                         tag_first.AddCssClass(PageClass);
                         tag_first.AddCssClass(PageClassNormal);
@@ -121,6 +124,7 @@ public class PageLinkTagHelper : TagHelper
                         
                         // [...]
                         TagBuilder tag1 = new TagBuilder("a");
+                        tag1.MergeAttribute("title", "sayfalama");
                         tag1.AddCssClass(PageClass);
                         tag1.AddCssClass(PageClassNormal);
                         tag1.InnerHtml.Append("...");
@@ -136,15 +140,18 @@ public class PageLinkTagHelper : TagHelper
                 if (PageClassesEnabled)
                 {
                     tag.AddCssClass(PageClass);
+                    tag.MergeAttribute("title", "sayfalama");
                     tag.AddCssClass(i == PageModel.CurrentPage ? PageClassSelected : PageClassNormal);
                 }
                 
                 tag.InnerHtml.Append(i.ToString());
+                tag.MergeAttribute("title", "sayfalama");
                 result.InnerHtml.AppendHtml(tag);
 
                 if (i == PageModel.CurrentPage + 2 && i != PageModel.TotalPage)
                 {
                     TagBuilder tag1 = new TagBuilder("a");
+                    tag1.MergeAttribute("title", "sayfalama");
                     tag1.AddCssClass(PageClass);
                     tag1.AddCssClass(PageClassNormal);
                     tag1.InnerHtml.Append("...");
