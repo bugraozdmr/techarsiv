@@ -24,7 +24,8 @@
                         <div class="row mt-2">
                             <div class="col-3 mt-2">
                                 <a asp-action="Tags" asp-controller="Home" asp-route-category="@item.CategoryUrl"
-                                   style="text-decoration: none;color: gray;">
+                                   style="text-decoration: none;color: gray;"
+                                   title="@item.CategoryName konusunda daha fazla konu">
                                     @item.CategoryName
                                 </a>
                             </div>

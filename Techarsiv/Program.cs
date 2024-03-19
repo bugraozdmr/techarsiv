@@ -36,7 +36,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-//app.UseStatusCodePagesWithRedirects("/errors/{0}");
+// 404 sayfaları
+app.UseStatusCodePagesWithRedirects("/errors/{0}");
 
 app.UseRouting();
 
@@ -61,6 +62,11 @@ app.UseEndpoints(endpoints =>
         name: "sitemap",
         pattern: "sitemap.xml",
         defaults: new { controller = "Home", action = "Sitemap" });
+
+    endpoints.MapControllerRoute(
+        name: "robots",
+        pattern: "robots.txt",
+        defaults: new { controller = "Home", action = "robots" });
 
     
     endpoints.MapControllerRoute("default","{controller=Home}/{action=Index}/{id?}");

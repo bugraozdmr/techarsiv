@@ -200,4 +200,13 @@ public class HomeController : Controller
         // Sitemap dosyasını döndürün
         return PhysicalFile(filePath, "application/xml");
     }
+    
+    public IActionResult robots()
+    {
+        // Sitemap dosyasının fiziksel yolunu alın
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "robots.txt");
+
+        // Sitemap dosyasını döndürün
+        return PhysicalFile(filePath, "text/plain");
+    }
 }
