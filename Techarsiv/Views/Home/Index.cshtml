@@ -25,7 +25,7 @@
 {
     @if (User.Identity.IsAuthenticated)
     {
-        <!-- Page header with logo and tagline waiting for slider -->
+        
         <div class="alert alert-dark text-center" role="alert">
             Mesajlarımıza ve konularımıza dikkat edelim iyi gezinmeler 👍🏻 
         </div>
@@ -80,35 +80,13 @@
                     @await Component.InvokeAsync("HomePageContent",new {p=Model.p})
                 }
             </div>
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7737220317559128"
-                    crossorigin="anonymous"></script>
-            <!-- yatay wedget -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-7737220317559128"
-                 data-ad-slot="7673163155"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-            <!-- subjects -->
+            
+            
             @await Component.InvokeAsync("GetSubjects")
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7737220317559128"
-                    crossorigin="anonymous"></script>
-            <!-- yatay wedget -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-7737220317559128"
-                 data-ad-slot="7673163155"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+            
         </div>
         <div class="col-lg-4">
-            <!-- Search widget-->
+            
             <div class="card mb-4 mt-2">
                 <div class="card-header">Konu ara</div>
                 <div class="card-body">
@@ -121,11 +99,11 @@
                 </div>
             </div>
             
-            <!-- Categories widget-->
+            
             <div class="card mb-4">
                 @await Component.InvokeAsync("SiteStatistics")
             </div>
-            <!-- Most heart widget-->
+            
             <div class="card mb-4">
                 <div class="card-header">En çok kalplenen konular</div>
                 @await Component.InvokeAsync("MostHeart")
@@ -134,7 +112,7 @@
                 <div class="card-header">En çok yorumlanan</div>
                 @await Component.InvokeAsync("MostComments")
             </div>
-            <!-- Social Medias widget-->
+            
             <div class="card mb-4">
                 <div class="card-header">Sosyal medya hesapları</div>
                 <div class="card-body">
@@ -149,18 +127,7 @@
             </div>
         </div>
     </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7737220317559128"
-         crossorigin="anonymous"></script>
-    <!-- yatay wedget -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-7737220317559128"
-         data-ad-slot="7673163155"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    
 </div>
 
 
