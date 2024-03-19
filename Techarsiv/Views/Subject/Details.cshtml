@@ -48,7 +48,8 @@
         <h6 class="mt-1">
             <span class="badge bg-secondary">
                 <a asp-controller="Home" asp-action="Tags" asp-route-category="@Model.Category.CategoryUrl"
-                   style="text-decoration: none;color: white">
+                   style="text-decoration: none;color: white"
+                   title="bu kategorideki tüm konuları görmek için tıkla">
                     @Model.Category.CategoryName
                 </a>
             </span>
@@ -104,7 +105,8 @@
                             <div class="d-flex flex-column justify-content-start ml-2 mx-3">
                                 <span class="d-block font-weight-bold name">
                                     <a asp-controller="User" asp-action="Index" asp-route-username="@Model.UserName"
-                                       style="text-decoration: none;color: #cc0000 ">
+                                       style="text-decoration: none;color: #cc0000 "
+                                       title="kullanıcı sayfasını görmek için tıkla">
                                         @Model.UserName
                                     </a>
                                 </span>
@@ -229,7 +231,8 @@
                 }
                 else
                 {
-                    <h6 class="text-muted my-4 mb-lg-5">Yorum yazmak için <a asp-action="Login" asp-controller="Account" class="text-primary" style="text-decoration: none">giriş yap</a></h6>
+                    <h6 class="text-muted my-4 mb-lg-5">Yorum yazmak için <a asp-action="Login" asp-controller="Account" class="text-primary" style="text-decoration: none"
+                                                                             title="giriş yapmak için tıkla">giriş yap</a></h6>
                 }
             </div>
         </div>

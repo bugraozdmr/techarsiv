@@ -41,7 +41,8 @@
         <a asp-area="Main"
            asp-controller="Home"
            asp-action="tag"
-           asp-route-tagUrl="@Model.TagUrl">
+           asp-route-tagUrl="@Model.TagUrl"
+           title="bu konu hakkında daha fazla yazı">
             <span class="mb-2 badge badge-secondary">
                 @Model.TagName
             </span>
@@ -52,7 +53,10 @@
                asp-controller="User"
                asp-action="Index"
                asp-route-username="@Model.Username"
-               style="text-decoration: none;color: #cc0000;">@Model.Username</a>
+               style="text-decoration: none;color: #cc0000;"
+               title="yazar hakkında sayfa">
+                @Model.Username
+            </a>
             - @await Component.InvokeAsync("ShowTime", @Model.CreatedAt)
         </p>
 
@@ -62,17 +66,6 @@
         <br/>
         
         
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7737220317559128"
-             crossorigin="anonymous"></script>
-        <ins class="adsbygoogle"
-             style="display:block; text-align:center;"
-             data-ad-layout="in-article"
-             data-ad-format="fluid"
-             data-ad-client="ca-pub-7737220317559128"
-             data-ad-slot="7809728673"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
         
         
         

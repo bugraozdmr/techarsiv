@@ -24,7 +24,8 @@
                     data-toggle="tooltip"
                     data-popper-placement="top"
                     title="Beğen"
-                    id="comment_@Model.CommentId-325_like"><!-- carefull _like-->
+                    id="comment_@Model.CommentId-325_like"
+                    title="yorumu beğenmek için tıkla"><!-- carefull _like-->
                     <i id="like_icon_@Model.CommentId-445" class="fa fa-thumbs-o-up @(Model.isLiked ? "text-danger" : "")"></i> 
                     <span id="like_count_@Model.CommentId-878">@Model.likeCount</span>
 
@@ -36,7 +37,8 @@
                 <a data-toggle="tooltip"
                    data-popper-placement="top"
                    title="Beğenme"
-                   id="comment_@Model.CommentId-967_dislike">
+                   id="comment_@Model.CommentId-967_dislike"
+                   title="yorumu beğenmemek için tıkla">
                     <i id="dislike_icon_@Model.CommentId-854" class="fa fa-thumbs-o-down @(Model.isdisLiked ? "text-danger" : "")"></i> 
                     <span id="dislike_count_@Model.CommentId-143">@Model.dislikeCount</span>
                 </a>

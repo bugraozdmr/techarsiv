@@ -9,7 +9,10 @@
                     @foreach (var item in Model)
                     {
                         <a asp-controller="Home" asp-action="tag" asp-area="Main" asp-route-tagUrl="@item.Tagurl"
-                            class="tag-cloud-link">@item.Tagname</a>
+                           class="tag-cloud-link"
+                           title="bu konu hakkında daha fazla yazı">
+                            @item.Tagname
+                        </a>
                     }
                 </div>
             </div>

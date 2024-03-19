@@ -34,7 +34,8 @@
                     <div class="ms-3">
                         <p class="fw-bold mb-1">
                             <a asp-controller="User" asp-action="Index" asp-route-username="@item.Username"
-                               style="text-decoration: none; @if (item.Points >= 0 && item.Points < 30) { <text>color: gray;</text> }else if (item.Points >= 30 && item.Points < 100) { <text>color: blue;</text> }else if (item.Points >= 30 && item.Points < 100) { <text>color: orange;</text> }else if (item.Points > 100) { <text>color: red;</text> }">
+                               style="text-decoration: none; @if (item.Points >= 0 && item.Points < 30) { <text>color: gray;</text> }else if (item.Points >= 30 && item.Points < 100) { <text>color: blue;</text> }else if (item.Points >= 30 && item.Points < 100) { <text>color: orange;</text> }else if (item.Points > 100) { <text>color: red;</text> }"
+                               title="kullanıcı profiline gider">
                             @item.Username
                             </a>
                         </p>
@@ -69,7 +70,8 @@
                     <div class="ms-3">
                         <p class="fw-bold mb-1">
                             <a asp-controller="User" asp-action="Index" asp-route-username="@item.Username"
-                               style="text-decoration: none; @if (item.Points >= 0 && item.Points < 30) { <text>color: gray;</text> }else if (item.Points >= 30 && item.Points < 100) { <text>color: blue;</text> }else if (item.Points >= 30 && item.Points < 100) { <text>color: orange;</text> }else if (item.Points > 100) { <text>color: red;</text> }">
+                               style="text-decoration: none; @if (item.Points >= 0 && item.Points < 30) { <text>color: gray;</text> }else if (item.Points >= 30 && item.Points < 100) { <text>color: blue;</text> }else if (item.Points >= 30 && item.Points < 100) { <text>color: orange;</text> }else if (item.Points > 100) { <text>color: red;</text> }"
+                               title="kullanıcı profiline gider">
                                 @item.Username
                             </a>
                         </p>
@@ -105,7 +107,8 @@
                     <div class="ms-3">
                         <p class="fw-bold mb-1">
                             <a asp-controller="User" asp-action="Index" asp-route-username="@item.Username"
-                               style="text-decoration: none;color: gray">
+                               style="text-decoration: none;color: gray"
+                               title="kullanıcı profiline gider">
                                 @item.Username
                             </a>
                         </p>

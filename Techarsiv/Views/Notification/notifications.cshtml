@@ -29,7 +29,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
-                            <a asp-action="removeAllNotifications" class="btn btn-primary">Evet</a>
+                            <a asp-action="removeAllNotifications" class="btn btn-primary"
+                               title="tüm bildirimleri siler">Evet</a>
                         </div>
                     </div>
                 </div>
@@ -44,7 +45,8 @@
         @foreach (var item in Model.List)
         {
             <a asp-controller="Subject" asp-action="Details" asp-route-url="@item.titleUrl"
-               class="list-group-item list-group-item-action flex-column align-items-start">
+               class="list-group-item list-group-item-action flex-column align-items-start"
+               title="konu sayfasına gider">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">
                         <img src="@item.userImage" style="width: 20px;height: 20px" class="img-fluid rounded-2"/>

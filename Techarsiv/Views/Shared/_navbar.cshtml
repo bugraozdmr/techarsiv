@@ -11,26 +11,31 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Ana Sayfa</a>
+                        <a class="nav-link" href="/"
+                           title="ana sayfaya gider">Ana Sayfa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="Users" asp-controller="Home">Kullanıcılar</a>
+                        <a class="nav-link" asp-action="Users" asp-controller="Home"
+                           title="tüm kullanıcıları gör">Kullanıcılar</a>
                     </li>
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside"
+                               title="açılır menu">
                                 Sosyal
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                                 <li>
-                                    <a class="dropdown-item" asp-controller="Home" asp-action="userSubjects">
+                                    <a class="dropdown-item" asp-controller="Home" asp-action="userSubjects"
+                                       title="kullanıcı konularını gör">
                                         <b>Kullanıcı konuları</b>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" asp-action="followedSubjects" asp-controller="Home">
+                                    <a class="dropdown-item" asp-action="followedSubjects" asp-controller="Home"
+                                       title="takip edilen konuları gör">
                                         <b>Takip edilen konular</b>
                                     </a>
                                 </li>
@@ -41,7 +46,8 @@
                     @if (!User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" asp-action="Login" asp-controller="Account">Giriş Yap</a>
+                            <a class="nav-link active" aria-current="page" asp-action="Login" asp-controller="Account"
+                               title="giriş yap sayfasına gider">Giriş Yap</a>
                         </li>
                     }
                     else
@@ -54,20 +60,23 @@
                                 <a class="nav-link active"
                                    asp-area="Admin"
                                    asp-controller="Panel" 
-                                   asp-action="Index">Panel</a> 
+                                   asp-action="Index"
+                                   title="panel sayfasına gider">Panel</a> 
                             </li>   
                         }
                         <li class="nav-item">
                             <a class="nav-link active"
                                asp-controller="User"
                                asp-action="Index" asp-route-username="@User.Identity.Name"
-                               aria-current="page">@User.Identity.Name</a>
+                               aria-current="page"
+                               title="Kullanıcı profiline gider">@User.Identity.Name</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active"
                                asp-controller="Notification"
                                asp-action="notifications"
-                               aria-current="page">
+                               aria-current="page"
+                               title="bildirimler sayfasına gider">
 
                                 <i class="fa fa-envelope"></i>
                                 <span class="badge rounded-pill badge-notification bg-danger">
@@ -76,7 +85,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" asp-action="Logout" asp-controller="Account">Çıkış Yap</a>
+                            <a class="nav-link active" aria-current="page" asp-action="Logout" asp-controller="Account"
+                               title="çıkış yapar">Çıkış Yap</a>
                         </li>
                     }
                 </ul>

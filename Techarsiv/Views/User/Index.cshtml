@@ -26,7 +26,8 @@
                             </div>
                         }
                         <h5>Site puanı <span class="text-muted">@Model.User.Points</span></h5>
-                        <a data-fancybox="gallery" href="@Model.User.Image">
+                        <a data-fancybox="gallery" href="@Model.User.Image"
+                           title="resimi yakından gör">
                             <img src="@Model.User.Image" alt="Admin" class="rounded-circle" style="width: 150px;height: 150px"/>
                         </a>
                         
@@ -80,7 +81,8 @@
                         @if (Model.User.Place is not null)
                         {
                             <p class="text-secondary mb-1 text-center">
-                                <a href="https://www.google.com/maps/place/@Model.User.Place" target="_blank" style="text-decoration: none;color: #0f5132">
+                                <a href="https://www.google.com/maps/place/@Model.User.Place" target="_blank" style="text-decoration: none;color: #0f5132"
+                                   title="kullanıcı yaşadığı yeri gösterir">
                                     @Model.User.Place
                                 </a></p>
                         }
@@ -104,7 +106,8 @@
                                 {
                                     <a asp-action="Index" asp-controller="Ban" asp-area="Admin"
                                        asp-route-username="@Model.User.UserName"
-                                       class="btn btn-outline-danger text-center mt-2">Ceza</a>
+                                       class="btn btn-outline-danger text-center mt-2"
+                                       title="kullanıcı ceza vermek için için tıkla">Ceza</a>
                                 }   
                                 if (Model.hasBan)
                                 {
@@ -119,7 +122,8 @@
                         
                         if (User.Identity.Name.Equals(Model.User.UserName))
                         {
-                            <a asp-action="Edit" class="btn btn-outline-primary text-center mt-2">Düzenle</a>    
+                            <a asp-action="Edit" class="btn btn-outline-primary text-center mt-2"
+                               title="profili düzenlemek için tıkla">Düzenle</a>    
                         }
                         else
                         {
@@ -133,7 +137,8 @@
                 @if (Model.User.instagramUrl is not null && Model.User.instagramUrl.ToLower().Contains("instagram"))
                 {
                     <h6 class="mb-0 mt-2 mb-2">
-                        <a href="@Model.User.instagramUrl" style="text-decoration: none;color: black;">
+                        <a href="@Model.User.instagramUrl" style="text-decoration: none;color: black;"
+                           title="instagram hesabına gitmek için">
                             <i class="fa fa-instagram" style="color:orange;font-size: 24px"></i> Instagram
                         </a>
                     </h6>
@@ -142,7 +147,8 @@
                 @if (Model.User.githubUrl is not null && Model.User.githubUrl.ToLower().Contains("github"))
                 {
                     <h6 class="mb-0 mt-2 mb-2">
-                        <a href="@Model.User.githubUrl" style="text-decoration: none;color: black;">
+                        <a href="@Model.User.githubUrl" style="text-decoration: none;color: black;"
+                           title="github hesabına gider">
                             <i class="fa fa-github" style="color:black;font-size: 24px"></i> Github
                         </a>
                     </h6>
@@ -152,7 +158,8 @@
                 @if (Model.User.youtubeUrl is not null && Model.User.youtubeUrl.ToLower().Contains("youtube"))
                 {
                     <h6 class="mb-0 mt-2 mb-2">
-                        <a href="@Model.User.youtubeUrl" style="text-decoration: none;color: black;">
+                        <a href="@Model.User.youtubeUrl" style="text-decoration: none;color: black;"
+                           title="youtube hesabına gider">
                             <i class="fa fa-youtube" style="color:red;font-size: 24px"></i> Youtube
                         </a>
                     </h6>
@@ -213,16 +220,20 @@
         
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Hakkında</a>
+                <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false"
+                   title="hakkında bölümünü açar">Hakkında</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="awards-tab" data-toggle="tab" href="#awards" role="tab" aria-controls="awards" aria-selected="false">Ödüller</a>
+                <a class="nav-link" id="awards-tab" data-toggle="tab" href="#awards" role="tab" aria-controls="awards" aria-selected="false"
+                   title="ödüller bölümünü açar">Ödüller</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="subjects-tab" data-toggle="tab" href="#subjects" role="tab" aria-controls="subjects" aria-selected="false">Son konuları</a>
+                <a class="nav-link" id="subjects-tab" data-toggle="tab" href="#subjects" role="tab" aria-controls="subjects" aria-selected="false"
+                   title="son konular bölümünü açar">Son konuları</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="comments-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false">Son yorumları</a>
+                <a class="nav-link" id="comments-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false"
+                   title="son yorumlar bölümünü açar">Son yorumları</a>
             </li>
 
         </ul>
@@ -284,7 +295,8 @@
                 {
                     @foreach (var item in Model.Subjects)
                     {
-                        <a asp-action="Details" asp-controller="Subject" asp-route-url="@item.Url" target="_blank" style="text-decoration: none">
+                        <a asp-action="Details" asp-controller="Subject" asp-route-url="@item.Url" target="_blank" style="text-decoration: none"
+                           title="konuya gitmek için tıkla">
                             @(item.Title.Length > 100 ? @item.Title.Substring(0, 100) + "..." : item.Title)
                         </a>
                         <p>
@@ -337,7 +349,8 @@
                             content += "... </i></a></strong></p></b></li></ul>";
                         }
                         
-                         <a asp-action="Details" asp-controller="Subject" asp-route-url="@item.Url" target="_blank" style="text-decoration: none">@item.Title</a>
+                        <a asp-action="Details" asp-controller="Subject" asp-route-url="@item.Url" target="_blank" style="text-decoration: none"
+                           title="konuya gider">@item.Title</a>
                         <div>
                             <small>@Html.Raw(content)</small>
                         </div>

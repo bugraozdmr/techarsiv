@@ -15,7 +15,8 @@
         <div style="display: flex; align-items: center;" class="mb-3 mt-1 mr-auto ml-auto col-lg-11">
             <div style="width: 50%; margin-right: 13px;">
                 <a asp-area="Main" asp-controller="Home" asp-action="ArticlePage"
-                   asp-route-url="@item.Url">
+                   asp-route-url="@item.Url"
+                   title="yazıya gitmek için tıkla">
                     <img src="@item.imageUrl"
                          style=" border-radius: 10px;width: 100%; height: auto;">
                 </a>
@@ -28,7 +29,8 @@
                 <p style="font-weight: 650;font-size: 1.3rem">
                     <a asp-area="Main" asp-controller="Home" asp-action="ArticlePage"
                        asp-route-url="@item.Url"
-                        style="text-decoration: none ;color: #333">
+                       style="text-decoration: none ;color: #333"
+                       title="yazıya gitmek için tıkla">
                         @item.Title
                     </a>
                 </p>

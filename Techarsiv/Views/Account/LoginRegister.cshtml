@@ -35,7 +35,8 @@
                   <input class="" asp-for="LoginModel.RememberMe" type="checkbox">
                   <label for="remember-me" class="flip-card_checkbox">Beni hatırla</label>
                 </div>
-                <a asp-action="ForgotPassword" class="forgot">Şifremi unuttum</a>
+                <a asp-action="ForgotPassword" class="forgot"
+                   title="şifremi unuttum sayfasına gider">Şifremi unuttum</a>
               </div>
               <!--<a asp-action="resendMail" class="forgot" style="text-decoration: none">Mail onay gelmedi mi ?</a>-->
               
@@ -60,7 +61,8 @@
                 <input class="" type="checkbox" id="confidentiality">
                 <label class="flip-card_checkbox">
                   <a asp-page="/confidentiality" aria-current="page"
-                     style="text-decoration: none;color: gray">
+                     style="text-decoration: none;color: gray"
+                     title="gizlilik sözleşmesine gider">
                     Gizlilik sözleşmesini
                   </a> okudum onayladım
                 </label>
