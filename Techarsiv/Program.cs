@@ -57,6 +57,12 @@ app.UseEndpoints(endpoints =>
         pattern:"{controller=Home}/{action=Index}/{id?}"
     );
     
+    endpoints.MapControllerRoute(
+        name: "sitemap",
+        pattern: "sitemap.xml",
+        defaults: new { controller = "Home", action = "Sitemap" });
+
+    
     endpoints.MapControllerRoute("default","{controller=Home}/{action=Index}/{id?}");
 
     endpoints.MapControllerRoute("details", "{controller}");

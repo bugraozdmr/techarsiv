@@ -189,4 +189,15 @@ public class HomeController : Controller
         
         return View(article);
     }
+    
+    
+    
+    public IActionResult sitemap()
+    {
+        // Sitemap dosyasının fiziksel yolunu alın
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "sitemap.xml");
+
+        // Sitemap dosyasını döndürün
+        return PhysicalFile(filePath, "application/xml");
+    }
 }
