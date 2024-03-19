@@ -103,6 +103,37 @@ public class SubjectManager : ISubjectService
             .Where(s => s.SubjectId.Equals(subject.SubjectId))
             .FirstOrDefault();
 
+        if (subjectTo is null)
+        {
+            return;
+        }
+        
+        // update url
+        if (subjectTo.Title.ToLower() != entity.Title.ToLower())
+        {
+            var url = $"{SlugModifier.RemoveNonAlphanumericAndSpecialChars(SlugModifier.ReplaceTurkishCharacters(entity.Title.Replace(' ', '-').ToLower()))}";
+
+            var check = _manager
+                .Subject
+                .GetAllSubjects(false)
+                .Where(s => s.Url.Equals(url))
+                .FirstOrDefault();
+
+        
+            if (url[url.Length - 1] == '-')
+            {
+                url = url.Substring(0, url.Length - 1);
+            }
+        
+            if (check is not null)
+            {
+                url = url + "." + SlugModifier.GenerateUniqueHash();
+            }
+
+            entity.Url = url;
+        }
+
+        subjectTo.Url = entity.Url ?? subjectTo.Url;
         // daha az güç daha hızlı
         subjectTo.Content = entity.Content;
         subjectTo.Title = entity.Title;
