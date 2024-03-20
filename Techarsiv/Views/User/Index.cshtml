@@ -6,9 +6,27 @@
 
 @section Head
 {
-    <link rel="stylesheet" href="/css/style4.css"></link>
-    <link rel="icon" type="image/x-icon" href="fav.png">
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:url" content="https://www.techarsiv.com/forum/biri/@Model.User.UserName">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="@Model.User.UserName | Techarsiv.com">
+    <meta property="og:description" content="@Model.User.About">
+    <meta property="og:image" content="https://techarsiv.com@(Model.User.Image)">
+    <meta property="og:site_name" content="Techarsiv">
     
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="BugraOzdemir58">
+    <meta name="twitter:creator" content="BugraOzdemir58">  
+    <meta name="twitter:title" content="@Model.User.UserName | Techarsiv">
+    <meta name="twitter:description" content="@Model.User.About">
+    <meta name="twitter:image" content="https://techarsiv.com@(@Model.User.Image)">
+    
+    <meta itemprop="name" content="@Model.User.UserName | Techarsiv.com">  
+    <meta itemprop="description" content="@Model.User.About">  
+    <meta itemprop="image" content="https://techarsiv.com@(Model.User.Image)">
+
+    
+    <link rel="stylesheet" href="/css/style4.css"></link>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
 }
 
