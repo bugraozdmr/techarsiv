@@ -13,11 +13,13 @@ else
             <div class="d-flex flex-column my-2" id="comment-container">
                 <div class="bg-white">
                     <div class="flex-row d-flex">
-                        <img src="@item.CommentUserImage" width="40" class="rounded-circle" style="width: 40px;height: 40px">
+                        <img src="@item.CommentUserImage" width="40" class="rounded-circle" style="width: 40px;height: 40px"
+                             alt="yorum kullanıcı resmi">
                         <div class="d-flex flex-column justify-content-start ml-2 mx-2">
                             <span class="d-block font-weight-bold name">
                                 <a asp-controller="User" asp-action="Index" asp-route-username="@item.CommentUserName"
-                                   style="text-decoration: none;color: #cc0000;">
+                                   style="text-decoration: none;color: #cc0000;"
+                                   title="yorum kullanıcısı">
                                     @item.CommentUserName
                                 </a>
                             </span>
@@ -52,7 +54,8 @@ else
                             <div class="row">
                                 <div class="col-2">
                                     <div class="mt-2">
-                                        <a id="editComment_@item.CommentId-232">
+                                        <a id="editComment_@item.CommentId-232"
+                                           title="yorumu düzenle">
                                             <i class="fa fa-edit text-warning mx-3" style="font-size: 30px"></i>
                                             <br/>
                                             <span class="text-danger" id="err_@item.CommentId-400"></span>
@@ -64,7 +67,8 @@ else
                                     <div class="col-2">
                                         <div class="mt-2">
                                             <a id="deleteComment_@item.CommentId-121"
-                                               onclick="confirmDelete()">
+                                               onclick="confirmDelete()"
+                                               title="yorumu sil">
                                                 <i class="fa fa-trash text-danger mx-3" style="font-size: 30px"></i>
                                                 <br/>
                                                 <span class="text-danger" id="err_@item.CommentId-400"></span>
@@ -125,7 +129,8 @@ else
                             <div class="row">
                                 <div class="col-2">
                                     <div class="mt-2">
-                                        <a id="editComment_@item.CommentId-232">
+                                        <a id="editComment_@item.CommentId-232"
+                                           title="yorumu düzenle">
                                             <i class="fa fa-edit text-warning mx-3" style="font-size: 30px"></i>
                                             <br/>
                                             <span class="text-danger" id="err_@item.CommentId-400"></span>
@@ -134,7 +139,8 @@ else
                                 </div>
                                 <div class="col-2">
                                     <div class="mt-2">
-                                        <a id="deleteComment_@item.CommentId-121">
+                                        <a id="deleteComment_@item.CommentId-121"
+                                           title="yorumu sil">
                                             <i class="fa fa-trash text-danger mx-3" style="font-size: 30px"></i>
                                             <br/>
                                             <span class="text-danger" id="err_@item.CommentId-400"></span>

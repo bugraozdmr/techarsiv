@@ -33,17 +33,12 @@
     
     
     <link asp-append-version="true" rel="stylesheet" href="~/css/style4.css"/>
-    
-    
-    <style>
-        .custom{font-family:"Gill Sans",sans-serif;font-size:18px;color:gray}.custom a{text-decoration:none;color:#c00}blockquote{margin:0}blockquote p{padding:15px;background:#eee;border-radius:5px}blockquote p::before{content:'\201C'}blockquote p::after{content:'\201D'}    
-    </style>
 }
 
 
 <div class="headings d-flex justify-content-between align-items-center mb-3">
     <div>
-        <h6 class="mt-1">
+        <h5 class="mt-1">
             <span class="badge bg-secondary">
                 <a asp-controller="Home" asp-action="Tags" asp-route-category="@Model.Category.CategoryUrl"
                    style="text-decoration: none;color: white"
@@ -51,8 +46,8 @@
                     @Model.Category.CategoryName
                 </a>
             </span>
-        </h6>
-        <h4><strong>@Model.Subject.Title</strong></h4>
+        </h5>
+        <h1 style="font-size: 1.3rem"><strong>@Model.Subject.Title</strong></h1>
         <p><i class="fa fa-user"></i> @Model.UserName 
             · <i class="fa fa-clock-o" aria-hidden="true"></i> @await Component.InvokeAsync("ShowTime",Model.CreatedAt)
             · <i class="fa fa-reply" aria-hidden="true"></i> <span id="commentCount"> @Model.CommentCount </span></p>
@@ -207,7 +202,7 @@
                 {
                     if (Model.BanUntill.Equals(DateTime.MinValue))
                     {
-                        <h4>Yorum Ekle</h4>
+                        <h2>Yorum Ekle</h2>
                         <form asp-action="AddComment" asp-controller="Comment" method="post">
                             <!--<div class="text-danger" asp-validation-summary="All"></div>-->
                             <input type="hidden" name="SubjectId" id="SubjectId" value="@Model.Subject.SubjectId"/>
@@ -229,8 +224,8 @@
                 }
                 else
                 {
-                    <h6 class="text-muted my-4 mb-lg-5">Yorum yazmak için <a asp-action="Login" asp-controller="Account" class="text-primary" style="text-decoration: none"
-                                                                             title="giriş yapmak için tıkla">giriş yap</a></h6>
+                    <h3 style="font-size: 1rem" class="text-muted my-4 mb-lg-5">Yorum yazmak için <a asp-action="Login" asp-controller="Account" class="text-primary" style="text-decoration: none"
+                                                                             title="giriş yapmak için tıkla">giriş yap</a></h3>
                 }
             </div>
         </div>

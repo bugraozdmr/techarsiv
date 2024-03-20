@@ -50,6 +50,7 @@ public static class ServiceExtensions
 
     public static void ConfigureCookie(this IServiceCollection services)
     {
+
         services.ConfigureApplicationCookie(options =>
         {
             options.Cookie.Name = "ta_cookie";
@@ -57,7 +58,7 @@ public static class ServiceExtensions
             options.AccessDeniedPath = "/Account/AccessDenied";
             // güvenlik açığı olabilir atmaz ama kişiyi
             options.SlidingExpiration = false;
-            options.ExpireTimeSpan = TimeSpan.FromHours(12);
+            options.ExpireTimeSpan = TimeSpan.FromHours(6);
         });
     }
     

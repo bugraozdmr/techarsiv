@@ -8,17 +8,21 @@
         {
             <h5 class="card-title"><a asp-action="Details" asp-controller="Subject"
                                       asp-route-url="@item.Url"
-                                      style="text-decoration: none">@item.Title</a></h5>
+                                      style="text-decoration: none"
+                                      title="konuya gider">@item.Title</a></h5>
             <p class="card-text">
-                <img src="@item.UserImage" style="width: 20px;height: 20px" class="rounded-circle mb-1"/>
+                <img src="@item.UserImage" style="width: 20px;height: 20px" class="rounded-circle mb-1"
+                     alt="kullanıcı resmi"/>
                 <a asp-action="Index" asp-controller="User"
-                   asp-route-username="@item.Username" style="text-decoration: none;color: gray">
+                   asp-route-username="@item.Username" style="text-decoration: none;color: gray"
+                   title="kullanıcı sayfasına gider">
                     @item.Username
                 </a>
                  - @await Component.InvokeAsync("ShowTime", @item.CreatedAt)
                 - Mesaj: @item.MessageCount - 
                 <a asp-controller="Home" asp-action="Tags" asp-route-category="@item.categoryUrl"
-                   style="text-decoration: none;color: gray">
+                   style="text-decoration: none;color: gray"
+                   title="kategori filtresine gider">
                     @item.CategoryName
                 </a>
             </p>
