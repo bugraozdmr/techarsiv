@@ -28,40 +28,7 @@
     
     
     
-    <style>
-        .custom {
-            font-family: "Gill Sans", sans-serif;
-            font-size: 20px;
-            color: gray;
-        }
-        .custom a {
-            text-decoration: none;
-            color: #cc0000;
-        }
-        blockquote {
-          margin: 0;
-        }
-        
-        blockquote p {
-          padding: 15px;
-          background: #eee;
-          border-radius: 5px;
-        }
-        
-        blockquote p::before {
-          content: '\201C';
-        }
-        
-        blockquote p::after {
-          content: '\201D';
-        }
-        
-        figcaption {
-            text-align: center;
-            font-size: 1.1rem;
-        }
-       
-    </style>
+    <link rel="stylesheet" href="~/css/mainPage/articleStyle.css"/>
 }
 
 
@@ -109,46 +76,7 @@
 
 @section Scripts
 {
-    <script asp-append-version="true" src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("figure.image img").each(function () {
-                $(this).width(), $(this).height(), $(this).css("max-width", "100%"),$(this).css("border-radius", "13px"), $(this).css("height", "auto"), $(this).css("margin-left", "auto"), $(this).css("margin-right", "auto");
-            });
-        });
-
-    </script>
     <script>
-        window.onload = function() {
-            var divContainer = document.querySelector('.custom');
-            var paragraphs = divContainer.querySelectorAll('p');
-            paragraphs.forEach(function(paragraph) {
-                var content = paragraph.textContent.trim();
-                if (content.startsWith('<iframe')) {
-                    paragraph.classList.add('iframe-hidden');
-                    var iframeContainer = document.createElement('div');
-                    iframeContainer.innerHTML = content;
-                    var iframe = iframeContainer.firstChild;
-                    iframe.style.width = '100%'; // Genişliği %100 yap
-                    iframe.style.height = '315px'; // Yüksekliği otomatik ayarla
-                    paragraph.parentNode.replaceChild(iframe, paragraph);
-                }
-            });
-        };
-    </script>
-    <script>
-        var links = document.querySelectorAll('a');
-        for (var i = 0; i < links.length; i++) {
-            var href = links[i].getAttribute('href');
-            if (href.indexOf('techarsiv') === -1) {
-                links[i].setAttribute('rel', 'nofollow');
-            }
-        }
-    </script>
-    <script>
-        var images = document.querySelectorAll('img');
-        for (var i = 0; i < images.length; i++) {
-            images[i].setAttribute('alt', 'ilgili resim');
-        }
+        window.onload=function(){document.querySelector(".custom").querySelectorAll("p").forEach(function(e){var t=e.textContent.trim();if(t.startsWith("<iframe")){e.classList.add("iframe-hidden");var r=document.createElement("div");r.innerHTML=t;var i=r.firstChild;i.style.width="100%",i.style.height="315px",e.parentNode.replaceChild(i,e)}})};for(var href,links=document.querySelectorAll("a"),i=0;i<links.length;i++)-1===links[i].getAttribute("href").indexOf("techarsiv")&&links[i].setAttribute("rel","nofollow");for(var images=document.querySelectorAll("img"),i=0;i<images.length;i++)images[i].setAttribute("alt","ilgili resim");
     </script>
 }

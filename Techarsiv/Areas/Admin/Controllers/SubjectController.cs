@@ -201,7 +201,7 @@ public class SubjectController : Controller
                 
                 _manager.SubjectService.UpdateSubject(dto);
 
-                return RedirectToAction("waitingApproval");
+                return RedirectToAction("GetAllSubjects");
             }
             else
             {
@@ -220,7 +220,7 @@ public class SubjectController : Controller
     {
         await _manager.SubjectService.DeleteSubject(url);
 
-        return RedirectToAction("waitingApproval");
+        return RedirectToAction("GetAllSubjects");
     }
     
     

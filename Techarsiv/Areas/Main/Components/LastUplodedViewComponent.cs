@@ -16,14 +16,15 @@ public class LastUplodedViewComponent : ViewComponent
 
     public IViewComponentResult Invoke(int articleId)
     {
+        // sıra önemli önce sırala sonra al
         var last = _manager
             .ArticleService
             .GetAllArticles(false)
             .Include(s => s.User)
             .Include(s => s.Tag)
             .Where(s => s.ArticleId != articleId)
-            .Take(6)
             .OrderByDescending(s => s.CreatedAt)
+            .Take(6)
             .Select(s => new ArticleViewModel()
             {
                 imageUrl = s.image,
