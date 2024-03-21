@@ -20,9 +20,7 @@ else
                     <span>
                         <b class="font-weight-bold text-dark">
                             <a
-                                data-toggle="tooltip"
-                                data-popper-placement="top"
-                                title="@(item.Content.Contains("</p>") ? "" : (item.Content.Length > 45 ? item.Content.Substring(0, 45) + "..." : item.Content))"
+                                title="konuya gider"
                                 asp-action="Details"
                                 asp-controller="Subject"
                                 asp-route-url="@item.Url"

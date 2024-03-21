@@ -829,17 +829,19 @@ public class SubjectController : Controller
         }
         else
         {
-            unfallowSubject(userId, subjectId);
+            unfallowSubject(userId, subjectId,url);
         }
         
 
-        return Redirect($"/{url}");
+        return Redirect($"/forum/{url}");
     }
     
     [Authorize]
     [HttpPost]
-    public void unfallowSubject(string userId,int subjectId)
+    public IActionResult unfallowSubject(string userId,int subjectId,string url)
     {
         _manager.FollowingSubjects.unFollow(userId, subjectId);
+
+        return Redirect($"/forum/{url}");
     }
 }

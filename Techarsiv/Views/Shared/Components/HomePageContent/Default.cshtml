@@ -17,16 +17,19 @@ else
                     <a asp-controller="User" asp-action="Index" asp-route-username="@item.Username" title="kullanıcı sayfasına gider">
                         <img src="@item.ImageUrl" style="width: 30px;height: 30px;" class="user-img rounded-circle mr-2 mt-2" alt="kullanıcı resmi">
                     </a>
-                    <span>
-                        <b class="font-weight-bold text-dark"><a 
-                                      data-toggle="tooltip"
-                                      data-popper-placement="top"
-                                      title="@(item.Content.Contains("</p>") || item.Content.Contains("</figure>") ? "" : item.Content.Length > 100 ? item.Content.Substring(0, 100) + "..." : item.Content)"
-                                    
-                                      asp-action="Details"
-                                      asp-controller="Subject" 
-                                      asp-route-url="@item.Url" style="text-decoration: none!important;}">@item.Title</a></b>
-                    </span>
+                    
+                    <h3 style="font-size: 1rem">
+                        <b class="font-weight-bold text-dark">
+                            <a
+                                asp-action="Details"
+                                asp-controller="Subject"
+                                asp-route-url="@item.Url" style="text-decoration: none!important;}"
+                                title="konuya gider">
+                                @item.Title
+                            </a>
+                        </b>
+                    </h3>
+                    
                 </div>
                 <small>@item.CommentCount yorum</small>
             </div>
@@ -35,7 +38,8 @@ else
                 <div class="reply px-4">
                     <small class="font-weight-bold text-primary">
                         <a asp-controller="User" asp-action="Index" asp-route-username="@item.Username"
-                           style="text-decoration: none;color: gray;">
+                           style="text-decoration: none;color: gray;"
+                           title="kullanıcı sayfasına gider">
                             @item.Username
                         </a>
                     </small>
@@ -44,7 +48,8 @@ else
                     <span class="dots"></span>
                     <small>
                         <a asp-controller="Home" asp-action="Tags" asp-route-category="@item.categoryUrl"
-                           style="text-decoration: none;color: gray">
+                           style="text-decoration: none;color: gray"
+                           title="kategoriye gider">
                             @item.CategoryName
                         </a>
                         
