@@ -2,7 +2,7 @@
 using Entities.Models;
 using GargamelinBurnu.Infrastructure.Helpers;
 using GargamelinBurnu.Infrastructure.Helpers.Contracts;
-
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
@@ -60,6 +60,7 @@ public static class ServiceExtensions
             options.ExpireTimeSpan = TimeSpan.FromDays(1);
         });
     }
+
     
     public static void ConfigureRepositoryRegistration(this IServiceCollection services)
     {

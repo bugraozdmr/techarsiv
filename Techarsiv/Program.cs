@@ -83,7 +83,7 @@ app.UseEndpoints(endpoints =>
 
 
 
-
+app.ConfigureCookiePolicy();
 app.ConfigureDefaultRoles();
 app.ConfigureDefaultAdminUser();
 //app.MapHub<UsersOnlineHub>("/UsersOnlineHub");

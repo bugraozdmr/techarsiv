@@ -275,7 +275,7 @@ public class SubjectController : Controller
                     Category = s.Category,
                     UserName = s.User.UserName,
                     UserImage = s.User.Image,
-                    CreatedAt = s.User.CreatedAt,
+                    CreatedAt = s.CreatedAt,
                     UserCommentCount = s.User.Comments.Count,
                     UserSignature = s.User.signature
                 }).AsEnumerable()

@@ -46,7 +46,8 @@ public class SubjectManager : ISubjectService
     {
         var productToGo = _mapper.Map<Subject>(subject);
 
-        if (!(productToGo.categoryId >= 1 && productToGo.categoryId <= 25))
+        // burayı değişmeyi unutma -- ya da dinamik yapılabilir
+        if (!(productToGo.categoryId >= 1 && productToGo.categoryId <= 48))
         {
             productToGo.categoryId = 1;
         }

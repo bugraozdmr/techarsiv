@@ -86,4 +86,15 @@ public static class ApplicationExtensions
             }
         }
     }
+    
+    public static void ConfigureCookiePolicy(this IApplicationBuilder app)
+    {
+        app.UseCookiePolicy(new CookiePolicyOptions
+        {
+            // güvenlik açığı
+            HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.None,
+            Secure = Microsoft.AspNetCore.Http.CookieSecurePolicy.Always 
+        });
+    }
+
 }
