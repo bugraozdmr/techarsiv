@@ -80,6 +80,7 @@ public static class ServiceExtensions
         services.AddScoped<INotificationRepository, NotificationRepository>();
         services.AddScoped<IReportRepository, ReportRepository>();
         services.AddScoped<IArticleRepository, ArticleRepository>();
+        services.AddScoped<IQuestionRepository, QuestionRepository>();
     }
     
     public static void ConfigureServicesRegistration(this IServiceCollection services)
@@ -97,6 +98,7 @@ public static class ServiceExtensions
         services.AddScoped<IFollowingSubjects, FollowingSubjectsManager>();
         services.AddScoped<IReportService, ReportManager>();
         services.AddScoped<IArticleService, ArticleManager>();
+        services.AddScoped<IQuestionService, QuestionManager>();
     }
 
 

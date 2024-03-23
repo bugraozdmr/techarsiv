@@ -3,6 +3,7 @@ using Entities.Dtos.Article;
 using Entities.Dtos.Ban;
 using Entities.Dtos.Comment;
 using Entities.Dtos.Notification;
+using Entities.Dtos.Question;
 using Entities.Dtos.Report;
 using Entities.Dtos.SubjectDtos;
 using Entities.Models;
@@ -22,5 +23,7 @@ public class MappingProfile : Profile
         CreateMap<Article, CreateArticleDto>().ReverseMap();
         CreateMap<Article, UpdateArticleDto>().ReverseMap();
         CreateMap<Ban, BanCauseDto>().ReverseMap();
+        CreateMap<Question, CreateQuestionDto>().ReverseMap();
+        CreateMap<Question, EditQuestionDto>().ReverseMap();
     }
 }

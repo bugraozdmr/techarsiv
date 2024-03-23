@@ -71,4 +71,5 @@ public class RepositoryContext : IdentityDbContext<User>
     public DbSet<AwardUser> AwardUsers { get; set; }
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<FollowingSubjects> FollowingSubjects { get; set; }
+    public DbSet<Question> Questions { get; set; }
 }

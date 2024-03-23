@@ -9,6 +9,7 @@ public interface IRepositoryManager
     INotificationRepository Notification { get; }
     IReportRepository ReportRepository { get; }
     IArticleRepository Article { get; }
+    IQuestionRepository Question { get; }
 
     Task SaveAsync();
 }

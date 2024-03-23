@@ -16,6 +16,7 @@ public class ServiceManager : IServiceManager
     private readonly IFollowingSubjects _FollowingSubjects;
     private readonly IReportService _reportService;
     private readonly IArticleService _articleService;
+    private readonly IQuestionService _questionService;
 
     
     public ServiceManager(ISubjectService subjectService
@@ -29,7 +30,8 @@ public class ServiceManager : IServiceManager
         INotificationService notificationService,
         IFollowingSubjects followingSubjects,
         IReportService reportService,
-        IArticleService articleService)
+        IArticleService articleService,
+        IQuestionService questionService)
     {
         _subjectService = subjectService;
         _categoryService = categoryService;
@@ -43,6 +45,7 @@ public class ServiceManager : IServiceManager
         _FollowingSubjects = followingSubjects;
         _reportService = reportService;
         _articleService = articleService;
+        _questionService = questionService;
     }
 
     public ISubjectService SubjectService => _subjectService;
@@ -57,4 +60,5 @@ public class ServiceManager : IServiceManager
     public IAwardUserService AwardUserService => _awardUserService;
     public IReportService ReportService => _reportService;
     public IArticleService ArticleService => _articleService;
+    public IQuestionService QuestionService => _questionService;
 }

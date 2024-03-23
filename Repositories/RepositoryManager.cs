@@ -13,6 +13,7 @@ public class RepositoryManager : IRepositoryManager
     private readonly INotificationRepository _notificationRepository;
     private readonly IReportRepository _reportRepository;
     private readonly IArticleRepository _articleRepository;
+    private readonly IQuestionRepository _questionRepository;
 
     public RepositoryManager(RepositoryContext context
         , ISubjectRepository subjectRepository
@@ -21,7 +22,8 @@ public class RepositoryManager : IRepositoryManager
         IBanRepository banRepository,
         INotificationRepository notificationRepository, 
         IReportRepository reportRepository,
-        IArticleRepository articleRepository)
+        IArticleRepository articleRepository, 
+        IQuestionRepository questionRepository)
     {
         _context = context;
         _subjectRepository = subjectRepository;
@@ -31,6 +33,7 @@ public class RepositoryManager : IRepositoryManager
         _notificationRepository = notificationRepository;
         _reportRepository = reportRepository;
         _articleRepository = articleRepository;
+        _questionRepository = questionRepository;
     }
 
 
@@ -41,6 +44,7 @@ public class RepositoryManager : IRepositoryManager
     public INotificationRepository Notification => _notificationRepository;
     public IReportRepository ReportRepository => _reportRepository;
     public IArticleRepository Article => _articleRepository;
+    public IQuestionRepository Question => _questionRepository;
 
     public async Task SaveAsync()
     {
