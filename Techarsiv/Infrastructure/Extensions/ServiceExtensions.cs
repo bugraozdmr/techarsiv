@@ -4,6 +4,7 @@ using GargamelinBurnu.Infrastructure.Helpers;
 using GargamelinBurnu.Infrastructure.Helpers.Contracts;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
 using Repositories.Contracts;
@@ -32,8 +33,6 @@ public static class ServiceExtensions
         services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
-                
-                
                 options.Password.RequiredLength = 6;
                 options.Password.RequireDigit = true;
                 options.Password.RequireUppercase = false;
@@ -52,12 +51,21 @@ public static class ServiceExtensions
     {
         services.ConfigureApplicationCookie(options =>
         {
-            options.Cookie.Name = "ta_cookie";
             options.LoginPath = "/Account/Login";
             options.AccessDeniedPath = "/Account/AccessDenied";
             // güvenlik açığı olabilir atmaz ama kişiyi
-            options.SlidingExpiration = false;
-            options.ExpireTimeSpan = TimeSpan.FromDays(1);
+            
+            options.Cookie = new()
+            {
+                Name = "ta_cookie",
+                HttpOnly = true,
+                SameSite = SameSiteMode.Lax,
+                SecurePolicy = CookieSecurePolicy.Always,
+                IsEssential = true
+            };
+            
+            options.SlidingExpiration = true;
+            options.ExpireTimeSpan = TimeSpan.FromHours(12);
         });
     }
 

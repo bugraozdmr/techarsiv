@@ -25,7 +25,7 @@
 
 .card-side::before {
     position: absolute;
-    content: "Log in";
+    content: "Giriş yap";
     left: -80px;
     top: 0;
     width: 100px;
@@ -36,7 +36,7 @@
 
 .card-side::after {
     position: absolute;
-    content: "Sign up";
+    content: "Kayıt ol";
     left: 80px;
     top: 0;
     width: 100px;

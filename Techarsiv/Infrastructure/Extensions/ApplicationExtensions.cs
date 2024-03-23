@@ -93,7 +93,7 @@ public static class ApplicationExtensions
         {
             // güvenlik açığı
             HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.None,
-            Secure = Microsoft.AspNetCore.Http.CookieSecurePolicy.Always 
+            Secure = Microsoft.AspNetCore.Http.CookieSecurePolicy.Always
         });
     }
 

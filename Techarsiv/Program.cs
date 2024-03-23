@@ -2,6 +2,7 @@
 
 //using GargamelinBurnu.Hubs;
 using GargamelinBurnu.Infrastructure.Extensions;
+using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,12 +17,20 @@ builder.Services.ConfigureCookie();
 builder.Services.ConfigureEmailSender(builder.Configuration);
 builder.Services.ConfigureRepositoryRegistration();
 builder.Services.ConfigureServicesRegistration();
-builder.Services.AddSignalR();
-// çalışmıyor
+//builder.Services.AddSignalR();
 
+// not sure ? -- sunucu cookie
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(12);
+});
 
-// automapper
+// automapper -- sunucu cookie
 builder.Services.AddAutoMapper(typeof(Program));
+
+// not sure ?
+builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Directory.GetCurrentDirectory())).SetDefaultKeyLifetime(TimeSpan.FromDays(7));
+
 
 var app = builder.Build();
 
@@ -43,8 +52,6 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-//app.UseSession();
 
 
 app.UseEndpoints(endpoints =>
@@ -83,10 +90,9 @@ app.UseEndpoints(endpoints =>
 
 
 
-app.ConfigureCookiePolicy();
+//app.UseCookiePolicy();
 app.ConfigureDefaultRoles();
 app.ConfigureDefaultAdminUser();
 //app.MapHub<UsersOnlineHub>("/UsersOnlineHub");
-
 
 app.Run();

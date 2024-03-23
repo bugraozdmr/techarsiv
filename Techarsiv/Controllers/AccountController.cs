@@ -71,7 +71,9 @@ public class AccountController : Controller
             {
                 await _signInManager.SignOutAsync();
 
-                var result = await _signInManager.PasswordSignInAsync(user, model.LoginModel.Password, model.LoginModel.RememberMe, true);
+                var result = await _signInManager
+                    .PasswordSignInAsync(user, model.LoginModel.Password,
+                        model.LoginModel.RememberMe, true);
                 
                 if (result.Succeeded)
                 {
