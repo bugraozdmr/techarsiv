@@ -1,0 +1,55 @@
+@model QuestionPageViewModel
+
+@{
+    ViewData["Title"] = Model.QuestionDesc.Length > 20 ? Model.QuestionDesc.Substring(0,19) + "..." : Model.QuestionDesc;
+}
+
+@section Head
+{
+    <link rel="stylesheet" asp-append-version="true" href="~/css/Question/question.css"/>
+}
+
+<div class="container-fluid mt-4">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="text-center" style="width: 100%">
+                <img src="@Model.Image" style="width: 100%;height: auto"/>
+            </div>
+            <div class="modal-header">
+                <h3>@Model.QuestionDesc</h3>
+            </div>
+            <div class="modal-body">
+                <div class="col-xs-3 5"></div>
+                <div class="quiz" id="quiz" data-toggle="buttons">
+                    <label class="element-animation1 btn btn-lg btn-danger btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name="q_answer" value="1">@Model.ChoiceA</label>
+                    <label class="element-animation2 btn btn-lg btn-danger btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name="q_answer" value="2">@Model.ChoiceB</label>
+                    <label class="element-animation3 btn btn-lg btn-danger btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name="q_answer" value="3">@Model.ChoiceC</label>
+                    <label class="element-animation4 btn btn-lg btn-danger btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name="q_answer" value="4">@Model.ChoiceD</label>
+                </div>
+            </div>
+            
+            <div class="text-center mb-2" style="font-size: 22px;font-weight: bold" id="answerArea"></div>
+            <button type="button" id="control" class="btn btn-outline-success text-center">Sonucu Gör</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("control").addEventListener("click", function () {
+        var selectedAnswer = document.querySelector('input[name="q_answer"]:checked');
+        
+        var correctAnswer = '@Model.rightAnswer';
+
+        if (!selectedAnswer) {
+            alert("Lütfen bir seçenek seçin.");
+            return;
+        }
+        var selectedAnswer = document.querySelector('input[name="q_answer"]:checked').value;
+        
+        if (selectedAnswer === correctAnswer) {
+            document.getElementById("answerArea").innerHTML = "Cevabınız Doğru";
+        } else {
+            document.getElementById("answerArea").innerHTML = "Yanlış Cevap";
+        }
+    });
+</script>

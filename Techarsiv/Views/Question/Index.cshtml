@@ -1,0 +1,44 @@
+@model PaginationQuestionViewModel
+
+@{
+    ViewData["Title"] = "Tüm sorular";
+}
+
+<div class="container justify-content-between d-flex  mt-4">
+    <div class="display-6">Sorular</div>
+</div>
+
+<div class="list-group mt-3">
+    @if (Model.List.Count != 0 && Model != null)
+    {
+        @foreach (var item in Model.List)
+        {
+            <a asp-controller="Question" asp-action="Details" asp-route-url="@item.Url"
+               class="list-group-item list-group-item-action flex-column align-items-start"
+               title="konu sayfasına gider">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">
+                        <img src="@item.UserImage" style="width: 20px;height: 20px" class="img-fluid rounded-2"/>
+                        @item.Username
+                    </h5>
+                    <small>@await Component.InvokeAsync("ShowTime", @item.CreatedAt)</small>
+                </div>
+                <p class="mb-1">@item.QuestionDesc</p>
+            </a>
+        }
+        <div page-model="@Model.Pagination" page-action="question"
+             page-class="btn"
+             page-class-normal="btn-outline-success"
+             page-class-selected="btn-primary"
+             page-classes-enabled="true"
+             class="btn group mt-3">
+        </div>
+    }
+    else
+    {
+        <p class="mx-3 text-muted" style="font-size: 18px">Soru yok</p>
+    }
+</div>
+
+
+
