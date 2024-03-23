@@ -304,7 +304,7 @@ public class UserController : Controller
         // file
         var uzanti = Path.GetExtension(file.FileName);
 
-        if (uzanti != ".jpg" && uzanti != ".png" && uzanti != ".jpeg")
+        if (uzanti != ".jpg" && uzanti != ".png" && uzanti != ".jpeg" && uzanti != ".webp")
         {
             TempData["profile_message"] = "sadece .jpg , .jpeg ve .png uzantılı dosyalar yüklenebilir";
             return Redirect($"/forum/biri/{username}");

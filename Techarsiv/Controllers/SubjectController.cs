@@ -120,7 +120,7 @@ public class SubjectController : Controller
         foreach (IFormFile photo in Request.Form.Files)
         {
             var uzanti = Path.GetExtension(photo.FileName);
-            if (uzanti != ".jpg" && uzanti != ".png" && uzanti != ".jpeg")
+            if (uzanti != ".jpg" && uzanti != ".png" && uzanti != ".jpeg" && uzanti != ".webp")
             {
                 TempData["create_message"] = "sadece .jpg , .jpeg ve .png uzantılı dosyalar yüklenebilir";
                 return Json(new { Url = "fail" });

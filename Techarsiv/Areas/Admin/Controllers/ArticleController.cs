@@ -52,7 +52,7 @@ public class ArticleController : Controller
             
             var uzanti = Path.GetExtension(file.FileName);
             
-            if (uzanti != ".jpg" && uzanti != ".png" && uzanti != ".jpeg")
+            if (uzanti != ".jpg" && uzanti != ".png" && uzanti != ".jpeg" && uzanti != ".webp")
             {
                 ModelState.AddModelError("","uzantı hatalı");
                 return View(dto);
@@ -229,7 +229,7 @@ public class ArticleController : Controller
                 {
                     var uzanti = Path.GetExtension(file.FileName);
             
-                    if (uzanti != ".jpg" && uzanti != ".png" && uzanti != ".jpeg")
+                    if (uzanti != ".jpg" && uzanti != ".png" && uzanti != ".jpeg" && uzanti != ".webp")
                     {
                         ModelState.AddModelError("","uzantı hatalı");
                         ViewBag.Categories = GetTagsSelectList();
