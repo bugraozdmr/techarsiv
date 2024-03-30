@@ -97,6 +97,7 @@ public class UserController : Controller
             .Include(s => s.Category)
             .Where(s => s.UserId.Equals(user.Id) && s.IsActive.Equals(true))
             .OrderByDescending(s => s.CreatedAt)
+            .Take(10)
             .Select(s => new TitleViewModel()
             {
                 Title = s.Title,

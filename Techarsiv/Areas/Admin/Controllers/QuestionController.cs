@@ -14,7 +14,7 @@ using Services.Helpers;
 namespace GargamelinBurnu.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize(Roles = "Admin,Moderator")]
+[Authorize(Roles = "Admin")]
 public class QuestionController : Controller
 {
     private readonly UserManager<User> _userManager;

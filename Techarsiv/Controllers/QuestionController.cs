@@ -1,14 +1,14 @@
-using Entities.Models;
 using Entities.RequestParameters;
 using GargamelinBurnu.Models;
-using GargamelinBurnu.Models.Notifications;
 using GargamelinBurnu.Models.Question;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Services.Contracts;
 
 namespace GargamelinBurnu.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class QuestionController : Controller
 {
     private readonly IServiceManager _manager;

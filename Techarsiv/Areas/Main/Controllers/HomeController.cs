@@ -220,4 +220,10 @@ public class HomeController : Controller
         // Sitemap dosyasını döndürün
         return PhysicalFile(filePath, "text/plain");
     }
+
+    [HttpGet("/404")]
+    public IActionResult error()
+    {
+        return View();
+    }
 }
